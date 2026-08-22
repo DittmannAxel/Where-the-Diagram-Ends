@@ -1,0 +1,89 @@
+name: QAM validate
+
+on:
+  pull_request:
+    paths:
+      - 'quickagenticmemory/**'
+      - '.github/workflows/qam-*.yml'
+      - '.dockerignore'
+      - '.gitignore'
+  push:
+    paths:
+      - 'quickagenticmemory/**'
+      - '.github/workflows/qam-*.yml'
+      - '.dockerignore'
+      - '.gitignore'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qam-validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: quickagenticmemory/package-lock.json
+
+      - name: Set up locked uv and Python
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          version: '0.11.18'
+          python-version: '3.12'
+          enable-cache: true
+          cache-dependency-glob: quickagenticmemory/agents/foundry/uv.lock
+          working-directory: quickagenticmemory/agents/foundry
+
+      - name: Install infrastructure validation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes shellcheck
+          go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.7
+          go install github.com/gitleaks/gitleaks/v8@v8.28.0
+          printf '%s\n' "$(go env GOPATH)/bin" >> "${GITHUB_PATH}"
+
+      - name: Install and validate Bicep, workflows, shell, and secrets
+        run: |
+          az bicep install
+          QAM_REQUIRE_INFRA_TOOLS=true quickagenticmemory/scripts/validate-infra.sh
+
+      - name: Verify complete workspace
+        working-directory: quickagenticmemory
+        run: |
+          npm ci
+          npm run verify
+          npm run demo
+
+      - name: Verify Microsoft Foundry agent integration
+        working-directory: quickagenticmemory/agents/foundry
+        run: |
+          uv sync --locked --all-groups
+          uv run --frozen pytest
+          uv run --frozen ruff check .
+          uv run --frozen ruff format --check .
+          bash -n configure-access.sh configure-invoker.sh
+          shellcheck -x configure-access.sh configure-invoker.sh
+
+      - name: Require a reproducible clean tracked checkout
+        run: |
+          git diff --exit-code
+          test -z "$(git status --porcelain --untracked-files=no)"
+
+      - name: Build deployable MCP image
+        run: >-
+          docker build
+          --file quickagenticmemory/packages/mcp/Dockerfile
+          --tag qam-mcp:${{ github.sha }}
+          .

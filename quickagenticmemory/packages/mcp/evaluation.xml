@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaluation>
+  <qa_pair>
+    <question>Identify the agent-facing component that performs bounded knowledge access, follow its source-reading relationship, and read the target document. What is the canonical title of the authoritative store? Return the title only.</question>
+    <answer>GitHub Source of Truth</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Resolve the component also known as “Graph Projector,” inspect what it projects from, and verify that target's Markdown says Fabric never becomes authoritative. What is the target concept's canonical title?</question>
+    <answer>GitHub Source of Truth</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Find the accepted architecture decision that constrains the knowledge gateway, then read its Markdown. What lowercase status appears in its frontmatter?</question>
+    <answer>accepted</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Resolve the Microsoft-hosted answering agent and the authoritative Markdown store, then find the shortest outgoing graph path between them. How many hops does that path contain? Return one integer.</question>
+    <answer>2</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Resolve the concept whose alias is “Knowledge Gateway,” then enumerate all incoming backlinks without an edge-type filter. How many source concepts link to it? Return one integer.</question>
+    <answer>3</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Follow provenance from the component that answers through bounded MCP access to the immutable source record, and read the source record. Which identifier type does the source require for every read? Return the four-word phrase used in the document.</question>
+    <answer>full immutable commit SHA</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Find the component that emits versioned nodes and edges for Microsoft Fabric, inspect its outgoing source relationship, and read its own document to confirm it never owns the prose. What is that component's canonical title?</question>
+    <answer>Fabric Graph Projector</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Inspect the server's tool list under its default configuration, then resolve and read the curation-agent concept to verify the policy. Is the proposal tool exposed by default? Answer True or False.</question>
+    <answer>False</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Resolve the architecture decision that forbids unrestricted graph languages, trace how it constrains the gateway, and read the decision. What is the maximum allowed neighborhood depth in hops? Return one integer.</question>
+    <answer>2</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Resolve the component also called “QAM MCP,” trace its immutable provenance, and report its repository-relative Markdown path exactly.</question>
+    <answer>knowledge/concepts/wiki-mcp-gateway.md</answer>
+  </qa_pair>
+</evaluation>

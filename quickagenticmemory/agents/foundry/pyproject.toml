@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "quick-agentic-memory-foundry"
+version = "0.1.0"
+description = "Provision and verify a Microsoft Foundry prompt agent backed by the QAM MCP server"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "azure-ai-projects==2.4.0",
+  "azure-identity==1.25.3",
+  "httpx==0.28.1",
+  "openai==3.3.1",
+  "requests==2.34.2",
+]
+
+[dependency-groups]
+dev = [
+  "pytest==9.1.1",
+  "ruff==0.16.4",
+]
+
+[project.scripts]
+qam-foundry-register = "qam_foundry.register:main"
+qam-foundry-smoke = "qam_foundry.smoke:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/qam_foundry"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "S", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]

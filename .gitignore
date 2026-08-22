@@ -224,3 +224,17 @@ __marimo__/
 [Cc][Oo][Pp][Ii][Ll][Oo][Tt].[Mm][Dd]
 .claude/settings.local.json
 .codex/
+
+# JavaScript / TypeScript build and test output
+node_modules/
+coverage/
+*.tsbuildinfo
+
+# Local Quick Agentic Memory artifacts and credentials
+quickagenticmemory/.artifacts/
+quickagenticmemory/.env*
+!quickagenticmemory/.env.example
+
+# The repository-wide Python `lib/` rule must not hide deployment helpers.
+!quickagenticmemory/scripts/lib/
+!quickagenticmemory/scripts/lib/common.sh

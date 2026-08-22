@@ -1,0 +1,26 @@
+{
+  "status": { "code": "00000" },
+  "result": {
+    "kind": "TABLE",
+    "columns": [
+      { "name": "id" }, { "name": "kind" }, { "name": "title" }, { "name": "type" },
+      { "name": "path" }, { "name": "repositoryPath" }, { "name": "conceptId" },
+      { "name": "tagsJson" }, { "name": "aliasesJson" }, { "name": "projectionId" },
+      { "name": "commitSha" }, { "name": "repository" }, { "name": "projectionGeneratedAt" },
+      { "name": "okfVersion" }, { "name": "summary" }, { "name": "resource" },
+      { "name": "status" }, { "name": "contentHash" }, { "name": "sourceUrl" },
+      { "name": "normalizedValue" }, { "name": "sourceIdsJson" }, { "name": "authorsJson" },
+      { "name": "usageCountsJson" }, { "name": "lastModified" }
+    ],
+    "data": [{
+      "id": "urn:qam:concept:test", "kind": "Concept", "title": "Test", "type": "concept",
+      "path": "concepts/test.md", "repositoryPath": "quickagenticmemory/knowledge/concepts/test.md",
+      "conceptId": "test", "tagsJson": "[]", "aliasesJson": "[]",
+      "projectionId": "urn:qam:projection:test", "commitSha": "1111111111111111111111111111111111111111",
+      "repository": "https://github.com/example/repository", "projectionGeneratedAt": "2026-01-01T00:00:00Z",
+      "okfVersion": "0.1.0", "summary": null, "resource": null, "status": null,
+      "contentHash": null, "sourceUrl": null, "normalizedValue": null, "sourceIdsJson": null,
+      "authorsJson": null, "usageCountsJson": null, "lastModified": null
+    }]
+  }
+}

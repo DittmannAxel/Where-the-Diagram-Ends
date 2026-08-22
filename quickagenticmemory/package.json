@@ -1,0 +1,28 @@
+{
+  "name": "quick-agentic-memory",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A commit-pinned GitHub, Fabric Graph, and MCP proof of concept",
+  "engines": {
+    "node": ">=22"
+  },
+  "workspaces": [
+    "packages/core",
+    "packages/mcp"
+  ],
+  "scripts": {
+    "clean": "npm run clean --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspace @quick-agentic-memory/core && npm run check --workspace @where-the-diagram-ends/quick-agentic-memory-mcp",
+    "test": "npm run test --workspaces",
+    "build": "npm run build --workspaces",
+    "verify": "npm run typecheck && npm run build && npm run test",
+    "verify:infra": "bash scripts/validate-infra.sh",
+    "project": "node packages/core/dist/cli.js project knowledge --output .artifacts",
+    "predemo": "npm run build",
+    "demo": "node scripts/local-demo.mjs"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.0.0"
+  }
+}
