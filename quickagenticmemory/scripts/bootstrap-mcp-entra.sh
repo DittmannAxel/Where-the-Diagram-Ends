@@ -6,8 +6,11 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/common.sh"
 
 display_name=""
 api_client_id=""
+prepare_only="false"
 declare -a caller_client_ids=()
 declare -a caller_principal_ids=()
+caller_client_count=0
+caller_principal_count=0
 
 usage() {
   printf '%s\n' \
@@ -15,6 +18,7 @@ usage() {
     '' \
     'Options:' \
     '  --api-client-id UUID       Reconcile an existing API app instead of finding/creating by name' \
+    '  --prepare-only             Create/reconcile the API and service principal without callers' \
     '  --caller-client-id UUID    Repeat once per allowed managed identity/application' \
     '  --caller-principal-id UUID Repeat in the same order for each caller service principal' \
     '' \
@@ -27,25 +31,39 @@ while [ "$#" -gt 0 ]; do
   case "$1" in
     --display-name) display_name="${2:?missing value for $1}"; shift 2 ;;
     --api-client-id) api_client_id="${2:?missing value for $1}"; shift 2 ;;
-    --caller-client-id) caller_client_ids+=("${2:?missing value for $1}"); shift 2 ;;
-    --caller-principal-id) caller_principal_ids+=("${2:?missing value for $1}"); shift 2 ;;
+    --prepare-only) prepare_only="true"; shift ;;
+    --caller-client-id)
+      caller_client_ids[caller_client_count]="${2:?missing value for $1}"
+      caller_client_count=$((caller_client_count + 1))
+      shift 2
+      ;;
+    --caller-principal-id)
+      caller_principal_ids[caller_principal_count]="${2:?missing value for $1}"
+      caller_principal_count=$((caller_principal_count + 1))
+      shift 2
+      ;;
     --help | -h) usage; exit 0 ;;
     *) usage >&2; qam_fail "unknown argument: $1" ;;
   esac
 done
 
 [ -n "${display_name}" ] || qam_fail "--display-name is required"
-[ "${#caller_client_ids[@]}" -gt 0 ] || qam_fail "at least one caller is required"
-[ "${#caller_client_ids[@]}" -eq "${#caller_principal_ids[@]}" ] \
+[ "${caller_client_count}" -eq "${caller_principal_count}" ] \
   || qam_fail "caller client-ID and principal-ID counts must match"
+if [ "${prepare_only}" = "true" ]; then
+  [ "${caller_client_count}" -eq 0 ] \
+    || qam_fail "--prepare-only cannot be combined with caller IDs"
+else
+  [ "${caller_client_count}" -gt 0 ] || qam_fail "at least one caller is required"
+fi
 if [ -n "${api_client_id}" ]; then
   qam_validate_uuid "${api_client_id}" "MCP API client ID"
 fi
-for caller_client_id in "${caller_client_ids[@]}"; do
-  qam_validate_uuid "${caller_client_id}" "caller client ID"
-done
-for caller_principal_id in "${caller_principal_ids[@]}"; do
-  qam_validate_uuid "${caller_principal_id}" "caller principal ID"
+index=0
+while [ "${index}" -lt "${caller_client_count}" ]; do
+  qam_validate_uuid "${caller_client_ids[$index]}" "caller client ID"
+  qam_validate_uuid "${caller_principal_ids[$index]}" "caller principal ID"
+  index=$((index + 1))
 done
 
 qam_require_azure_login
@@ -117,7 +135,8 @@ if [ "${current_assignment_required}" != "true" ]; then
     --output none
 fi
 
-for index in "${!caller_client_ids[@]}"; do
+index=0
+while [ "${index}" -lt "${caller_client_count}" ]; do
   caller_client_id="${caller_client_ids[$index]}"
   caller_principal_id="${caller_principal_ids[$index]}"
   actual_client_id="$(az rest \
@@ -131,12 +150,13 @@ for index in "${!caller_client_ids[@]}"; do
 
   assignments="$(az rest \
     --method GET \
-    --uri "https://graph.microsoft.com/v1.0/servicePrincipals/${caller_principal_id}/appRoleAssignments" \
+    --uri "https://graph.microsoft.com/v1.0/servicePrincipals/${api_principal_id}/appRoleAssignedTo" \
     --output json)"
-  if jq -e --arg resource "${api_principal_id}" --arg role "${qam_role_id}" \
-    '.value[] | select(.resourceId == $resource and .appRoleId == $role)' \
+  if jq -e --arg principal "${caller_principal_id}" --arg resource "${api_principal_id}" --arg role "${qam_role_id}" \
+    '.value[] | select(.principalId == $principal and .resourceId == $resource and .appRoleId == $role)' \
     <<< "${assignments}" >/dev/null; then
     qam_info "caller ${caller_principal_id} already has Qam.Read"
+    index=$((index + 1))
     continue
   fi
   qam_info "assigning Qam.Read to caller ${caller_principal_id}"
@@ -147,18 +167,26 @@ for index in "${!caller_client_ids[@]}"; do
     '{principalId: $principal, resourceId: $resource, appRoleId: $role}')"
   az rest \
     --method POST \
-    --uri "https://graph.microsoft.com/v1.0/servicePrincipals/${caller_principal_id}/appRoleAssignments" \
+    --uri "https://graph.microsoft.com/v1.0/servicePrincipals/${api_principal_id}/appRoleAssignedTo" \
     --headers 'Content-Type=application/json' \
     --body "${assignment_body}" \
     --output none
+  index=$((index + 1))
 done
+
+allowed_client_application_ids='[]'
+allowed_principal_ids='[]'
+if [ "${caller_client_count}" -gt 0 ]; then
+  allowed_client_application_ids="$(printf '%s\n' "${caller_client_ids[@]}" | jq -Rsc 'split("\n") | map(select(length > 0))')"
+  allowed_principal_ids="$(printf '%s\n' "${caller_principal_ids[@]}" | jq -Rsc 'split("\n") | map(select(length > 0))')"
+fi
 
 jq -cn \
   --arg mcpApiClientId "${api_client_id}" \
   --arg mcpApiPrincipalId "${api_principal_id}" \
   --arg mcpApiAudience "${identifier_uri}" \
-  --argjson allowedClientApplicationIds "$(printf '%s\n' "${caller_client_ids[@]}" | jq -Rsc 'split("\n") | map(select(length > 0))')" \
-  --argjson allowedPrincipalIds "$(printf '%s\n' "${caller_principal_ids[@]}" | jq -Rsc 'split("\n") | map(select(length > 0))')" \
+  --argjson allowedClientApplicationIds "${allowed_client_application_ids}" \
+  --argjson allowedPrincipalIds "${allowed_principal_ids}" \
   '{
     mcpApiClientId: $mcpApiClientId,
     mcpApiPrincipalId: $mcpApiPrincipalId,

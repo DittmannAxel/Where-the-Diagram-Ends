@@ -128,13 +128,17 @@ def create_published_identity(
             description="QAM application awaiting its read-only downstream access grant",
             metadata={"component": "quick-agentic-memory", "access": "pending"},
         )
+        agent = project.agents.get(agent_name=config.agent_name)
     version = _created_version(created, config, expected_tools=())
+    agent_id = getattr(agent, "id", None)
+    if not isinstance(agent_id, str):
+        raise RuntimeError("Foundry did not return the created agent ID")
 
     arm.request(
         "PUT",
         config.application_url,
         scope=ARM_SCOPE,
-        body=build_application_body(config),
+        body=build_application_body(config, agent_id),
         expected_statuses=(200, 201, 202),
         allow_empty_response=True,
     )
@@ -685,7 +689,7 @@ def _application_contract_matches(application: dict[str, Any], config: FoundryCo
         and isinstance(agents[0], dict)
         and agents[0].get("agentName") == config.agent_name
         and isinstance(authorization, dict)
-        and authorization.get("type") == "Default"
+        and authorization.get("authorizationScheme") == "Default"
     )
 
 
@@ -783,7 +787,7 @@ def _dry_run(config: FoundryConfig, phase: str) -> dict[str, object]:
             if phase == "identity"
             else build_agent_definition(config).as_dict()
         ),
-        "application": build_application_body(config),
+        "application": build_application_body(config, "created-agent-id"),
         "deployment": build_deployment_body(config, version),
     }
     if phase == "attach":

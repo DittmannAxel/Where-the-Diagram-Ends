@@ -81,7 +81,7 @@ printf '%s' "${application_resource_id}" \
 
 live_application="$(az rest \
   --method get \
-  --url "https://management.azure.com${application_resource_id}?api-version=2026-05-01" \
+  --url "https://management.azure.com${application_resource_id}?api-version=2026-05-15-preview" \
   --output json \
   --only-show-errors)"
 jq -e \
@@ -89,7 +89,7 @@ jq -e \
   --arg principal_id "${agent_principal_id}" \
   --arg agent_name "${agent_name}" '
     (.properties.provisioningState == "Succeeded") and
-    (.properties.authorizationPolicy.type == "Default") and
+    (.properties.authorizationPolicy.authorizationScheme == "Default") and
     (.properties.agents | length == 1) and
     (.properties.agents[0].agentName == $agent_name) and
     (.properties.defaultInstanceIdentity.kind == "AgentInstance") and
@@ -150,7 +150,7 @@ jq -e \
 
 assignment_page="$(az rest \
   --method GET \
-  --uri "https://graph.microsoft.com/v1.0/servicePrincipals/${agent_principal_id}/appRoleAssignments?\$filter=resourceId%20eq%20${mcp_api_principal_id}%20and%20appRoleId%20eq%20${qam_role_id}&\$select=id,principalId,resourceId,appRoleId" \
+  --uri "https://graph.microsoft.com/v1.0/servicePrincipals/${mcp_api_principal_id}/appRoleAssignedTo?\$select=id,principalId,resourceId,appRoleId" \
   --output json \
   --only-show-errors)"
 matching_assignments="$(jq \

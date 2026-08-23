@@ -71,7 +71,7 @@ printf '%s' "${application_scope}" \
 
 live_application="$(az rest \
   --method get \
-  --url "https://management.azure.com${application_scope}?api-version=2026-05-01" \
+  --url "https://management.azure.com${application_scope}?api-version=2026-05-15-preview" \
   --output json \
   --only-show-errors)"
 jq -e \
@@ -79,7 +79,7 @@ jq -e \
   --arg principal_id "${application_principal_id}" \
   --arg agent_name "${agent_name}" '
     (.properties.provisioningState == "Succeeded") and
-    (.properties.authorizationPolicy.type == "Default") and
+    (.properties.authorizationPolicy.authorizationScheme == "Default") and
     (.properties.agents | length == 1) and
     (.properties.agents[0].agentName == $agent_name) and
     (.properties.defaultInstanceIdentity.kind == "AgentInstance") and

@@ -28,7 +28,7 @@ param fabricAdminMembers string[]
 ])
 param fabricSkuName string = 'F2'
 
-@description('Operator Entra object ID that receives Foundry Project Manager on this project. Supply at deployment time.')
+@description('Operator Entra object ID that receives Foundry Project Manager on the Foundry account so Agent Applications can be published. Supply at deployment time.')
 param operatorPrincipalId string = ''
 
 @description('Chat model selected only after live catalog and quota discovery.')
@@ -132,8 +132,8 @@ resource chatModelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2
 }
 
 resource operatorProjectManager 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(operatorPrincipalId)) {
-  name: guid(foundryProject.id, operatorPrincipalId, foundryProjectManagerRoleId)
-  scope: foundryProject
+  name: guid(foundryAccount.id, operatorPrincipalId, foundryProjectManagerRoleId)
+  scope: foundryAccount
   properties: {
     principalId: operatorPrincipalId
     principalType: 'User'

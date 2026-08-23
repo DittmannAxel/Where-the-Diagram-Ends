@@ -35,7 +35,7 @@ def application_payload() -> dict[str, object]:
         "properties": {
             "provisioningState": "Succeeded",
             "agents": [{"agentName": "qam-knowledge-agent", "agentId": "agent-guid"}],
-            "authorizationPolicy": {"type": "Default"},
+            "authorizationPolicy": {"authorizationScheme": "Default"},
             "defaultInstanceIdentity": {
                 "kind": "AgentInstance",
                 "clientId": CLIENT_ID,
@@ -197,6 +197,10 @@ class FakeAgents:
             (),
             {"version": str(len(self.created_definitions)), "definition": definition},
         )()
+
+    def get(self, *, agent_name):
+        assert agent_name == "qam-knowledge-agent"
+        return type("Agent", (), {"id": "agent-guid"})()
 
 
 class FakeProject:
@@ -526,7 +530,7 @@ def test_two_phase_publishes_distinct_identity_then_updates_deployment(monkeypat
     )
     assert FakeProject.agents.created_definitions[0]["tools"] == []
     app_put = next(call for call in arm.calls if call[0][0] == "PUT" and "/applications/" in call[0][1])
-    assert "api-version=2026-05-01" in app_put[0][1]
+    assert "api-version=2026-05-15-preview" in app_put[0][1]
 
     attached = attach_mcp(  # type: ignore[arg-type]
         config, object(), arm, registration(), access_receipt(), FakeBoundarySession()

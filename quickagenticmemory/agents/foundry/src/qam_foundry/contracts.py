@@ -35,7 +35,7 @@ Never attempt to modify GitHub, Fabric, the graph, or the Markdown. Use no more 
 calls for one answer.
 """
 
-APPLICATION_API_VERSION = "2026-05-01"
+APPLICATION_API_VERSION = "2026-05-15-preview"
 RESPONSES_API_VERSION = "2025-11-15-preview"
 
 _UUID = re.compile(
@@ -273,13 +273,15 @@ def build_identity_definition(config: FoundryConfig):
     )
 
 
-def build_application_body(config: FoundryConfig) -> dict[str, object]:
-    """Build the stable ARM Agent Application payload with RBAC invocation."""
+def build_application_body(config: FoundryConfig, agent_id: str) -> dict[str, object]:
+    """Build the ARM Agent Application payload with explicit agent and RBAC invocation."""
     config.validated()
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,99}", agent_id):
+        raise ConfigurationError("agent ID must be a 1-100 character safe Foundry identifier")
     return {
         "properties": {
-            "agents": [{"agentName": config.agent_name}],
-            "authorizationPolicy": {"type": "Default"},
+            "agents": [{"agentId": agent_id, "agentName": config.agent_name}],
+            "authorizationPolicy": {"authorizationScheme": "Default"},
             "displayName": "Quick Agentic Memory knowledge application",
         }
     }

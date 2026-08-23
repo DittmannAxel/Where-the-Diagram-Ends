@@ -19,7 +19,7 @@ No deployment is performed by committing or validating these files. Every mutati
 | Application Insights | Application telemetry target | Workspace-based, local authentication disabled, managed-identity authentication variables injected |
 | Private networking | Removes public data-plane access to ACR, Key Vault, and Container Apps ingress | Dedicated VNet subnets, Private Endpoints, and Private DNS zones; opt-in because of cost and runner requirements |
 | Optional Fabric capacity | Supplies F SKU compute for the Graph proof | Separate paid `platform.bicep` deployment, constrained to F2/F4/F8; an explicit lifecycle script can show, suspend, or resume it |
-| Optional Foundry platform | Supplies the AIServices account, project, and pinned chat-model deployment | System-assigned identities, local key authentication disabled, and Foundry Project Manager scoped to the project; public networking and Global Standard processing are explicit PoC tradeoffs |
+| Optional Foundry platform | Supplies the AIServices account, project, and pinned chat-model deployment | System-assigned identities, local key authentication disabled, and Foundry Project Manager scoped to the Foundry account as required for publishing Agent Applications; public networking and Global Standard processing are explicit PoC tradeoffs |
 
 The deployed container uses the direct adapters:
 
@@ -92,7 +92,21 @@ Graph in Fabric and its query API are Preview/Beta capabilities. This PoC uses `
 
 The API registration and caller app-role assignments are scriptable and contain no credentials. Supply each caller twice: its application/client ID for the Easy Auth application allow-list and its service-principal object ID for the principal allow-list. The script verifies that each pair belongs to the same service principal, makes the API service principal assignment-required, and assigns only `Qam.Read`.
 
-For the Microsoft Foundry path, do not authorize an unpublished project-shared agent identity. First publish the inert, tool-less version as an **Agent Application** through the stable `Microsoft.CognitiveServices` `2026-05-01` application/deployment resources. Poll the live application and use only `properties.defaultInstanceIdentity.clientId` plus `principalId` as the MCP caller pair. Grant that pair `Qam.Read` and place it in both Container Apps EasyAuth allow-lists before attaching the MCP-enabled version to the published deployment. The Azure runtime UAMI emitted by this template is **not** that caller; it is used only for Fabric, Key Vault, and telemetry access inside Container Apps. The exact phased commands and identity verification are documented in [`../agents/foundry/README.md`](../agents/foundry/README.md).
+The published Foundry Agent Application identity does not exist until phase 1, while phase 1 already needs the final MCP audience. Prepare the MCP API first without admitting any caller:
+
+```bash
+quickagenticmemory/scripts/bootstrap-mcp-entra.sh \
+  --display-name 'Quick Agentic Memory MCP' \
+  --prepare-only \
+  > quickagenticmemory/.artifacts/mcp-api.json
+
+export QAM_MCP_API_CLIENT_ID="$(jq -r '.mcpApiClientId' quickagenticmemory/.artifacts/mcp-api.json)"
+export QAM_MCP_AUDIENCE="$(jq -r '.mcpApiAudience' quickagenticmemory/.artifacts/mcp-api.json)"
+```
+
+`--prepare-only` creates no credential and grants no caller. After Foundry publishes its distinct Agent Application identity, `configure-access.sh` reruns the same idempotent reconciliation with that exact caller and assigns only `Qam.Read`.
+
+For the Microsoft Foundry path, do not authorize an unpublished project-shared agent identity. First publish the inert, tool-less version as an **Agent Application** through the tenant-registered `Microsoft.CognitiveServices` `2026-05-15-preview` application/deployment resources. Poll the live application and use only `properties.defaultInstanceIdentity.clientId` plus `principalId` as the MCP caller pair. Grant that pair `Qam.Read` and place it in both Container Apps EasyAuth allow-lists before attaching the MCP-enabled version to the published deployment. The Azure runtime UAMI emitted by this template is **not** that caller; it is used only for Fabric, Key Vault, and telemetry access inside Container Apps. The exact phased commands and identity verification are documented in [`../agents/foundry/README.md`](../agents/foundry/README.md).
 
 ```bash
 quickagenticmemory/scripts/bootstrap-mcp-entra.sh \
@@ -188,9 +202,9 @@ For a complete-app what-if, also pass the MCP API client ID, both caller allow-l
 - one Microsoft Foundry `AIServices` account with a system-assigned identity and local key authentication disabled;
 - one Foundry project with a system-assigned identity;
 - one pinned OpenAI-format model deployment using the `GlobalStandard` deployment type;
-- one Foundry Project Manager assignment, scoped only to that project and only for the supplied user object ID.
+- one Foundry Project Manager assignment, scoped to that Foundry account and only for the supplied user object ID, so the operator can publish project Agent Applications without subscription-wide Foundry access.
 
-The template alone does **not** create a Fabric workspace, Lakehouse, Notebook, Graph Model, tenant setting, or Fabric workspace role assignment. `platform-deploy.sh` is therefore the ARM-only path. The separate `deploy-industrial-platform.sh` administrator orchestrator adds the workspace/items, role grants, and live Foundry smoke after the ARM deployment. The deployment principal needs permission to create the platform resources and `Microsoft.Authorization/roleAssignments/write` for the project-scoped assignment. Use a separately governed administrator identity or PIM activation; the routine GitHub Contributor identity is intentionally insufficient.
+The template alone does **not** create a Fabric workspace, Lakehouse, Notebook, Graph Model, tenant setting, or Fabric workspace role assignment. `platform-deploy.sh` is therefore the ARM-only path. The separate `deploy-industrial-platform.sh` administrator orchestrator adds the workspace/items, role grants, and live Foundry smoke after the ARM deployment. The deployment principal needs permission to create the platform resources and `Microsoft.Authorization/roleAssignments/write` for the account-scoped assignment. Use a separately governed administrator identity or PIM activation; the routine GitHub Contributor identity is intentionally insufficient.
 
 No real tenant-specific UPN, tenant ID, subscription ID, or operator object ID is stored in a platform parameter file. The Fabric administrator UPN and Foundry operator user object ID are supplied on the command line. They are not credentials, but ARM records deployment parameters in Azure deployment history, so treat that history according to the organization's identity-data policy. The current script supports a user principal for the project-manager assignment; do not pass a service-principal object ID without reviewing and changing the declared principal type.
 

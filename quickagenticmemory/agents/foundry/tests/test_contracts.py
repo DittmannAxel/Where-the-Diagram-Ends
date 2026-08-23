@@ -51,15 +51,17 @@ def test_connection_and_agent_are_explicitly_read_only() -> None:
     assert "propose_wiki_update" not in definition["tools"][0]["allowed_tools"]
     assert build_identity_definition(config).as_dict()["tools"] == []
 
-    application = build_application_body(config)
-    assert application["properties"]["agents"] == [{"agentName": config.agent_name}]
-    assert application["properties"]["authorizationPolicy"] == {"type": "Default"}
+    application = build_application_body(config, "agent-guid")
+    assert application["properties"]["authorizationPolicy"] == {"authorizationScheme": "Default"}
+    assert application["properties"]["agents"] == [
+        {"agentId": "agent-guid", "agentName": "qam-knowledge-agent"}
+    ]
     deployment = build_deployment_body(config, "7")
     assert deployment["properties"]["deploymentType"] == "Managed"
     assert deployment["properties"]["protocols"] == [{"protocol": "Responses", "version": "1.0"}]
     assert deployment["properties"]["agents"] == [{"agentName": config.agent_name, "agentVersion": "7"}]
-    assert "api-version=2026-05-01" in config.application_url
-    assert "api-version=2026-05-01" in config.deployment_url
+    assert "api-version=2026-05-15-preview" in config.application_url
+    assert "api-version=2026-05-15-preview" in config.deployment_url
     assert config.application_responses_url.endswith(
         "/applications/qam-knowledge-application/protocols/openai/responses?api-version=2025-11-15-preview"
     )

@@ -27,7 +27,7 @@ There are three deliberately separate identities:
 Provisioning is fail-closed and two-phase:
 
 1. `identity` creates an inert, tool-less agent version, publishes it through the stable
-   `2026-05-01` Agent Application and managed deployment ARM resources, and polls the application's
+   `2026-05-15-preview` Agent Application and managed deployment ARM resources, and polls the application's
    distinct `defaultInstanceIdentity` plus the running deployment. Each provisioning poll is
    bounded to five minutes at three-second intervals. A transient `404` immediately after an
    asynchronous create is retried; authorization and all other ARM failures stop immediately.
@@ -89,6 +89,18 @@ case-insensitively. It also pins the MCP URL to HTTPS, the exact allowed host, a
 credentials, query, or fragment.
 
 ## Phase 1: publish the distinct application identity
+
+Prepare the final MCP audience before publishing the tool-less application. This creates no caller assignment:
+
+```bash
+../../scripts/bootstrap-mcp-entra.sh \
+  --display-name 'Quick Agentic Memory MCP' \
+  --prepare-only \
+  > ../../.artifacts/mcp-api.json
+
+export QAM_MCP_API_CLIENT_ID="$(jq -r '.mcpApiClientId' ../../.artifacts/mcp-api.json)"
+export QAM_MCP_AUDIENCE="$(jq -r '.mcpApiAudience' ../../.artifacts/mcp-api.json)"
+```
 
 ```bash
 uv run qam-foundry-register identity \
@@ -277,7 +289,7 @@ marker or document body.
 - The application endpoint supports stateless Responses calls in this flow. Clients must not
   assume stored or end-user-isolated conversations.
 - Microsoft currently labels Agent Applications as its legacy publishing experience. This PoC
-  intentionally uses the stable `2026-05-01` management resources because they expose the
+  uses the tenant-registered `2026-05-15-preview` management resources because they expose the
   distinct, auditable application identity required by this gate; reassess the documented
   migration path before treating the design as production.
 - Provisioning, RBAC/app-role changes, redeployment, and model calls mutate the tenant or incur
@@ -304,8 +316,8 @@ provenance/commit propagation, and content proof. No live smoke runs in CI.
 - [Agent identity concepts](https://learn.microsoft.com/azure/foundry/agents/concepts/agent-identity)
 - [Publish an agent as an Agent Application](https://learn.microsoft.com/azure/foundry/agents/how-to/agent-applications)
 - [Migrate from Agent Applications](https://learn.microsoft.com/azure/foundry/agents/how-to/migrate-agent-applications)
-- [Agent Application ARM 2026-05-01](https://learn.microsoft.com/azure/templates/microsoft.cognitiveservices/2026-05-01/accounts/projects/applications)
-- [Agent deployment ARM 2026-05-01](https://learn.microsoft.com/azure/templates/microsoft.cognitiveservices/2026-05-01/accounts/projects/applications/agentdeployments)
+- [Agent Application ARM 2026-05-15-preview](https://learn.microsoft.com/azure/templates/microsoft.cognitiveservices/2026-05-15-preview/accounts/projects/applications)
+- [Agent deployment ARM 2026-05-15-preview](https://learn.microsoft.com/azure/templates/microsoft.cognitiveservices/2026-05-15-preview/accounts/projects/applications/agentdeployments)
 - [MCP authentication](https://learn.microsoft.com/azure/foundry/agents/how-to/mcp-authentication)
 - [MCP tools](https://learn.microsoft.com/azure/foundry/agents/how-to/tools/model-context-protocol)
 - [Foundry authentication and role IDs](https://learn.microsoft.com/azure/foundry/concepts/authentication-authorization-foundry)

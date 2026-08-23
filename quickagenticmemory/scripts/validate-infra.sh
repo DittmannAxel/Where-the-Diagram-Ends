@@ -191,7 +191,8 @@ jq -e '
   ([.resources[] | select(.type == "Microsoft.Authorization/roleAssignments")][0]
     | .apiVersion == "2022-04-01" and
       (.condition | contains("operatorPrincipalId")) and
-      (.scope | contains("Microsoft.CognitiveServices/accounts/projects")) and
+      (.scope | contains("Microsoft.CognitiveServices/accounts")) and
+      ((.scope | contains("Microsoft.CognitiveServices/accounts/projects")) | not) and
       (.properties.principalId | contains("operatorPrincipalId")) and
       .properties.principalType == "User" and
       (.properties.roleDefinitionId | contains("foundryProjectManagerRoleId"))) and
