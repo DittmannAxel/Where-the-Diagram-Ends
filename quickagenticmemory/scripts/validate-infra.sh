@@ -163,7 +163,7 @@ jq -e '
   .parameters.fabricAdminMembers.minLength == 1 and
   .parameters.operatorPrincipalId.defaultValue == "" and
   .parameters.fabricSkuName.defaultValue == "F2" and
-  .parameters.fabricSkuName.allowedValues == ["F2", "F4", "F8"] and
+  .parameters.fabricSkuName.allowedValues == ["F2", "F4", "F8", "F16", "F32", "F64"] and
   .parameters.chatModelCapacity.minValue == 1 and
   .parameters.tags.defaultValue == {} and
   (.variables.commonTags | contains("public-synthetic")) and
@@ -242,7 +242,7 @@ expect_cli_failure "unsupported Fabric SKU" \
   --resource-group qam-platform-contract \
   --fabric-admin-member fabric-admin@example.invalid \
   --operator-principal-id 11111111-1111-4111-8111-111111111111 \
-  --fabric-sku F16
+  --fabric-sku F128
 expect_cli_failure "invalid Foundry operator principal" \
   "${QAM_SCRIPTS_DIR}/platform-deploy.sh" \
   --resource-group qam-platform-contract \

@@ -104,7 +104,9 @@ jq -e '
   (.principals.temporaryAcrWriter == null or
     ((.principals.temporaryAcrWriter.principalId | type == "string") and
      .principals.temporaryAcrWriter.principalType == "User")) and
-  (.platform.fabricSku == "F2" or .platform.fabricSku == "F4" or .platform.fabricSku == "F8") and
+  (.platform.fabricSku == "F2" or .platform.fabricSku == "F4" or
+   .platform.fabricSku == "F8" or .platform.fabricSku == "F16" or
+   .platform.fabricSku == "F32" or .platform.fabricSku == "F64") and
   (.platform.workspaceName | type == "string" and length > 0) and
   (.platform.lakehouseName | type == "string" and length > 0) and
   (.platform.graphModelName | type == "string" and length > 0) and

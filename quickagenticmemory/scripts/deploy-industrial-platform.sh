@@ -40,7 +40,7 @@ usage() {
     '  --location REGION                  Default: resource-group location' \
     '  --workload NAME                    Default: qam' \
     '  --environment dev|test|prod        Default: test' \
-    '  --fabric-sku F2|F4|F8              Default: F2' \
+    '  --fabric-sku F2|F4|F8|F16|F32|F64  Default: F2' \
     '  --workspace-name NAME              Default: QAM <environment> Industrial Evidence' \
     '  --lakehouse-name NAME              Default: <workload>_<environment>_industrial' \
     '  --graph-model-name NAME            Default: QAM <environment> Industrial Knowledge Graph' \

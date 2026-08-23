@@ -25,6 +25,9 @@ param fabricAdminMembers string[]
   'F2'
   'F4'
   'F8'
+  'F16'
+  'F32'
+  'F64'
 ])
 param fabricSkuName string = 'F2'
 

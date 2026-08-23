@@ -50,7 +50,7 @@ Azure CLI **user** who is also:
 The administrator template requires the equivalent of
 `Microsoft.Authorization/roleAssignments/write` and
 `Microsoft.Authorization/policyAssignments/write`. The selected region needs Fabric capacity
-support plus Foundry model availability and quota. The example selects F8; model name, version,
+support plus Foundry model availability and quota. The full showcase example selects F64; model name, version,
 and capacity remain explicit tenant inputs because catalog and quota differ by region.
 
 Install these management tools before starting:

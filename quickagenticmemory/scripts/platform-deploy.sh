@@ -26,7 +26,7 @@ usage() {
     '  --location REGION                  Default: resource-group location' \
     '  --workload NAME                    Default: qam' \
     '  --environment dev|test|prod        Default: test' \
-    '  --fabric-sku F2|F4|F8              Default: F2' \
+    '  --fabric-sku F2|F4|F8|F16|F32|F64  Default: F2' \
     '  --chat-model-name NAME             Default: gpt-5.4-mini' \
     '  --chat-model-version VERSION       Default: 2026-03-17' \
     '  --chat-model-capacity KTPM         Default: 50'
@@ -57,7 +57,8 @@ qam_validate_workload_name "${workload_name}" "workload name"
 qam_validate_uuid "${operator_principal_id}" "operator principal ID"
 printf '%s' "${fabric_admin_member}" | grep -Eq '^[^[:space:]@]+@[^[:space:]@]+$' \
   || qam_fail "Fabric admin member must be a user principal name"
-printf '%s' "${fabric_sku}" | grep -Eq '^F(2|4|8)$' || qam_fail "Fabric SKU must be F2, F4, or F8"
+printf '%s' "${fabric_sku}" | grep -Eq '^F(2|4|8|16|32|64)$' \
+  || qam_fail "Fabric SKU must be F2, F4, F8, F16, F32, or F64"
 printf '%s' "${chat_model_capacity}" | grep -Eq '^[1-9][0-9]*$' \
   || qam_fail "chat model capacity must be a positive integer"
 

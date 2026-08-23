@@ -12,6 +12,8 @@ projection_dir=""
 definition_dir=""
 acceptance_cleanup='false'
 definition_updater_principal_id=""
+graph_query_attempt_limit="${QAM_FABRIC_GRAPH_QUERY_ATTEMPTS:-60}"
+graph_query_retry_seconds="${QAM_FABRIC_GRAPH_QUERY_RETRY_SECONDS:-30}"
 
 usage() {
   printf '%s\n' \
@@ -77,6 +79,12 @@ for file in nodes.ndjson edges.ndjson manifest.json; do
   [ -f "${projection_dir}/${file}" ] || qam_fail "projection file missing: ${file}"
 done
 qam_require_command jq
+printf '%s' "${graph_query_attempt_limit}" | grep -Eq '^[1-9][0-9]*$' \
+  && [ "${graph_query_attempt_limit}" -le 120 ] \
+  || qam_fail "Fabric Graph query attempts must be an integer from 1 through 120"
+printf '%s' "${graph_query_retry_seconds}" | grep -Eq '^[1-9][0-9]*$' \
+  && [ "${graph_query_retry_seconds}" -le 300 ] \
+  || qam_fail "Fabric Graph query retry seconds must be an integer from 1 through 300"
 
 manifest_file="${projection_dir}/manifest.json"
 jq -e '
@@ -175,7 +183,7 @@ jq -e \
   || qam_fail "Fabric Graph refresh returned an unexpected receipt"
 
 graph_verified='false'
-for attempt in $(seq 1 20); do
+for attempt in $(seq 1 "${graph_query_attempt_limit}"); do
   if "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
     --workspace-id "${workspace_id}" \
     --graph-model-id "${graph_model_id}" \
@@ -187,8 +195,10 @@ for attempt in $(seq 1 20); do
     graph_verified='true'
     break
   fi
-  qam_info "Graph index is not queryable at the selected commit yet (${attempt}/20)"
-  sleep 15
+  qam_info "Graph index is not queryable at the selected commit yet (${attempt}/${graph_query_attempt_limit})"
+  if [ "${attempt}" -lt "${graph_query_attempt_limit}" ]; then
+    sleep "${graph_query_retry_seconds}"
+  fi
 done
 [ "${graph_verified}" = 'true' ] || qam_fail "Fabric Graph did not expose the selected commit"
 

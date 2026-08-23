@@ -18,7 +18,7 @@ No deployment is performed by committing or validating these files. Every mutati
 | Log Analytics | Stores Container Apps logs and metrics | Azure Monitor diagnostic settings; no workspace shared key is passed to Container Apps; local authentication disabled |
 | Application Insights | Application telemetry target | Workspace-based, local authentication disabled, managed-identity authentication variables injected |
 | Private networking | Removes public data-plane access to ACR, Key Vault, and Container Apps ingress | Dedicated VNet subnets, Private Endpoints, and Private DNS zones; opt-in because of cost and runner requirements |
-| Optional Fabric capacity | Supplies F SKU compute for the Graph proof | Separate paid `platform.bicep` deployment, constrained to F2/F4/F8; an explicit lifecycle script can show, suspend, or resume it |
+| Optional Fabric capacity | Supplies F SKU compute for the Graph proof | Separate paid `platform.bicep` deployment, constrained to F2/F4/F8/F16/F32/F64; an explicit lifecycle script can show, suspend, or resume it |
 | Optional Foundry platform | Supplies the AIServices account, project, and pinned chat-model deployment | System-assigned identities, local key authentication disabled, and Foundry Project Manager scoped to the Foundry account as required for publishing Agent Applications; public networking and Global Standard processing are explicit PoC tradeoffs |
 
 The deployed container uses the direct adapters:
@@ -200,7 +200,7 @@ For a complete-app what-if, also pass the MCP API client ID, both caller allow-l
 
 `platform.bicep` is deliberately separate from the MCP foundation and its isolated authorization template. It creates these paid or usage-billed platform dependencies only when an operator explicitly runs `platform-deploy.sh`:
 
-- one Microsoft Fabric F SKU capacity, constrained to F2, F4, or F8;
+- one Microsoft Fabric F SKU capacity, constrained to F2, F4, F8, F16, F32, or F64;
 - one Microsoft Foundry `AIServices` account with a system-assigned identity and local key authentication disabled;
 - one Foundry project with a system-assigned identity;
 - one pinned OpenAI-format model deployment using the `GlobalStandard` deployment type;

@@ -24,7 +24,7 @@
     }
   },
   "platform": {
-    "fabricSku": "F8",
+    "fabricSku": "F64",
     "workspaceName": "QAM test Industrial Evidence",
     "lakehouseName": "qam_test_industrial",
     "graphModelName": "QAM test Industrial Knowledge Graph",
