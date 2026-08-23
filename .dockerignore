@@ -1,0 +1,13 @@
+**
+!/.dockerignore
+!/quickagenticmemory/
+!/quickagenticmemory/contracts/
+!/quickagenticmemory/contracts/qam-graph-1.0.ts
+!/quickagenticmemory/packages/
+!/quickagenticmemory/packages/mcp/
+!/quickagenticmemory/packages/mcp/Dockerfile
+!/quickagenticmemory/packages/mcp/package.json
+!/quickagenticmemory/packages/mcp/package-lock.json
+!/quickagenticmemory/packages/mcp/tsconfig.json
+!/quickagenticmemory/packages/mcp/src/
+!/quickagenticmemory/packages/mcp/src/**

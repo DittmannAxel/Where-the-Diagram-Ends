@@ -1,0 +1,78 @@
+{
+  "schema_version": "qam-industrial-questions/1.0",
+  "dataset_version": "industrial-component-obsolescence/1.0",
+  "questions": [
+    {
+      "id": "Q-001-full-impact",
+      "query": "Which delivered machine variants use IOL-M8 directly, and which I/O mappings, PLC diagnostic blocks, parameter sets, and FAT/SAT cases must be reviewed for replacement? Exclude IOL-M8S and cite the relationship paths.",
+      "terms": ["IOL-M8", "machine variants", "I/O mappings", "PLC diagnostic blocks", "parameter sets", "FAT", "SAT"],
+      "focus_concept_uid": "urn:qam:industrial:component:iol-m8",
+      "allowed_statuses": ["stable"],
+      "top_k": 20,
+      "max_hops": 2
+    },
+    {
+      "id": "Q-002-article-alias",
+      "query": "Article XK8-IO is being discontinued. Identify the exact component and every delivered machine variant that uses it; do not confuse it with XK8-IOS.",
+      "terms": ["XK8-IO", "machine variant"],
+      "focus_concept_uid": "urn:qam:industrial:component:iol-m8",
+      "allowed_statuses": ["stable"],
+      "top_k": 10,
+      "max_hops": 2
+    },
+    {
+      "id": "Q-003-engineering-alias",
+      "query": "Engineering records call the obsolete device AL-8P. Resolve that alias and list the affected delivered variants without including the stainless IOL-M8S installation.",
+      "terms": ["AL-8P", "variants"],
+      "focus_concept_uid": "urn:qam:industrial:component:iol-m8",
+      "allowed_statuses": ["stable"],
+      "top_k": 10,
+      "max_hops": 2
+    },
+    {
+      "id": "Q-004-current-guidance",
+      "query": "Which current service bulletin and controlled change govern the IOL-M8 replacement assessment? Reject superseded guidance.",
+      "terms": ["IOL-M8", "current", "service bulletin", "controlled change"],
+      "focus_concept_uid": "urn:qam:industrial:component:iol-m8",
+      "allowed_statuses": ["stable"],
+      "top_k": 10,
+      "max_hops": 2
+    },
+    {
+      "id": "Q-005-pkg-chain",
+      "query": "For the impacted PKG-200 variant, return the variant, its I/O mapping, PLC diagnostic block, parameter set, and required FAT and SAT specifications for the IOL-M8 change.",
+      "terms": ["IOL-M8", "PKG-200", "variant", "I/O mapping", "diagnostic block", "parameter set", "FAT", "SAT"],
+      "focus_concept_uid": "urn:qam:industrial:component:iol-m8",
+      "allowed_statuses": ["stable"],
+      "top_k": 6,
+      "max_hops": 2
+    },
+    {
+      "id": "Q-006-pal-chain",
+      "query": "For the impacted PAL-80 variant, return the variant, its I/O mapping, PLC diagnostic block, parameter set, and required FAT and SAT specifications for the IOL-M8 change.",
+      "terms": ["IOL-M8", "PAL-80", "variant", "I/O mapping", "diagnostic block", "parameter set", "FAT", "SAT"],
+      "focus_concept_uid": "urn:qam:industrial:component:iol-m8",
+      "allowed_statuses": ["stable"],
+      "top_k": 6,
+      "max_hops": 2
+    },
+    {
+      "id": "Q-007-m8s-distractor",
+      "query": "Trace the separate IOL-M8S stainless-enclosure installation: identify its machine variant, I/O mapping, PLC diagnostic block, parameter set, FAT acceptance test, and service bulletin. Confirm that it is not part of the IOL-M8 obsolescence scope.",
+      "terms": ["IOL-M8S", "stainless-enclosure", "machine variant", "I/O mapping", "PLC diagnostic block", "parameter set", "FAT", "acceptance test", "service bulletin"],
+      "focus_concept_uid": "urn:qam:industrial:component:iol-m8s",
+      "allowed_statuses": ["stable"],
+      "top_k": 12,
+      "max_hops": 2
+    },
+    {
+      "id": "Q-008-acceptance-tests",
+      "query": "Which FAT and SAT specifications must be repeated for the delivered IOL-M8 installations, and through which machine variant is each test connected? Exclude the IOL-M8S FAT.",
+      "terms": ["IOL-M8", "FAT", "SAT"],
+      "focus_concept_uid": "urn:qam:industrial:component:iol-m8",
+      "allowed_statuses": ["stable"],
+      "top_k": 12,
+      "max_hops": 2
+    }
+  ]
+}

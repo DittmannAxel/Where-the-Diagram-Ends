@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "qam-graph/1.0",
+  "okfVersion": "0.2",
+  "source": {
+    "repository": "https://github.com/example/where-diagram-ends",
+    "projectionId": "urn:qam:projection:e3278995d80d9d748c1cabdc1694f5f398fa4c1b4d52a31de536956caa3a0ac9",
+    "commitSha": "0123456789abcdef0123456789abcdef01234567",
+    "generatedAt": "2026-08-22T12:00:00Z"
+  },
+  "nodes": [
+    {
+      "id": "urn:qam:concept:8ed87cc333f87be8bd39c05dd0158479555b6b57bd135a6036b5153b347ae8d0",
+      "kind": "Concept",
+      "title": "Alpha",
+      "path": "alpha.md",
+      "repositoryPath": "quickagenticmemory/knowledge/alpha.md",
+      "conceptId": "alpha",
+      "type": "Architecture",
+      "tags": [
+        "azure"
+      ],
+      "aliases": [
+        "First Idea"
+      ],
+      "projectionId": "urn:qam:projection:e3278995d80d9d748c1cabdc1694f5f398fa4c1b4d52a31de536956caa3a0ac9",
+      "commitSha": "0123456789abcdef0123456789abcdef01234567",
+      "status": "stable",
+      "contentHash": "6fe9c275f300181977774ee0b57c7ddd69d9a7df85fd324170f443eed266607c",
+      "summary": "Example architecture concept.",
+      "sourceUrl": "https://github.com/example/where-diagram-ends/blob/0123456789abcdef0123456789abcdef01234567/quickagenticmemory/knowledge/alpha.md"
+    },
+    {
+      "id": "urn:qam:concept:a520e0b102006329f7d4b0b39ee32047231139297991bf02a58b72fd999b2046",
+      "kind": "Concept",
+      "title": "Beta",
+      "path": "beta.md",
+      "repositoryPath": "quickagenticmemory/knowledge/beta.md",
+      "conceptId": "beta",
+      "type": "Concept",
+      "tags": [],
+      "aliases": [],
+      "projectionId": "urn:qam:projection:e3278995d80d9d748c1cabdc1694f5f398fa4c1b4d52a31de536956caa3a0ac9",
+      "commitSha": "0123456789abcdef0123456789abcdef01234567",
+      "status": "stable",
+      "contentHash": "03764d565f75fbc0e799482d1f9c8d49c011e09f57f5eeac45bddd510187ff76",
+      "summary": "Linked example concept.",
+      "sourceUrl": "https://github.com/example/where-diagram-ends/blob/0123456789abcdef0123456789abcdef01234567/quickagenticmemory/knowledge/beta.md"
+    },
+    {
+      "id": "urn:qam:tag:79f43c3b9c23fbdf293bdba80dab38ba194fc1da79187091b3d3760dad840bf8",
+      "kind": "Tag",
+      "title": "azure",
+      "type": "Tag",
+      "tags": [],
+      "aliases": [
+        "azure"
+      ],
+      "projectionId": "urn:qam:projection:e3278995d80d9d748c1cabdc1694f5f398fa4c1b4d52a31de536956caa3a0ac9",
+      "commitSha": "0123456789abcdef0123456789abcdef01234567",
+      "normalizedValue": "azure"
+    },
+    {
+      "id": "urn:qam:source:35222f25a4dd50f2091764918b5829565cc898019a68d2763afa8202186f20d4",
+      "kind": "Source",
+      "title": "Azure Architecture Center",
+      "type": "Source",
+      "tags": [],
+      "aliases": [
+        "Azure Architecture Center"
+      ],
+      "projectionId": "urn:qam:projection:e3278995d80d9d748c1cabdc1694f5f398fa4c1b4d52a31de536956caa3a0ac9",
+      "commitSha": "0123456789abcdef0123456789abcdef01234567",
+      "resource": "https://learn.microsoft.com/azure/architecture",
+      "sourceIds": [
+        "architecture-docs"
+      ],
+      "authors": [],
+      "usageCounts": []
+    },
+    {
+      "id": "urn:qam:term:b3a1575fb86a12447e85b96f38f3f2b92b02b55d782f4cb8f768e6452acc6998",
+      "kind": "Term",
+      "title": "First Idea",
+      "type": "Term",
+      "tags": [],
+      "aliases": [
+        "First Idea"
+      ],
+      "projectionId": "urn:qam:projection:e3278995d80d9d748c1cabdc1694f5f398fa4c1b4d52a31de536956caa3a0ac9",
+      "commitSha": "0123456789abcdef0123456789abcdef01234567",
+      "normalizedValue": "first idea"
+    }
+  ],
+  "edges": [
+    {
+      "id": "urn:qam:edge:9307664f167eca5c2819084beb06f457ebf0b409c7f4a505198b105588916d1e",
+      "from": "urn:qam:concept:8ed87cc333f87be8bd39c05dd0158479555b6b57bd135a6036b5153b347ae8d0",
+      "to": "urn:qam:term:b3a1575fb86a12447e85b96f38f3f2b92b02b55d782f4cb8f768e6452acc6998",
+      "type": "ALIASED_AS",
+      "label": "First Idea",
+      "sourcePath": "alpha.md",
+      "projectionId": "urn:qam:projection:e3278995d80d9d748c1cabdc1694f5f398fa4c1b4d52a31de536956caa3a0ac9",
+      "commitSha": "0123456789abcdef0123456789abcdef01234567"
+    },
+    {
+      "id": "urn:qam:edge:3b90d3b869fab45fcb6ee66e13438c1b27df315fc83c4ff1ecf06aa1f049ae3b",
+      "from": "urn:qam:concept:8ed87cc333f87be8bd39c05dd0158479555b6b57bd135a6036b5153b347ae8d0",
+      "to": "urn:qam:source:35222f25a4dd50f2091764918b5829565cc898019a68d2763afa8202186f20d4",
+      "type": "DERIVED_FROM",
+      "label": "Azure Architecture Center",
+      "sourcePath": "alpha.md",
+      "projectionId": "urn:qam:projection:e3278995d80d9d748c1cabdc1694f5f398fa4c1b4d52a31de536956caa3a0ac9",
+      "commitSha": "0123456789abcdef0123456789abcdef01234567"
+    },
+    {
+      "id": "urn:qam:edge:b000bbe011a0559fbcf8cd0623a1873e01a45b7ed813918384abf40011f49dc7",
+      "from": "urn:qam:concept:8ed87cc333f87be8bd39c05dd0158479555b6b57bd135a6036b5153b347ae8d0",
+      "to": "urn:qam:tag:79f43c3b9c23fbdf293bdba80dab38ba194fc1da79187091b3d3760dad840bf8",
+      "type": "HAS_TAG",
+      "label": "azure",
+      "sourcePath": "alpha.md",
+      "projectionId": "urn:qam:projection:e3278995d80d9d748c1cabdc1694f5f398fa4c1b4d52a31de536956caa3a0ac9",
+      "commitSha": "0123456789abcdef0123456789abcdef01234567"
+    },
+    {
+      "id": "urn:qam:edge:cd464eca52edc20fb6cf9a62d75c5ce2ccd44caef2fe8bed62c0c55f95116a61",
+      "from": "urn:qam:concept:8ed87cc333f87be8bd39c05dd0158479555b6b57bd135a6036b5153b347ae8d0",
+      "to": "urn:qam:concept:a520e0b102006329f7d4b0b39ee32047231139297991bf02a58b72fd999b2046",
+      "type": "LINKS_TO",
+      "label": "Beta",
+      "sourcePath": "alpha.md",
+      "projectionId": "urn:qam:projection:e3278995d80d9d748c1cabdc1694f5f398fa4c1b4d52a31de536956caa3a0ac9",
+      "commitSha": "0123456789abcdef0123456789abcdef01234567"
+    }
+  ]
+}

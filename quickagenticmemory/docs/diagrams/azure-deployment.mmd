@@ -1,0 +1,31 @@
+architecture-beta
+
+    group github(cloud)[GitHub]
+    group azure(cloud)[Azure]
+    group fabric(cloud)[Microsoft Fabric]
+    group foundry(azure:ai-studio)[Microsoft Foundry] in azure
+    group observe(azure:monitor)[Observe] in azure
+    group runtime(azure:container-apps-environments)[Runtime] in azure
+
+    service actions(server)[Actions] in github
+    service oidc(azure:entra-id-protection)[OIDC] in azure
+    service registry(azure:container-registries)[Registry] in runtime
+    service app(azure:worker-container-app)[MCP App] in runtime
+    service identity(azure:managed-identities)[Runtime Identity] in runtime
+    service vault(azure:key-vaults)[Key Vault] in runtime
+    service agent(azure:ai-studio)[Agent Application] in foundry
+    service agentid(azure:managed-identities)[Agent Identity] in foundry
+    service graph(database)[Graph Model] in fabric
+    service insights(azure:application-insights)[App Insights] in observe
+    service logs(azure:log-analytics-workspaces)[Logs] in observe
+
+    actions:R --> L:oidc
+    oidc:R --> L:registry
+    registry:R --> L:app
+    app:T --> B:identity
+    identity:L --> R:vault
+    identity:R --> L:graph
+    agent:R --> L:agentid
+    agentid:B --> T:app
+    app:R --> L:insights
+    insights:R --> L:logs
