@@ -238,3 +238,5 @@ quickagenticmemory/.env*
 # The repository-wide Python `lib/` rule must not hide deployment helpers.
 !quickagenticmemory/scripts/lib/
 !quickagenticmemory/scripts/lib/common.sh
+!quickagenticmemory/tests/industrial-component-obsolescence/code/lib/
+!quickagenticmemory/tests/industrial-component-obsolescence/code/lib/*.mjs

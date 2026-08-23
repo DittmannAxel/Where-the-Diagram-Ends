@@ -417,6 +417,78 @@ expect_failure "role-assignment what-if without deployment principal" \
   --skip-app \
   --include-role-assignments
 
+expect_failure "role-assignment deployment with foundation parameter file" \
+  "${QAM_SCRIPTS_DIR}/deploy.sh" \
+  --resource-group qam-negative-test \
+  --deployment-principal-id 11111111-1111-4111-8111-111111111111 \
+  --parameters "${QAM_INFRA_DIR}/main.poc.bicepparam" \
+  --skip-app \
+  --include-role-assignments
+
+expect_failure "role-assignment what-if with foundation networking switch" \
+  "${QAM_SCRIPTS_DIR}/what-if.sh" \
+  --resource-group qam-negative-test \
+  --deployment-principal-id 11111111-1111-4111-8111-111111111111 \
+  --private \
+  --skip-app \
+  --include-role-assignments
+
+expect_failure "role-assignment deployment with invalid workload name" \
+  "${QAM_SCRIPTS_DIR}/deploy.sh" \
+  --resource-group qam-negative-test \
+  --workload 'QAM unsafe' \
+  --deployment-principal-id 11111111-1111-4111-8111-111111111111 \
+  --skip-app \
+  --include-role-assignments
+
+# Prove with a non-mutating Azure CLI mock that both administrator entry points
+# select only admin.bicep and pass no foundation parameter file or switch.
+admin_deployment_mock_log="$(mktemp)"
+# shellcheck disable=SC2329 # exported into the deployment scripts' Bash processes
+az() {
+  case "${1:-}:${2:-}:${3:-}" in
+    account:show:*) return 0 ;;
+    deployment:group:create | deployment:group:what-if)
+      printf '%q ' "$@" >> "${QAM_ADMIN_DEPLOYMENT_MOCK_LOG}"
+      printf '\n' >> "${QAM_ADMIN_DEPLOYMENT_MOCK_LOG}"
+      printf '{}\n'
+      ;;
+    *) return 1 ;;
+  esac
+}
+export -f az
+export QAM_ADMIN_DEPLOYMENT_MOCK_LOG="${admin_deployment_mock_log}"
+"${QAM_SCRIPTS_DIR}/deploy.sh" \
+  --resource-group qam-negative-test \
+  --workload qam \
+  --environment test \
+  --deployment-principal-id 11111111-1111-4111-8111-111111111111 \
+  --skip-app \
+  --include-role-assignments >/dev/null
+"${QAM_SCRIPTS_DIR}/what-if.sh" \
+  --resource-group qam-negative-test \
+  --workload qam \
+  --environment test \
+  --deployment-principal-id 11111111-1111-4111-8111-111111111111 \
+  --skip-app \
+  --include-role-assignments >/dev/null
+[ "$(wc -l < "${admin_deployment_mock_log}" | tr -d '[:space:]')" -eq 2 ] \
+  || qam_fail "administrator script test expected exactly one deploy and one what-if command"
+[ "$(grep -Fc -- "--template-file ${QAM_INFRA_DIR}/admin.bicep" "${admin_deployment_mock_log}")" -eq 2 ] \
+  || qam_fail "administrator scripts must select only admin.bicep"
+if grep -Fq 'main.bicep' "${admin_deployment_mock_log}" \
+  || grep -Fq '.bicepparam' "${admin_deployment_mock_log}" \
+  || grep -Eq 'deployContainerApp|enablePrivateNetworking|location=' "${admin_deployment_mock_log}"; then
+  qam_fail "administrator scripts leaked foundation reconciliation arguments"
+fi
+[ "$(grep -c 'environmentName=test' "${admin_deployment_mock_log}")" -eq 2 ] \
+  && [ "$(grep -c 'workloadName=qam' "${admin_deployment_mock_log}")" -eq 2 ] \
+  && [ "$(grep -c 'deploymentPrincipalId=11111111-1111-4111-8111-111111111111' "${admin_deployment_mock_log}")" -eq 2 ] \
+  || qam_fail "administrator scripts did not bind the exact environment, workload, and deployment principal"
+unset -f az
+unset QAM_ADMIN_DEPLOYMENT_MOCK_LOG
+rm -f "${admin_deployment_mock_log}"
+
 deploy_workflow="${QAM_REPOSITORY_ROOT}/.github/workflows/qam-deploy.yml"
 [ "$(grep -c -- '--include-role-assignments' "${deploy_workflow}")" -eq 1 ] \
   || qam_fail "normal deployment workflow must never opt into the administrator role-assignment phase"
@@ -440,6 +512,9 @@ grep -q 'az role definition list' "${oidc_bootstrap}" \
   || qam_fail "GitHub OIDC bootstrap must resolve effective RoleDefinitions"
 grep -qi 'microsoft.authorization/roleassignments/write' "${oidc_bootstrap}" \
   || qam_fail "GitHub OIDC bootstrap must audit roleAssignments/write rather than role names only"
+if grep -A 7 'az role assignment list' "${oidc_bootstrap}" | grep -q -- '--all'; then
+  qam_fail "GitHub OIDC privilege audit must not combine scoped enumeration with --all"
+fi
 
 # Exercise the effective-role audit without Azure mutations. Contributor is safe
 # because its NotActions excludes Authorization writes; Owner and an equivalent
@@ -470,7 +545,11 @@ az() {
     account:set:*) ;;
     group:create:*) ;;
     group:show:*)
-      printf '%s\n' '/subscriptions/11111111-1111-4111-8111-111111111111/resourceGroups/qam-negative-test'
+      if [ "${query}" = 'location' ]; then
+        printf '%s\n' 'westeurope'
+      else
+        printf '%s\n' '/subscriptions/11111111-1111-4111-8111-111111111111/resourceGroups/qam-negative-test'
+      fi
       ;;
     identity:show:*)
       case "${query}" in

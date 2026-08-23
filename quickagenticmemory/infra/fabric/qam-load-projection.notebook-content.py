@@ -2,7 +2,8 @@
 
 # CELL ********************
 
-# Toggle this cell as the notebook's parameter cell after importing the template.
+# Parameter cell: the deployment script preserves this FabricGitSource metadata and
+# the Job Scheduler supplies all five values for each immutable projection run.
 workspace_id = "00000000-0000-0000-0000-000000000000"
 lakehouse_id = "00000000-0000-0000-0000-000000000000"
 staging_path = "Files/qam-staging/<projection-hash>/<commit-sha>"

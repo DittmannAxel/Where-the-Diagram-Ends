@@ -6,6 +6,7 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/common.sh"
 
 resource_group="${AZURE_RESOURCE_GROUP:-}"
 location="${AZURE_LOCATION:-}"
+workload_name="${QAM_WORKLOAD_NAME:-}"
 environment_name="${QAM_ENVIRONMENT:-dev}"
 image_digest="${QAM_IMAGE_DIGEST:-}"
 deployment_principal_id="${AZURE_PRINCIPAL_ID:-}"
@@ -37,9 +38,10 @@ usage() {
     '' \
     'Options match what-if.sh:' \
     '  --location REGION' \
+    '  --workload NAME' \
     '  --environment dev|test|prod' \
     '  --image-digest sha256:HEX' \
-    '  --deployment-principal-id UUID' \
+    '  --deployment-principal-id UUID  Admin-only target for ACR Repository Writer' \
     '  --mcp-api-client-id UUID' \
     '  --allowed-client-application-ids UUID[,UUID...]' \
     '  --allowed-principal-ids UUID[,UUID...]' \
@@ -63,6 +65,7 @@ while [ "$#" -gt 0 ]; do
   case "$1" in
     --resource-group) resource_group="${2:?missing value for $1}"; shift 2 ;;
     --location) location="${2:?missing value for $1}"; shift 2 ;;
+    --workload) workload_name="${2:?missing value for $1}"; shift 2 ;;
     --environment) environment_name="${2:?missing value for $1}"; shift 2 ;;
     --image-digest) image_digest="${2:?missing value for $1}"; shift 2 ;;
     --deployment-principal-id) deployment_principal_id="${2:?missing value for $1}"; shift 2 ;;
@@ -90,21 +93,54 @@ done
 
 [ -n "${resource_group}" ] || qam_fail "--resource-group is required"
 qam_validate_environment "${environment_name}"
+if [ -n "${workload_name}" ]; then
+  qam_validate_workload_name "${workload_name}" "workload name"
+fi
 if [ "${deploy_role_assignments}" = "true" ]; then
   [ "${deploy_container_app}" = "false" ] \
     || qam_fail "--include-role-assignments requires --skip-app"
   [ -n "${deployment_principal_id}" ] \
     || qam_fail "--include-role-assignments requires --deployment-principal-id"
+  qam_validate_uuid "${deployment_principal_id}" "deployment principal ID"
+  [ -z "${parameter_file}" ] \
+    || qam_fail "--parameters cannot be used with the isolated administrator template"
+  [ "${private_networking}" = "false" ] \
+    || qam_fail "--private cannot be used with the isolated administrator template"
 fi
 
-if [ -z "${parameter_file}" ]; then
+if [ "${deploy_role_assignments}" = "false" ] && [ -z "${parameter_file}" ]; then
   if [ "${private_networking}" = "true" ]; then
     parameter_file="${QAM_INFRA_DIR}/main.private.bicepparam"
   else
     parameter_file="${QAM_INFRA_DIR}/main.poc.bicepparam"
   fi
 fi
-[ -f "${parameter_file}" ] || qam_fail "parameter file not found: ${parameter_file}"
+if [ "${deploy_role_assignments}" = "false" ]; then
+  [ -f "${parameter_file}" ] || qam_fail "parameter file not found: ${parameter_file}"
+fi
+
+if [ "${deploy_role_assignments}" = "true" ]; then
+  qam_require_azure_login
+  admin_parameters=(
+    "environmentName=${environment_name}"
+    "deploymentPrincipalId=${deployment_principal_id}"
+  )
+  if [ -n "${workload_name}" ]; then
+    admin_parameters+=("workloadName=${workload_name}")
+  fi
+
+  deployment_name="qam-${environment_name}-admin-$(date -u +%Y%m%d%H%M%S)"
+  qam_info "deploying isolated administrator role/policy template ${deployment_name}; foundation resources are existing references only"
+  qam_info "the signed-in identity must have roleAssignments/write and policyAssignments/write"
+  az deployment group create \
+    --name "${deployment_name}" \
+    --resource-group "${resource_group}" \
+    --template-file "${QAM_INFRA_DIR}/admin.bicep" \
+    --parameters "${admin_parameters[@]}" \
+    --query properties.outputs \
+    --output json
+  exit 0
+fi
 
 if [ "${deploy_container_app}" = "true" ] && [ "${enable_entra_authentication}" = "true" ]; then
   [ -n "${mcp_api_client_id}" ] || qam_fail "--mcp-api-client-id is required when Entra authentication is enabled"
@@ -114,9 +150,6 @@ if [ "${deploy_container_app}" = "true" ] && [ "${enable_entra_authentication}" 
 fi
 if [ "${deploy_container_app}" = "true" ] && [ "${enable_entra_authentication}" != "true" ]; then
   qam_fail "cloud Container App deployment requires Entra authentication"
-fi
-if [ -n "${deployment_principal_id}" ]; then
-  qam_validate_uuid "${deployment_principal_id}" "deployment principal ID"
 fi
 if [ -n "${fabric_workspace_id}" ]; then
   qam_validate_uuid "${fabric_workspace_id}" "Fabric workspace ID"
@@ -153,10 +186,8 @@ arm_parameters=(
   "location=${location}"
   "environmentName=${environment_name}"
   "deployContainerApp=${deploy_container_app}"
-  "deployRoleAssignments=${deploy_role_assignments}"
   "enablePrivateNetworking=${private_networking}"
   "enableEntraAuthentication=${enable_entra_authentication}"
-  "deploymentPrincipalId=${deployment_principal_id}"
   "mcpApiClientId=${mcp_api_client_id}"
   "fabricWorkspaceId=${fabric_workspace_id}"
   "fabricGraphModelId=${fabric_graph_model_id}"
@@ -169,6 +200,9 @@ arm_parameters=(
   "githubApiUrl=${github_api_url}"
   "githubWebUrl=${github_web_url}"
 )
+if [ -n "${workload_name}" ]; then
+  arm_parameters+=("workloadName=${workload_name}")
+fi
 if [ -n "${image_digest}" ]; then
   arm_parameters+=("imageDigest=${image_digest}")
 fi
@@ -180,9 +214,6 @@ if [ -n "${allowed_principal_ids}" ]; then
 fi
 
 deployment_name="qam-${environment_name}-$(date -u +%Y%m%d%H%M%S)"
-if [ "${deploy_role_assignments}" = "true" ]; then
-  qam_info "admin-only role/policy reconciliation requested; the signed-in identity must have roleAssignments/write and policyAssignments/write"
-fi
 qam_info "deploying ${deployment_name} to ${resource_group}"
 az deployment group create \
   --name "${deployment_name}" \

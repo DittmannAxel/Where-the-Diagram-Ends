@@ -36,6 +36,14 @@ qam_validate_environment() {
   esac
 }
 
+qam_validate_workload_name() {
+  printf '%s' "$1" | grep -Eq '^[a-z][a-z0-9-]{1,9}$' \
+    || qam_fail "$2 must be 2-10 lowercase letters, digits, or hyphens and start with a letter"
+  case "$1" in
+    *--* | *-) qam_fail "$2 must not contain consecutive hyphens or end with a hyphen" ;;
+  esac
+}
+
 qam_validate_uuid() {
   printf '%s' "$1" | grep -Eq '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$' \
     || qam_fail "$2 must be a UUID"

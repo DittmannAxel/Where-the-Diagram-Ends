@@ -8,6 +8,7 @@ workspace_id="${QAM_FABRIC_WORKSPACE_ID:-}"
 graph_model_id="${QAM_FABRIC_GRAPH_MODEL_ID:-}"
 definition_dir=""
 dry_run="false"
+operation_id=""
 
 usage() {
   printf '%s\n' \
@@ -112,7 +113,7 @@ while [ "${attempt}" -le 5 ]; do
   if [ "${status}" != "429" ]; then
     break
   fi
-  retry_after="$(awk 'BEGIN {IGNORECASE=1} /^Retry-After:/ {gsub("\\r", "", $2); print $2}' "${headers_file}" | tail -1)"
+  retry_after="$(awk 'tolower($1) == "retry-after:" {gsub("\\r", "", $2); print $2}' "${headers_file}" | tail -1)"
   sleep "${retry_after:-10}"
   attempt=$((attempt + 1))
 done
@@ -123,9 +124,15 @@ case "${status}" in
     exit 0
     ;;
   202)
-    operation_url="$(awk 'BEGIN {IGNORECASE=1} /^Location:/ {$1=""; sub(/^ /, ""); gsub("\\r", ""); print}' "${headers_file}" | tail -1)"
-    [ -n "${operation_url}" ] || qam_fail "Fabric returned 202 without an operation Location header"
-    qam_validate_fabric_operation_url "${operation_url}"
+    operation_id="$(awk 'tolower($1) == "x-ms-operation-id:" {gsub("\\r", "", $2); print $2}' "${headers_file}" | tail -1)"
+    if [ -n "${operation_id}" ]; then
+      qam_validate_uuid "${operation_id}" "Fabric operation ID"
+      operation_url="https://api.fabric.microsoft.com/v1/operations/${operation_id}"
+    else
+      operation_url="$(awk 'tolower($1) == "location:" {$1=""; sub(/^ /, ""); gsub("\\r", ""); print}' "${headers_file}" | tail -1)"
+      [ -n "${operation_url}" ] || qam_fail "Fabric returned 202 without an operation identifier"
+      qam_validate_fabric_operation_url "${operation_url}"
+    fi
     ;;
   *)
     sed -n '1,40p' "${response_file}" >&2
@@ -134,7 +141,7 @@ case "${status}" in
 esac
 
 for _ in $(seq 1 30); do
-  retry_after="$(awk 'BEGIN {IGNORECASE=1} /^Retry-After:/ {gsub("\\r", "", $2); print $2}' "${headers_file}" | tail -1)"
+  retry_after="$(awk 'tolower($1) == "retry-after:" {gsub("\\r", "", $2); print $2}' "${headers_file}" | tail -1)"
   sleep "${retry_after:-5}"
   : > "${headers_file}"
   : > "${response_file}"

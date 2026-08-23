@@ -27,6 +27,7 @@ The implementation deliberately calls the projection component **Fabric Graph Pr
 | [`agents/foundry/`](agents/foundry/) | Published Foundry Agent Application registration, identity bootstrap, and smoke test. |
 | [`infra/`](infra/) | Azure Bicep, Fabric integration guidance, and deployment parameters. |
 | [`scripts/`](scripts/) | Validation, what-if, deployment, and smoke-test helpers. |
+| [`tests/industrial-component-obsolescence/`](tests/industrial-component-obsolescence/) | Synthetic industrial A/B proof comparing classical BM25 chunk retrieval with bounded graph and provenance retrieval. |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Architecture, Azure diagrams, security boundaries, WAF assessment, and cost drivers. |
 | [`docs/TESTING.md`](docs/TESTING.md) | Local, infrastructure, identity, and authorized cloud acceptance gates. |
 
@@ -47,9 +48,9 @@ No cloud resources are required for this path and no tracked repository or tenan
 
 ## Cloud proof
 
-The live path is intentionally a two-stage tenant bootstrap: deploy the foundation first; configure the existing Fabric items, GitHub App secret and permissions, and the published Foundry application's distinct identity; then deploy the allowlisted Container App and attach the MCP-enabled agent version. OneLake publication uses a unique temporary directory, read-back byte and SHA-256 verification, and an atomic no-replace rename before the existing GraphModel is manually mapped, saved, and refreshed.
+The live path is intentionally staged: deploy the foundation and isolated identities first; explicitly deploy the paid Fabric/Foundry platform; publish one approved commit to Fabric; configure GitHub source access and the published Foundry application's distinct identity; then deploy the allowlisted Container App and attach the MCP-enabled agent version. OneLake publication uses a unique temporary directory, read-back byte and SHA-256 verification, and an atomic no-replace rename. The repository now also creates the Fabric Workspace, Lakehouse, Graph Model, and Notebook through public APIs and generates the canonical Graph definition from the checked-in contract.
 
-Nothing in `npm run verify` or `npm run demo` creates cloud resources. Azure what-if, deployment, role assignment, secret configuration, Fabric publication, and live smoke tests are separate operator actions and require explicit authorization. See the [infrastructure guide](infra/README.md) and [Foundry guide](agents/foundry/README.md).
+Nothing in `npm run verify` or `npm run demo` creates cloud resources. Azure deployment, role assignment, secret configuration, Fabric publication, and live smoke tests are separate operator actions and require explicit authorization. `scripts/deploy-industrial-platform.sh` provides an idempotent tenant-neutral deployment-and-smoke path without making what-if mandatory; `scripts/publish-industrial-fabric.sh` applies the clean commit-pinned data plane. See the [industrial scenario](tests/industrial-component-obsolescence/README.md), [infrastructure guide](infra/README.md), and [Foundry guide](agents/foundry/README.md).
 
 ## Security stance
 

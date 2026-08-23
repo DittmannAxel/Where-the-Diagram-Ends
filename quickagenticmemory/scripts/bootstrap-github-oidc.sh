@@ -57,11 +57,19 @@ qam_require_azure_login
 qam_require_command jq
 
 az account set --subscription "${subscription_id}"
-az group create \
-  --name "${resource_group}" \
-  --location "${location}" \
-  --tags application=quick-agentic-memory managedBy=bootstrap \
-  --output none
+if ! az group show --name "${resource_group}" --output none 2>/dev/null; then
+  qam_info "creating the isolated resource group"
+  az group create \
+    --name "${resource_group}" \
+    --location "${location}" \
+    --tags application=quick-agentic-memory managedBy=bootstrap \
+    --output none
+else
+  existing_location="$(az group show --name "${resource_group}" --query location --output tsv)"
+  [ "$(printf '%s' "${existing_location}" | tr '[:upper:]' '[:lower:]')" = \
+    "$(printf '%s' "${location}" | tr '[:upper:]' '[:lower:]')" ] \
+    || qam_fail "existing resource group is in ${existing_location}, not ${location}"
+fi
 
 if [ -z "${identity_name}" ]; then
   identity_name="${github_environment}-github"
@@ -191,7 +199,6 @@ qam_audit_role_assignment_privileges() {
     --scope "${resource_group_id}" \
     --include-groups \
     --include-inherited \
-    --all \
     --output json)"
   jq -e 'type == "array"' <<< "${assignments_json}" >/dev/null \
     || qam_fail "effective Azure role assignments could not be enumerated"

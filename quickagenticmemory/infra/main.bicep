@@ -133,12 +133,6 @@ param logRetentionDays int = 30
 @description('Daily Log Analytics ingestion cap in GB. Use -1 for no cap.')
 param logDailyQuotaGb int = 1
 
-@description('Object ID of the GitHub OIDC deployment identity. The administrator phase assigns Container Registry Repository Writer scoped only to this registry.')
-param deploymentPrincipalId string = ''
-
-@description('Create the four narrowly scoped runtime/deployment role assignments and the RG-scoped Key Vault RBAC Deny policy. Keep false for normal OIDC deployments; an administrator enables it once after foundation creation.')
-param deployRoleAssignments bool = false
-
 @description('Optional resource tags merged with the required workload tags.')
 param tags object = {}
 
@@ -151,14 +145,6 @@ var commonTags = union(tags, {
   managedBy: 'bicep'
   repository: 'Where-the-Diagram-Ends'
 })
-// Direct template use is fail-closed as well as the CLI: a privileged phase is
-// ignored unless it is foundation-only and names the exact deployment principal.
-var reconcilePrivilegedFoundation = deployRoleAssignments && !deployContainerApp && !empty(deploymentPrincipalId)
-var keyVaultRbacPolicyDefinitionId = tenantResourceId(
-  'Microsoft.Authorization/policyDefinitions',
-  '12d4fa5e-1f9f-4c21-97a9-b99b3c6611b5'
-)
-
 var names = {
   app: take('${prefix}-mcp', 32)
   appEnvironment: take('${prefix}-cae', 60)
@@ -187,11 +173,9 @@ module observability 'modules/observability.bicep' = {
   params: {
     appInsightsName: names.appInsights
     dailyQuotaGb: logDailyQuotaGb
-    deployRoleAssignments: reconcilePrivilegedFoundation
     location: location
     logAnalyticsName: names.logAnalytics
     retentionDays: logRetentionDays
-    runtimePrincipalId: identities.outputs.runtimePrincipalId
     tags: commonTags
   }
 }
@@ -199,10 +183,7 @@ module observability 'modules/observability.bicep' = {
 module registry 'modules/registry.bicep' = {
   name: 'registry-${suffix}'
   params: {
-    deploymentPrincipalId: deploymentPrincipalId
-    deployRoleAssignments: reconcilePrivilegedFoundation
     enablePrivateNetworking: enablePrivateNetworking
-    pullPrincipalId: identities.outputs.pullPrincipalId
     registryName: names.registry
     tags: commonTags
   }
@@ -212,38 +193,10 @@ module keyVault 'modules/key-vault.bicep' = {
   name: 'key-vault-${suffix}'
   params: {
     enablePrivateNetworking: enablePrivateNetworking
-    deployRoleAssignments: reconcilePrivilegedFoundation
     keyVaultName: names.keyVault
     location: location
-    runtimePrincipalId: identities.outputs.runtimePrincipalId
     tags: commonTags
   }
-}
-
-// Contributor can otherwise switch Key Vault back to legacy access policies and
-// grant itself data-plane access. This built-in Deny assignment is created only
-// by the explicit administrator phase; normal Contributor deployments preserve it.
-resource enforceKeyVaultRbac 'Microsoft.Authorization/policyAssignments@2025-11-01' = if (reconcilePrivilegedFoundation) {
-  name: guid(resourceGroup().id, keyVaultRbacPolicyDefinitionId)
-  properties: {
-    description: 'Prevent QAM resource-group contributors from disabling the Key Vault RBAC permission model.'
-    displayName: 'QAM requires the Key Vault RBAC permission model'
-    enforcementMode: 'Default'
-    nonComplianceMessages: [
-      {
-        message: 'QAM Key Vaults must keep enableRbacAuthorization=true; legacy access policies are prohibited.'
-      }
-    ]
-    parameters: {
-      effect: {
-        value: 'Deny'
-      }
-    }
-    policyDefinitionId: keyVaultRbacPolicyDefinitionId
-  }
-  dependsOn: [
-    keyVault
-  ]
 }
 
 module network 'modules/network.bicep' = if (enablePrivateNetworking) {

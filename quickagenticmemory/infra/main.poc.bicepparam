@@ -7,7 +7,6 @@ param environmentName = 'dev'
 param imageRepository = 'qam-mcp'
 param imageDigest = ''
 param deployContainerApp = false
-param deployRoleAssignments = false
 param externalIngress = true
 param enablePrivateNetworking = false
 param enableEntraAuthentication = true
@@ -26,12 +25,12 @@ param githubAppId = ''
 param githubInstallationId = ''
 param githubPrivateKeySecretUri = ''
 param githubTokenSecretUri = ''
-param deploymentPrincipalId = ''
 param minReplicas = 0
 param maxReplicas = 2
 param logRetentionDays = 30
 param logDailyQuotaGb = 1
 param tags = {
-  dataClassification: 'internal'
-  owner: 'replace-with-owner'
+  dataClassification: 'public-synthetic'
+  owner: 'Where-the-Diagram-Ends'
+  scenario: 'industrial-component-obsolescence'
 }
