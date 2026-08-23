@@ -381,7 +381,7 @@ while [ "${tag_probe_attempt}" -le "${tag_probe_attempts}" ]; do
     break
   fi
   if grep -Eiq \
-    'manifest_unknown|manifest unknown|manifest[^[:cntrl:]]*not found|not found[^[:cntrl:]]*manifest' \
+    'manifest_unknown|manifest unknown|manifest[^[:cntrl:]]*not found|not found[^[:cntrl:]]*manifest|specified tag does not exist' \
     "${remote_manifest_error}"; then
     remote_manifest_absent='true'
     break

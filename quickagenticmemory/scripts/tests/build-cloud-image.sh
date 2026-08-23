@@ -78,7 +78,7 @@ case "${1:-}:${2:-}:${3:-}" in
         repository_show_count=$((repository_show_count + 1))
         printf '%s\n' "${repository_show_count}" > "${QAM_CLOUD_BUILD_SHOW_COUNT_FILE}"
         if [ "${repository_show_count}" -eq 1 ]; then
-          printf '%s\n' 'ERROR: manifest unknown' >&2
+          printf '%s\n' 'ERROR: the specified tag does not exist.' >&2
           exit 3
         fi
         write_enabled=true
