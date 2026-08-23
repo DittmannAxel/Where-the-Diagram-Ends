@@ -291,12 +291,14 @@ platform_cli_mock_log="${validation_dir}/platform-cli.log"
     --resource-group qam-platform-contract \
     --location westeurope \
     --environment test \
+    --fabric-sku F64 \
     --fabric-admin-member fabric-admin@example.invalid \
     --operator-principal-id 11111111-1111-4111-8111-111111111111 >/dev/null
   "${QAM_SCRIPTS_DIR}/platform-what-if.sh" \
     --resource-group qam-platform-contract \
     --location westeurope \
     --environment test \
+    --fabric-sku F64 \
     --fabric-admin-member fabric-admin@example.invalid \
     --operator-principal-id 11111111-1111-4111-8111-111111111111 >/dev/null
   "${QAM_SCRIPTS_DIR}/manage-fabric-capacity.sh" \
@@ -312,6 +314,8 @@ platform_cli_mock_log="${validation_dir}/platform-cli.log"
 [ "$(grep -c 'fabric-admin@example.invalid' "${platform_cli_mock_log}")" -eq 2 ] \
   && [ "$(grep -c 'operatorPrincipalId=11111111-1111-4111-8111-111111111111' "${platform_cli_mock_log}")" -eq 2 ] \
   || qam_fail "paid platform scripts did not pass tenant identities only as runtime parameters"
+[ "$(grep -c 'fabricSkuName=F64' "${platform_cli_mock_log}")" -eq 2 ] \
+  || qam_fail "paid platform scripts did not pass the full-showcase F64 SKU"
 [ "$(grep -c '^rest --method GET ' "${platform_cli_mock_log}")" -eq 1 ] \
   || qam_fail "Fabric capacity default lifecycle action must perform exactly one read"
 if grep -q '^rest --method POST ' "${platform_cli_mock_log}"; then
