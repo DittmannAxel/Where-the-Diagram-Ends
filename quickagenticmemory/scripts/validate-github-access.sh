@@ -124,17 +124,20 @@ if [ "${live_check}" = "true" ]; then
     none) ;;
   esac
 
-  auth_header=()
+  content_request_args=(
+    --silent
+    --show-error
+    --header 'Accept: application/vnd.github.raw+json'
+    --header 'X-GitHub-Api-Version: 2022-11-28'
+    --max-filesize "${max_content_bytes}"
+    --output "${response_file}"
+    --write-out '%{http_code}'
+  )
   if [ -n "${github_token}" ]; then
-    auth_header=(--header "Authorization: Bearer ${github_token}")
+    content_request_args+=(--header "Authorization: Bearer ${github_token}")
   fi
   : > "${response_file}"
-  if ! status="$(curl --silent --show-error \
-    "${auth_header[@]}" \
-    --header 'Accept: application/vnd.github.raw+json' \
-    --header 'X-GitHub-Api-Version: 2022-11-28' \
-    --max-filesize "${max_content_bytes}" \
-    --output "${response_file}" --write-out '%{http_code}' \
+  if ! status="$(curl "${content_request_args[@]}" \
     "${github_api_url}/repos/${repository}/contents/${content_path}?ref=${commit_sha}")"; then
     qam_fail "GitHub commit-pinned Markdown read failed or exceeded ${max_content_bytes} bytes"
   fi

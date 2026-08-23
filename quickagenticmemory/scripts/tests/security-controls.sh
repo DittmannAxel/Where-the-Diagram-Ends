@@ -470,6 +470,45 @@ expect_failure "live GitHub check with unsafe content path" \
   --commit-sha 1111111111111111111111111111111111111111 \
   --live
 
+# shellcheck disable=SC2329 # exported into the anonymous GitHub validator process
+curl() {
+  local argument=''
+  local previous=''
+  local output_file=''
+  local url=''
+
+  for argument in "$@"; do
+    case "${previous}" in
+      --output) output_file="${argument}" ;;
+      --header)
+        case "${argument}" in
+          'Authorization: '*) return 97 ;;
+        esac
+        ;;
+    esac
+    case "${argument}" in
+      https://*) url="${argument}" ;;
+    esac
+    previous="${argument}"
+  done
+  [ -n "${output_file}" ] || return 98
+  [ "${url}" = 'https://api.github.com/repos/example/repository/contents/knowledge/index.md?ref=1111111111111111111111111111111111111111' ] \
+    || return 99
+  printf '%s\n' '# Public knowledge index' > "${output_file}"
+  printf '200'
+}
+export -f curl
+anonymous_github_receipt="$("${QAM_SCRIPTS_DIR}/validate-github-access.sh" \
+  --repository example/repository \
+  --auth-mode none \
+  --content-path knowledge/index.md \
+  --commit-sha 1111111111111111111111111111111111111111 \
+  --live)"
+jq -e '.repository == "https://github.com/example/repository" and .authMode == "none"' \
+  <<< "${anonymous_github_receipt}" >/dev/null \
+  || qam_fail "anonymous commit-pinned GitHub validation returned an invalid receipt"
+unset -f curl
+
 expect_failure "role-assignment phase with application deployment" \
   "${QAM_SCRIPTS_DIR}/deploy.sh" \
   --resource-group qam-negative-test \
