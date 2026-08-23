@@ -1,0 +1,12 @@
+{
+  "status": { "code": "00000" },
+  "result": {
+    "kind": "TABLE",
+    "columns": [
+      { "name": "id" }, { "name": "from" }, { "name": "to" }, { "name": "type" },
+      { "name": "projectionId" }, { "name": "commitSha" }, { "name": "label" },
+      { "name": "sourcePath" }
+    ],
+    "data": []
+  }
+}

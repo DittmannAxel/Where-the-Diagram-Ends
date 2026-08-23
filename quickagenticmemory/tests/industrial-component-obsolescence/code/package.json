@@ -1,0 +1,14 @@
+{
+  "name": "@where-the-diagram-ends/industrial-component-obsolescence-evaluation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build:dependencies": "npm --prefix ../../.. run build",
+    "run": "npm run build:dependencies && node runner.mjs",
+    "test": "npm run build:dependencies && node --test test/*.test.mjs"
+  }
+}

@@ -1,0 +1,378 @@
+{
+  "schemaVersion": "qam-graph/1.0",
+  "okfVersion": "0.2",
+  "source": {
+    "repository": "DittmannAxel/Where-the-Diagram-Ends",
+    "commitSha": "1111111111111111111111111111111111111111",
+    "generatedAt": "2026-08-22T12:00:00Z",
+    "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "nodes": [
+    {
+      "id": "qam:index",
+      "kind": "Concept",
+      "title": "Quick Agentic Memory Index",
+      "path": "knowledge/index.md",
+      "conceptId": "index",
+      "type": "Index",
+      "tags": [
+        "navigation"
+      ],
+      "aliases": [
+        "QAM Index"
+      ],
+      "summary": "Entry point for the knowledge architecture.",
+      "commitSha": "1111111111111111111111111111111111111111",
+      "status": "stable",
+      "contentHash": "dcdc020eabe9d277a8492f7c103092a38af31bb940b68b924eb29ebe786a86e7",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "repositoryPath": "quickagenticmemory/knowledge/index.md"
+    },
+    {
+      "id": "qam:github-source",
+      "kind": "Concept",
+      "title": "GitHub Source of Truth",
+      "path": "knowledge/concepts/github-source-of-truth.md",
+      "conceptId": "github-source-of-truth",
+      "type": "Component",
+      "tags": [
+        "github",
+        "storage",
+        "security"
+      ],
+      "aliases": [
+        "Enterprise GitHub",
+        "Markdown Store"
+      ],
+      "summary": "Immutable source for reviewed Markdown knowledge.",
+      "commitSha": "1111111111111111111111111111111111111111",
+      "status": "stable",
+      "contentHash": "84ec67f28e06249441bd95a5c036ccb60f6556abd456b52a6e02709007d0c7a7",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "repositoryPath": "quickagenticmemory/knowledge/concepts/github-source-of-truth.md"
+    },
+    {
+      "id": "qam:fabric-projector",
+      "kind": "Concept",
+      "title": "Fabric Graph Projector",
+      "path": "knowledge/concepts/fabric-graph-projector.md",
+      "conceptId": "fabric-graph-projector",
+      "type": "Component",
+      "tags": [
+        "fabric",
+        "graph",
+        "projection"
+      ],
+      "aliases": [
+        "OKF Fabric Projector",
+        "Graph Projector"
+      ],
+      "summary": "Builds a disposable graph projection from Markdown metadata and links.",
+      "commitSha": "1111111111111111111111111111111111111111",
+      "status": "stable",
+      "contentHash": "be1651804327be90765eaeae939b8c124ea18d55be104c885dc846f424f28e08",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "repositoryPath": "quickagenticmemory/knowledge/concepts/fabric-graph-projector.md"
+    },
+    {
+      "id": "qam:mcp-gateway",
+      "kind": "Concept",
+      "title": "Wiki MCP Gateway",
+      "path": "knowledge/concepts/wiki-mcp-gateway.md",
+      "conceptId": "wiki-mcp-gateway",
+      "type": "Component",
+      "tags": [
+        "mcp",
+        "foundry",
+        "security"
+      ],
+      "aliases": [
+        "Knowledge Gateway",
+        "QAM MCP"
+      ],
+      "summary": "Provides bounded graph navigation and SHA-pinned Markdown reads.",
+      "commitSha": "1111111111111111111111111111111111111111",
+      "status": "stable",
+      "contentHash": "2cf90d00895b3b917f6f1e1d00ed9375e89c996f00b15f3e2f3c35b280555ecc",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "repositoryPath": "quickagenticmemory/knowledge/concepts/wiki-mcp-gateway.md"
+    },
+    {
+      "id": "qam:wiki-curator",
+      "kind": "Concept",
+      "title": "Wiki Curator",
+      "path": "knowledge/concepts/wiki-curator.md",
+      "conceptId": "wiki-curator",
+      "type": "Agent",
+      "tags": [
+        "agent",
+        "wiki",
+        "maintenance"
+      ],
+      "aliases": [
+        "Knowledge Curator"
+      ],
+      "summary": "Proposes reviewed updates to the Markdown wiki.",
+      "commitSha": "1111111111111111111111111111111111111111",
+      "status": "stable",
+      "contentHash": "3f8f742b12c77cda8332310d3ba96912f1e557eaedc889ab4a234c2dfcff928f",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "repositoryPath": "quickagenticmemory/knowledge/concepts/wiki-curator.md"
+    },
+    {
+      "id": "qam:foundry-agent",
+      "kind": "Concept",
+      "title": "Microsoft Foundry Agent",
+      "path": "knowledge/concepts/foundry-agent.md",
+      "conceptId": "foundry-agent",
+      "type": "Agent",
+      "tags": [
+        "azure",
+        "foundry",
+        "agent"
+      ],
+      "aliases": [
+        "Azure AI Agent"
+      ],
+      "summary": "Answers questions by resolving, traversing, and reading concepts.",
+      "commitSha": "1111111111111111111111111111111111111111",
+      "status": "stable",
+      "contentHash": "a40f7c65563095be5398b74fa5b86a79ed2b2395169e5b35fc0acc75234521c1",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "repositoryPath": "quickagenticmemory/knowledge/concepts/foundry-agent.md"
+    },
+    {
+      "id": "qam:no-raw-gql",
+      "kind": "Concept",
+      "title": "No Raw Graph Queries",
+      "path": "knowledge/decisions/no-raw-gql.md",
+      "conceptId": "no-raw-gql",
+      "type": "Decision",
+      "tags": [
+        "security",
+        "graph",
+        "decision"
+      ],
+      "aliases": [
+        "Bounded Graph Tools"
+      ],
+      "summary": "Forbids arbitrary GQL and exposes fixed read-only graph operations.",
+      "commitSha": "1111111111111111111111111111111111111111",
+      "status": "stable",
+      "contentHash": "13d2b447266366e3802dc139f54d360b6e868419ccfd262600e9ec5f4391fb10",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "repositoryPath": "quickagenticmemory/knowledge/decisions/no-raw-gql.md"
+    },
+    {
+      "id": "qam:tag:security",
+      "kind": "Tag",
+      "title": "security",
+      "type": "Tag",
+      "tags": [],
+      "aliases": [
+        "security"
+      ],
+      "commitSha": "1111111111111111111111111111111111111111",
+      "normalizedValue": "security",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    {
+      "id": "qam:source:enterprise-security",
+      "kind": "Source",
+      "title": "Enterprise security baseline",
+      "type": "Source",
+      "tags": [],
+      "aliases": [
+        "Enterprise security baseline"
+      ],
+      "commitSha": "1111111111111111111111111111111111111111",
+      "resource": "https://example.invalid/security-baseline",
+      "sourceIds": [
+        "security-baseline"
+      ],
+      "authors": [
+        "architecture-team"
+      ],
+      "usageCounts": [
+        1
+      ],
+      "lastModified": "2026-08-20T00:00:00Z",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    {
+      "id": "qam:term:graph-projector",
+      "kind": "Term",
+      "title": "Graph Projector",
+      "type": "Term",
+      "tags": [],
+      "aliases": [
+        "Graph Projector"
+      ],
+      "commitSha": "1111111111111111111111111111111111111111",
+      "normalizedValue": "graph projector",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e:index-github",
+      "from": "qam:index",
+      "to": "qam:github-source",
+      "type": "LINKS_TO",
+      "label": "GitHub Source of Truth",
+      "sourcePath": "knowledge/index.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:index-projector",
+      "from": "qam:index",
+      "to": "qam:fabric-projector",
+      "type": "LINKS_TO",
+      "label": "Fabric Graph Projector",
+      "sourcePath": "knowledge/index.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:index-gateway",
+      "from": "qam:index",
+      "to": "qam:mcp-gateway",
+      "type": "LINKS_TO",
+      "label": "Wiki MCP Gateway",
+      "sourcePath": "knowledge/index.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:index-curator",
+      "from": "qam:index",
+      "to": "qam:wiki-curator",
+      "type": "LINKS_TO",
+      "label": "Wiki Curator",
+      "sourcePath": "knowledge/index.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:index-agent",
+      "from": "qam:index",
+      "to": "qam:foundry-agent",
+      "type": "LINKS_TO",
+      "label": "Microsoft Foundry Agent",
+      "sourcePath": "knowledge/index.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:index-decision",
+      "from": "qam:index",
+      "to": "qam:no-raw-gql",
+      "type": "LINKS_TO",
+      "label": "No Raw Graph Queries",
+      "sourcePath": "knowledge/index.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:projector-source",
+      "from": "qam:fabric-projector",
+      "to": "qam:github-source",
+      "type": "LINKS_TO",
+      "label": "GitHub Source of Truth",
+      "sourcePath": "knowledge/concepts/fabric-graph-projector.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:gateway-projector",
+      "from": "qam:mcp-gateway",
+      "to": "qam:fabric-projector",
+      "type": "LINKS_TO",
+      "label": "Fabric Graph Projector",
+      "sourcePath": "knowledge/concepts/wiki-mcp-gateway.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:gateway-source",
+      "from": "qam:mcp-gateway",
+      "to": "qam:github-source",
+      "type": "LINKS_TO",
+      "label": "GitHub Source of Truth",
+      "sourcePath": "knowledge/concepts/wiki-mcp-gateway.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:curator-source",
+      "from": "qam:wiki-curator",
+      "to": "qam:github-source",
+      "type": "LINKS_TO",
+      "label": "GitHub Source of Truth",
+      "sourcePath": "knowledge/concepts/wiki-curator.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:curator-projector",
+      "from": "qam:wiki-curator",
+      "to": "qam:fabric-projector",
+      "type": "LINKS_TO",
+      "label": "Fabric Graph Projector",
+      "sourcePath": "knowledge/concepts/wiki-curator.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:agent-gateway",
+      "from": "qam:foundry-agent",
+      "to": "qam:mcp-gateway",
+      "type": "LINKS_TO",
+      "label": "Wiki MCP Gateway",
+      "sourcePath": "knowledge/concepts/foundry-agent.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:decision-gateway",
+      "from": "qam:no-raw-gql",
+      "to": "qam:mcp-gateway",
+      "type": "LINKS_TO",
+      "label": "Wiki MCP Gateway",
+      "sourcePath": "knowledge/decisions/no-raw-gql.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:gateway-tag",
+      "from": "qam:mcp-gateway",
+      "to": "qam:tag:security",
+      "type": "HAS_TAG",
+      "label": "security",
+      "sourcePath": "knowledge/concepts/wiki-mcp-gateway.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:gateway-provenance",
+      "from": "qam:mcp-gateway",
+      "to": "qam:source:enterprise-security",
+      "type": "DERIVED_FROM",
+      "label": "Enterprise security baseline",
+      "sourcePath": "knowledge/concepts/wiki-mcp-gateway.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    },
+    {
+      "id": "e:projector-alias",
+      "from": "qam:fabric-projector",
+      "to": "qam:term:graph-projector",
+      "type": "ALIASED_AS",
+      "label": "Graph Projector",
+      "sourcePath": "knowledge/concepts/fabric-graph-projector.md",
+      "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "commitSha": "1111111111111111111111111111111111111111"
+    }
+  ]
+}

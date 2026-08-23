@@ -1,0 +1,3047 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>BM25 lexical retrieval vs bounded QAM link traversal</title>
+  <style>
+    :root { color-scheme:light; --paper:#f4f6f5; --surface:#fff; --steel:#34434b; --steel-2:#607079; --graphite:#182126; --line:#b8c2c6; --line-soft:#d9dfe1; --oxide:#b44a2d; --oxide-pale:#f4e4df; --safety:#f2c84b; --safety-pale:#fff8dc; --signal:#2f6690; --signal-pale:#e4eef5; --pass:#236347; --pass-pale:#e2efe8; --font-display:"Arial Narrow","Aptos Narrow","Roboto Condensed","Helvetica Neue Condensed",Arial,sans-serif; --font-body:"Segoe UI","Helvetica Neue",Arial,sans-serif; --font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--graphite); background-color:var(--paper); background-image:linear-gradient(rgba(52,67,75,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(52,67,75,.035) 1px,transparent 1px); background-size:32px 32px; font:15px/1.55 var(--font-body); }
+    button,code { font:inherit; } code { font-family:var(--font-mono); overflow-wrap:anywhere; } button { color:inherit; } a,button { -webkit-tap-highlight-color:transparent; }
+    :focus-visible { outline:3px solid var(--safety); outline-offset:3px; } [hidden] { display:none !important; }
+    h1,h2,h3,h4,p,dl,dd { margin-top:0; } h1,h2,h3,h4 { font-family:var(--font-display); font-stretch:condensed; color:var(--graphite); }
+    .report-shell { width:min(1480px,calc(100% - 48px)); margin:0 auto; padding:28px 0 72px; }
+    .masthead { border-top:8px solid var(--steel); background:var(--surface); border-bottom:1px solid var(--steel); }
+    .document-line { display:grid; grid-template-columns:minmax(220px,1fr) auto auto; align-items:center; min-height:42px; border-bottom:1px solid var(--line); color:var(--steel); font:700 11px/1.2 var(--font-display); letter-spacing:.12em; text-transform:uppercase; }
+    .document-line span { padding:0 18px; } .document-line span+span { border-left:1px solid var(--line); }
+    .hero { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(280px,.6fr); gap:48px; padding:clamp(34px,6vw,78px) clamp(22px,5vw,72px) 44px; }
+    .hero-kicker,.section-kicker,.minor-heading { color:var(--oxide); font:800 11px/1.2 var(--font-display); letter-spacing:.16em; text-transform:uppercase; }
+    .hero h1 { max-width:880px; margin-bottom:22px; font-size:clamp(42px,6vw,82px); line-height:.93; letter-spacing:-.035em; text-transform:uppercase; }
+    .hero h1 span { color:var(--signal); } .hero-copy { max-width:720px; margin:0; color:var(--steel); font-size:clamp(17px,2vw,21px); line-height:1.45; }
+    .finding-stamp { align-self:end; border:2px solid var(--steel); background:var(--paper); }
+    .finding-stamp>span { display:block; padding:8px 12px; background:var(--steel); color:white; font:800 11px/1 var(--font-display); letter-spacing:.14em; text-transform:uppercase; }
+    .finding-stamp strong { display:block; padding:18px 16px 5px; font:800 clamp(34px,5vw,58px)/1 var(--font-display); letter-spacing:-.03em; }
+    .finding-stamp p { margin:0; padding:0 16px 18px; color:var(--steel-2); }
+    .delta-banner { display:grid; grid-template-columns:minmax(260px,.8fr) 2fr; border-top:1px solid var(--steel); }
+    .primary-delta { padding:26px clamp(22px,4vw,48px); color:white; background:var(--signal); }
+    .primary-delta span { display:block; font:800 11px/1.2 var(--font-display); letter-spacing:.13em; text-transform:uppercase; }
+    .primary-delta strong { display:block; margin-top:7px; font:800 clamp(42px,6vw,70px)/1 var(--font-display); letter-spacing:-.03em; }
+    .delta-ledger { display:grid; grid-template-columns:repeat(3,1fr); background:var(--surface); }
+    .delta-ledger div { padding:25px 22px; border-left:1px solid var(--line); }
+    .delta-ledger dt { color:var(--steel-2); font:800 10px/1.2 var(--font-display); letter-spacing:.12em; text-transform:uppercase; }
+    .delta-ledger dd { margin:8px 0 0; font:800 29px/1 var(--font-display); }
+    .snapshot-control { display:grid; grid-template-columns:1.4fr repeat(3,minmax(140px,.6fr)); border:1px solid var(--steel); border-top:0; background:var(--safety-pale); }
+    .snapshot-control>div { min-width:0; padding:16px 18px; } .snapshot-control>div+div { border-left:1px solid var(--line); }
+    .snapshot-control p { margin-bottom:5px; color:var(--steel-2); font:800 10px/1.2 var(--font-display); letter-spacing:.12em; text-transform:uppercase; }
+    .snapshot-control code { display:block; font-size:12px; } .snapshot-control .snapshot-main code { color:var(--graphite); font-size:14px; font-weight:700; }
+    .workbench { display:grid; grid-template-columns:300px minmax(0,1fr); gap:22px; margin-top:28px; align-items:start; }
+    .case-register { position:sticky; top:18px; border:1px solid var(--steel); background:var(--surface); }
+    .case-register>header { padding:19px 18px 16px; border-bottom:1px solid var(--steel); }
+    .case-register>header p { margin-bottom:6px; color:var(--oxide); font:800 10px/1 var(--font-display); letter-spacing:.14em; text-transform:uppercase; }
+    .case-register h2 { margin-bottom:13px; font-size:23px; line-height:1.05; text-transform:uppercase; }
+    .case-register>header span { color:var(--steel-2); font:700 11px/1 var(--font-mono); }
+    .case-tabs { display:grid; }
+    .case-tabs button { width:100%; min-height:73px; display:grid; grid-template-columns:30px minmax(0,1fr) 48px; gap:9px; align-items:center; padding:10px 10px 10px 13px; border:0; border-bottom:1px solid var(--line-soft); border-left:5px solid transparent; background:transparent; text-align:left; cursor:pointer; }
+    .case-tabs button:hover { background:var(--paper); } .case-tabs button[aria-selected="true"] { border-left-color:var(--oxide); background:var(--signal-pale); }
+    .tab-number { color:var(--steel-2); font:800 16px/1 var(--font-display); } .tab-copy { min-width:0; }
+    .tab-copy b { display:block; margin-bottom:3px; font:800 11px/1.2 var(--font-mono); }
+    .tab-copy small { display:-webkit-box; overflow:hidden; color:var(--steel-2); font-size:11px; line-height:1.25; -webkit-box-orient:vertical; -webkit-line-clamp:2; }
+    .tab-delta { text-align:right; font:800 11px/1 var(--font-mono); } .tab-delta.is-positive { color:var(--pass); }
+    .tab-delta small { display:block; margin-top:4px; color:var(--steel-2); font:800 8px/1 var(--font-display); letter-spacing:.08em; text-transform:uppercase; }
+    .keyboard-hint { margin:0; padding:11px 16px; color:var(--steel-2); background:var(--paper); font:700 10px/1.2 var(--font-mono); }
+    .case-panel { min-width:0; border:1px solid var(--steel); background:var(--surface); }
+    .case-header { display:grid; grid-template-columns:126px minmax(0,1fr) auto; gap:23px; align-items:start; padding:25px; border-bottom:5px solid var(--steel); }
+    .case-identity { padding-right:18px; border-right:1px solid var(--line); } .case-sequence { color:var(--oxide); font:800 11px/1 var(--font-display); letter-spacing:.13em; }
+    .case-identity p { margin:12px 0 0; font:700 12px/1.35 var(--font-mono); }
+    .case-question h2 { max-width:900px; margin:6px 0 13px; font-size:clamp(24px,3vw,36px); line-height:1.07; }
+    .resolution-terms { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:0; }
+    .resolution-terms b { margin-right:4px; color:var(--steel-2); font:800 10px/1 var(--font-display); letter-spacing:.1em; text-transform:uppercase; }
+    .resolution-terms code { padding:4px 6px; border:1px solid var(--line); background:var(--paper); font-size:10px; }
+    .status-mark { display:inline-block; white-space:nowrap; padding:6px 8px; border:1px solid currentColor; font:900 10px/1 var(--font-display); letter-spacing:.1em; text-transform:uppercase; }
+    .status-mark.is-pass { color:var(--pass); background:var(--pass-pale); } .status-mark.is-review { color:var(--oxide); background:var(--oxide-pale); }
+    .case-result { margin-top:2px; padding:8px 10px; }
+    .case-section { padding:28px 25px 30px; border-bottom:1px solid var(--steel); } .case-section:last-child { border-bottom:0; }
+    .section-heading { display:grid; grid-template-columns:42px minmax(0,1fr); gap:13px; align-items:start; margin-bottom:20px; }
+    .section-heading>span { display:grid; width:38px; height:38px; place-items:center; color:white; background:var(--steel); font:800 15px/1 var(--font-display); }
+    .section-heading p { margin-bottom:3px; color:var(--steel-2); font:800 10px/1 var(--font-display); letter-spacing:.13em; text-transform:uppercase; }
+    .section-heading h3 { margin:0; font-size:24px; line-height:1.08; }
+    .metric-table-wrap,.evidence-table-wrap { overflow-x:auto; } table { width:100%; border-collapse:collapse; }
+    .metric-table { min-width:650px; border-top:2px solid var(--steel); }
+    .metric-table th,.metric-table td { padding:12px 14px; border-bottom:1px solid var(--line); border-right:1px solid var(--line-soft); text-align:right; }
+    .metric-table th:last-child,.metric-table td:last-child { border-right:0; }
+    .metric-table thead th { color:var(--steel-2); background:var(--paper); font:800 10px/1.2 var(--font-display); letter-spacing:.1em; text-transform:uppercase; }
+    .metric-table thead th:first-child,.metric-table tbody th { text-align:left; }
+    .metric-table tbody th { width:40%; font-size:13px; } .metric-table tbody th small { display:block; margin-top:2px; color:var(--steel-2); font-weight:400; }
+    .metric-table td { font:800 19px/1 var(--font-mono); } .metric-delta { background:var(--paper); } .metric-delta.is-positive { color:var(--pass); background:var(--pass-pale); }
+    .scope-ledger { display:grid; grid-template-columns:1.25fr 1fr 1fr; border:1px solid var(--line); border-top:0; }
+    .scope-ledger>div { min-width:0; padding:13px; } .scope-ledger>div+div { border-left:1px solid var(--line); }
+    .scope-ledger p,.minor-heading { margin-bottom:8px; } .scope-ledger p { color:var(--steel-2); font:800 10px/1 var(--font-display); letter-spacing:.1em; text-transform:uppercase; }
+    .uid-tags { display:flex; flex-wrap:wrap; gap:5px; padding:0; margin:0; list-style:none; } .uid-tags code { display:block; padding:3px 5px; background:var(--paper); border:1px solid var(--line-soft); font-size:9px; }
+    .empty-note,.empty-state { color:var(--steel-2); font-style:italic; }
+    .evidence-comparison { padding-left:0; padding-right:0; } .section-heading-wide { padding:0 25px; }
+    .evidence-grid { display:grid; grid-template-columns:minmax(0,1.45fr) minmax(320px,.55fr); border-top:1px solid var(--steel); }
+    .graph-arm,.baseline-arm { min-width:0; } .baseline-arm { border-left:1px solid var(--steel); background:#fafbfb; }
+    .arm-header { min-height:88px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:18px 20px; border-bottom:1px solid var(--line); }
+    .arm-header span { color:var(--oxide); font:800 10px/1 var(--font-display); letter-spacing:.13em; } .arm-header h4 { margin:4px 0 0; font-size:22px; text-transform:uppercase; }
+    .arm-header p { max-width:210px; margin:0; color:var(--steel-2); font-size:11px; text-align:right; }
+    .focus-lock { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:10px; align-items:center; padding:11px 20px; border-bottom:1px solid var(--line); background:var(--signal-pale); }
+    .focus-lock>span { color:var(--signal); font:800 10px/1 var(--font-display); letter-spacing:.1em; text-transform:uppercase; } .focus-lock code { font-size:10px; }
+    .chain-register { padding:9px 0 18px; } .chain-row { display:grid; grid-template-columns:72px minmax(0,1fr); min-width:0; border-bottom:1px solid var(--line-soft); } .chain-row:last-child { border-bottom:0; }
+    .chain-row-label { padding:16px 8px 12px 14px; border-right:1px solid var(--line); } .chain-row-label span,.chain-row-label b { display:block; }
+    .chain-row-label span { color:var(--steel-2); font:800 9px/1 var(--font-display); letter-spacing:.08em; } .chain-row-label b { margin-top:6px; font:800 10px/1 var(--font-mono); }
+    .rail-viewport { min-width:0; padding:12px 14px; overflow-x:auto; scrollbar-color:var(--signal) var(--paper); } .rail { display:flex; width:max-content; min-width:100%; align-items:stretch; }
+    .commit-pin { width:102px; flex:0 0 102px; display:flex; flex-direction:column; justify-content:center; padding:8px; border:2px solid var(--steel); background:var(--safety); }
+    .commit-pin.is-unverified { border-color:var(--oxide); background:var(--oxide-pale); }
+    .commit-pin span { font:900 8px/1 var(--font-display); letter-spacing:.1em; } .commit-pin code { margin-top:5px; font-size:9px; font-weight:700; }
+    .rail-node { width:145px; min-height:72px; flex:0 0 145px; display:flex; flex-direction:column; justify-content:center; padding:9px 10px; border:2px solid var(--signal); background:var(--surface); }
+    .rail-node-kind { color:var(--signal); font:800 8px/1 var(--font-display); letter-spacing:.08em; text-transform:uppercase; } .rail-node strong { margin-top:4px; font-size:11px; line-height:1.2; } .rail-node code { margin-top:5px; color:var(--steel-2); font-size:8px; }
+    .rail-coupling { position:relative; width:32px; flex:0 0 32px; display:grid; place-items:center; }
+    .rail-coupling::before { content:""; position:absolute; left:0; right:0; top:50%; height:2px; transform:translateY(-50%); background:var(--signal); }
+    .rail-coupling i { position:relative; z-index:1; padding:0 2px; color:var(--signal); background:var(--surface); font:normal 800 15px/1 var(--font-mono); }
+    .rail-coupling-pin::before { background:var(--steel); } .rail-coupling-pin i { display:none; }
+    .chunk-list { padding:0; margin:0; list-style:none; } .chunk-list li { display:grid; grid-template-columns:34px minmax(0,1fr) 48px; gap:9px; align-items:start; padding:12px 14px; border-bottom:1px solid var(--line-soft); }
+    .chunk-list li:last-child { border-bottom:0; } .chunk-rank { color:var(--oxide); font:800 17px/1 var(--font-display); } .chunk-copy { min-width:0; }
+    .chunk-copy strong,.chunk-copy code { display:block; } .chunk-copy strong { font-size:11px; line-height:1.2; } .chunk-copy code { margin-top:4px; color:var(--steel-2); font-size:8px; }
+    .chunk-terms { display:flex; flex-wrap:wrap; gap:3px; margin-top:5px; } .chunk-terms em { padding:2px 4px; color:var(--steel); background:var(--safety-pale); font:normal 8px/1 var(--font-mono); }
+    .chunk-score { color:var(--steel); font:800 10px/1 var(--font-mono); text-align:right; } .chunk-score small { display:block; margin-bottom:4px; color:var(--steel-2); font:800 8px/1 var(--font-display); letter-spacing:.08em; }
+    .integrity-grid { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(230px,.6fr); gap:22px; } .integrity-grid>aside { border-left:1px solid var(--line); padding-left:20px; }
+    .evidence-table { min-width:620px; border-top:2px solid var(--steel); } .evidence-table th,.evidence-table td { padding:10px 11px; border-bottom:1px solid var(--line); text-align:left; font-size:11px; }
+    .evidence-table thead th { color:var(--steel-2); background:var(--paper); font:800 9px/1 var(--font-display); letter-spacing:.09em; text-transform:uppercase; }
+    .evidence-table tbody th span,.evidence-table tbody th code { display:block; } .evidence-table tbody th code { margin-top:3px; color:var(--steel-2); font-size:8px; font-weight:400; }
+    .acceptance-checks { display:grid; gap:1px; padding:0; margin:0; background:var(--line); list-style:none; } .acceptance-checks li { display:grid; grid-template-columns:22px minmax(0,1fr); gap:0 6px; padding:9px; background:var(--surface); }
+    .acceptance-checks li>span { grid-row:span 2; display:grid; width:19px; height:19px; place-items:center; color:white; background:var(--pass); font-weight:800; } .acceptance-checks li.is-review>span { background:var(--oxide); }
+    .acceptance-checks b { font-size:11px; } .acceptance-checks code { color:var(--steel-2); font-size:9px; }
+    .method-calls { display:grid; grid-template-columns:1fr 1fr; margin:16px 0 0; border:1px solid var(--line); } .method-calls div { padding:9px; } .method-calls div:nth-child(even) { border-left:1px solid var(--line); } .method-calls div:nth-child(n+3) { border-top:1px solid var(--line); }
+    .method-calls dt { color:var(--steel-2); font:800 8px/1 var(--font-display); letter-spacing:.08em; text-transform:uppercase; } .method-calls dd { margin:4px 0 0; font:800 17px/1 var(--font-mono); }
+    .methodology { margin-top:28px; border:1px solid var(--steel); background:var(--surface); } .methodology>header { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:20px; padding:22px 25px; border-bottom:1px solid var(--steel); }
+    .methodology h2 { margin-bottom:0; font-size:26px; text-transform:uppercase; } .honesty-mark { align-self:start; padding:8px 10px; color:var(--graphite); background:var(--safety); border:1px solid var(--steel); font:900 10px/1 var(--font-display); letter-spacing:.1em; }
+    .method-grid { display:grid; grid-template-columns:1fr 1fr; } .method-grid>section { padding:22px 25px; } .method-grid>section+section { border-left:1px solid var(--line); }
+    .method-grid h3 { margin-bottom:8px; font-size:20px; } .method-grid p { margin-bottom:0; color:var(--steel); } .method-grid code { font-size:11px; }
+    .limitations { padding:20px 25px; border-top:1px solid var(--line); background:var(--safety-pale); } .limitations h3 { margin-bottom:10px; font-size:17px; text-transform:uppercase; } .limitations ul { margin:0; padding-left:19px; color:var(--steel); } .limitations li+li { margin-top:4px; }
+    .report-footer { display:flex; justify-content:space-between; gap:24px; padding:16px 2px 0; color:var(--steel-2); font:700 10px/1.4 var(--font-mono); }
+    @media (max-width:1100px) { .workbench{grid-template-columns:244px minmax(0,1fr)} .evidence-grid{grid-template-columns:1fr} .baseline-arm{border-left:0;border-top:1px solid var(--steel)} .integrity-grid{grid-template-columns:1fr} .integrity-grid>aside{border-left:0;border-top:1px solid var(--line);padding:20px 0 0} }
+    @media (max-width:820px) { .report-shell{width:min(100% - 24px,1480px);padding-top:12px} .document-line{grid-template-columns:1fr auto}.document-line span:nth-child(2){display:none}.hero,.delta-banner,.snapshot-control,.workbench{grid-template-columns:1fr}.hero{gap:28px;padding:36px 22px 28px}.hero h1{font-size:clamp(41px,13vw,66px)}.finding-stamp{width:min(100%,360px)}.delta-ledger{grid-template-columns:repeat(3,1fr)}.snapshot-control>div+div{border-left:0;border-top:1px solid var(--line)}.case-register{position:static;overflow:hidden}.case-register>header h2 br{display:none}.case-tabs{grid-auto-flow:column;grid-auto-columns:minmax(230px,72vw);overflow-x:auto}.case-tabs button{border-bottom:0;border-right:1px solid var(--line-soft)}.keyboard-hint{display:none}.case-header{grid-template-columns:1fr auto}.case-identity{grid-column:1/-1;padding:0 0 10px;border-right:0;border-bottom:1px solid var(--line)}.case-question{grid-column:1/-1}.case-result{grid-column:1/-1;justify-self:start}.scope-ledger,.method-grid{grid-template-columns:1fr}.scope-ledger>div+div,.method-grid>section+section{border-left:0;border-top:1px solid var(--line)} }
+    @media (max-width:560px) { .document-line{grid-template-columns:1fr}.document-line span:nth-child(3){display:none}.delta-ledger{grid-template-columns:1fr}.delta-ledger div{border-left:0;border-top:1px solid var(--line)}.case-section,.case-header{padding:21px 16px}.section-heading-wide{padding:0 16px}.arm-header{flex-direction:column}.arm-header p{max-width:none;text-align:left}.focus-lock{grid-template-columns:1fr auto}.focus-lock code{grid-column:1/-1}.methodology>header{grid-template-columns:1fr}.report-footer{flex-direction:column} }
+    @media (prefers-reduced-motion:reduce) { html{scroll-behavior:auto} *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important} }
+    @page { size:A4 landscape; margin:11mm; }
+    @media print { body{background:white;color:black;font-size:10pt}.report-shell{width:100%;padding:0}.screen-only{display:none !important}.masthead,.case-panel,.methodology{border-color:#333}.hero{padding:12mm 8mm 8mm}.hero h1{font-size:36pt}.delta-banner,.snapshot-control{break-inside:avoid}.workbench{display:block;margin-top:8mm}.case-panel[hidden]{display:block !important}.case-panel{break-before:page}.case-panel:first-child{break-before:auto}.case-section{break-inside:auto}.metric-table-wrap,.evidence-table-wrap,.rail-viewport{overflow:visible}.chain-row,.metric-table,.evidence-table,.integrity-grid{break-inside:avoid}.methodology{break-before:page}.report-footer{break-inside:avoid} }
+  </style>
+</head>
+<body>
+<main class="report-shell">
+  <header class="masthead">
+    <div class="document-line"><span>Where the Diagram Ends / Retrieval comparison</span><span>Dataset industrial-component-obsolescence/1.0</span><span>2026-08-23T13:51:54+02:00</span></div>
+    <div class="hero">
+      <div><p class="hero-kicker">Controlled synthetic demonstration · IOL-M8 end-of-life</p><h1>BM25 lexical retrieval<br><span>vs bounded QAM link traversal.</span></h1><p class="hero-copy">When one I/O component reaches end of life, the relevant context can include delivered variants, electrical mappings, PLC diagnostics, parameters, and FAT/SAT records. This controlled synthetic demonstration compares which evidence each retrieval method returns.</p></div>
+      <aside class="finding-stamp" aria-label="Evaluation finding"><span>Machine-readable acceptance</span><strong>8/8</strong><p>cases met every declared QAM acceptance check, including minimum precision.</p></aside>
+    </div>
+    <div class="delta-banner"><div class="primary-delta"><span>Required concept recall · QAM minus BM25</span><strong>+29 pp</strong></div><dl class="delta-ledger"><div><dt>Mean precision delta</dt><dd>+53 pp</dd></div><div><dt>Excluded hits · BM25 / QAM</dt><dd>15 / 0</dd></div><div><dt>QAM link-path coverage · BM25 N/A</dt><dd>100%</dd></div></dl></div>
+  </header>
+
+  <section class="snapshot-control" aria-label="Source snapshot integrity">
+    <div class="snapshot-main"><p>Verified immutable source snapshot</p><code>e0dd9b1fa0948075d640d440e913d24695d5b184</code></div>
+    <div><p>Repository / path</p><code>https://github.com/DittmannAxel/Where-the-Diagram-Ends</code><code>quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge</code></div>
+    <div><p>Commit references</p><code>419 checked / 0 mismatches</code></div>
+    <div><p>Integrity disposition</p><span class="status-mark is-pass ">REPRODUCIBLE</span><code>Tracked knowledge matches the selected commit</code></div>
+  </section>
+
+  <div class="workbench"><aside class="case-register screen-only" aria-label="Evaluation case register">
+    <header>
+      <p>Controlled test register</p>
+      <h2>8 questions.<br>One source snapshot.</h2>
+      <span id="active-case-label" aria-live="polite">Case 1 of 8</span>
+    </header>
+    <div class="case-tabs" role="tablist" aria-orientation="vertical"><button type="button" role="tab" id="case-tab-1" aria-controls="case-panel-1" aria-selected="true" tabindex="0" data-case-tab="1">
+          <span class="tab-number">01</span>
+          <span class="tab-copy"><b>Q-001-full-impact</b><small>Which delivered machine variants use IOL-M8 directly, and which I/O mappings, PLC diagnostic blocks, parameter sets, and FAT/SAT cases must be reviewed for replacement? Exclude IOL-M8S and cite the relationship paths.</small></span>
+          <span class="tab-delta ">±0 pp<small>recall</small></span>
+        </button><button type="button" role="tab" id="case-tab-2" aria-controls="case-panel-2" aria-selected="false" tabindex="-1" data-case-tab="2">
+          <span class="tab-number">02</span>
+          <span class="tab-copy"><b>Q-002-article-alias</b><small>Article XK8-IO is being discontinued. Identify the exact component and every delivered machine variant that uses it; do not confuse it with XK8-IOS.</small></span>
+          <span class="tab-delta ">±0 pp<small>recall</small></span>
+        </button><button type="button" role="tab" id="case-tab-3" aria-controls="case-panel-3" aria-selected="false" tabindex="-1" data-case-tab="3">
+          <span class="tab-number">03</span>
+          <span class="tab-copy"><b>Q-003-engineering-alias</b><small>Engineering records call the obsolete device AL-8P. Resolve that alias and list the affected delivered variants without including the stainless IOL-M8S installation.</small></span>
+          <span class="tab-delta is-positive">+100 pp<small>recall</small></span>
+        </button><button type="button" role="tab" id="case-tab-4" aria-controls="case-panel-4" aria-selected="false" tabindex="-1" data-case-tab="4">
+          <span class="tab-number">04</span>
+          <span class="tab-copy"><b>Q-004-current-guidance</b><small>Which current service bulletin and controlled change govern the IOL-M8 replacement assessment? Reject superseded guidance.</small></span>
+          <span class="tab-delta ">±0 pp<small>recall</small></span>
+        </button><button type="button" role="tab" id="case-tab-5" aria-controls="case-panel-5" aria-selected="false" tabindex="-1" data-case-tab="5">
+          <span class="tab-number">05</span>
+          <span class="tab-copy"><b>Q-005-pkg-chain</b><small>For the impacted PKG-200 variant, return the variant, its I/O mapping, PLC diagnostic block, parameter set, and required FAT and SAT specifications for the IOL-M8 change.</small></span>
+          <span class="tab-delta is-positive">+67 pp<small>recall</small></span>
+        </button><button type="button" role="tab" id="case-tab-6" aria-controls="case-panel-6" aria-selected="false" tabindex="-1" data-case-tab="6">
+          <span class="tab-number">06</span>
+          <span class="tab-copy"><b>Q-006-pal-chain</b><small>For the impacted PAL-80 variant, return the variant, its I/O mapping, PLC diagnostic block, parameter set, and required FAT and SAT specifications for the IOL-M8 change.</small></span>
+          <span class="tab-delta is-positive">+67 pp<small>recall</small></span>
+        </button><button type="button" role="tab" id="case-tab-7" aria-controls="case-panel-7" aria-selected="false" tabindex="-1" data-case-tab="7">
+          <span class="tab-number">07</span>
+          <span class="tab-copy"><b>Q-007-m8s-distractor</b><small>Trace the separate IOL-M8S stainless-enclosure installation: identify its machine variant, I/O mapping, PLC diagnostic block, parameter set, FAT acceptance test, and service bulletin. Confirm that it is not part of the IOL-M8 obsolescence scope.</small></span>
+          <span class="tab-delta ">±0 pp<small>recall</small></span>
+        </button><button type="button" role="tab" id="case-tab-8" aria-controls="case-panel-8" aria-selected="false" tabindex="-1" data-case-tab="8">
+          <span class="tab-number">08</span>
+          <span class="tab-copy"><b>Q-008-acceptance-tests</b><small>Which FAT and SAT specifications must be repeated for the delivered IOL-M8 installations, and through which machine variant is each test connected? Exclude the IOL-M8S FAT.</small></span>
+          <span class="tab-delta ">±0 pp<small>recall</small></span>
+        </button></div>
+    <p class="keyboard-hint">Use ↑ ↓ to change case</p>
+  </aside><section class="case-stage" aria-label="Selected evaluation case"><article class="case-panel" id="case-panel-1" role="tabpanel" aria-labelledby="case-tab-1" data-case-panel>
+    <header class="case-header">
+      <div class="case-identity">
+        <span class="case-sequence">CASE 01 / 08</span>
+        <p>Q-001-full-impact</p>
+      </div>
+      <div class="case-question">
+        <p class="section-kicker">Engineering question</p>
+        <h2>Which delivered machine variants use IOL-M8 directly, and which I/O mappings, PLC diagnostic blocks, parameter sets, and FAT/SAT cases must be reviewed for replacement? Exclude IOL-M8S and cite the relationship paths.</h2>
+        <p class="resolution-terms"><b>Resolution terms</b><code>IOL-M8</code><code>machine variants</code><code>I/O mappings</code><code>PLC diagnostic blocks</code><code>parameter sets</code><code>FAT</code><code>SAT</code></p>
+      </div>
+      <span class="status-mark is-pass case-result">ACCEPTANCE PASS</span>
+    </header>
+
+    <section class="case-section" aria-labelledby="measure-1">
+      <div class="section-heading">
+        <span>01</span><div><p>Comparative controls</p><h3 id="measure-1">What each retrieval arm recovered</h3></div>
+      </div>
+      <div class="metric-table-wrap"><table class="metric-table">
+    <thead><tr><th scope="col">Control measure</th><th scope="col">A · BM25 chunks</th><th scope="col">B · QAM graph</th><th scope="col">B − A</th></tr></thead>
+    <tbody><tr>
+          <th scope="row">Required concept recall<small>12 gold concepts</small></th>
+          <td>100%</td>
+          <td>100%</td>
+          <td class="metric-delta ">±0 pp</td>
+        </tr><tr>
+          <th scope="row">Relationship-path recall<small>BM25 arm emits no paths</small></th>
+          <td>N/A</td>
+          <td>100%</td>
+          <td class="metric-delta ">not comparable</td>
+        </tr><tr>
+          <th scope="row">Retrieval precision<small>Different retrieval units</small></th>
+          <td>67%</td>
+          <td>100%</td>
+          <td class="metric-delta is-positive">+33 pp</td>
+        </tr><tr>
+          <th scope="row">Excluded-scope hits<small>Lower is better</small></th>
+          <td>6</td>
+          <td>0</td>
+          <td class="metric-delta is-positive">-6</td>
+        </tr></tbody>
+  </table></div>
+      <div class="scope-ledger">
+        <div><p>Gold required</p><ul class="uid-tags"><li><code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code></li><li><code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code></li><li><code title="urn:qam:industrial:io-map:io-map-17">IO-map-17</code></li><li><code title="urn:qam:industrial:io-map:io-map-22">IO-map-22</code></li><li><code title="urn:qam:industrial:plc:fb-io-diag">FB-IO-diag</code></li><li><code title="urn:qam:industrial:plc:fb-pallet-diag">FB-pallet-diag</code></li><li><code title="urn:qam:industrial:parameter-set:param-set-17">param-set-17</code></li><li><code title="urn:qam:industrial:parameter-set:param-set-09">param-set-09</code></li><li><code title="urn:qam:industrial:test:fat-042">FAT-042</code></li><li><code title="urn:qam:industrial:test:sat-021">SAT-021</code></li><li><code title="urn:qam:industrial:test:fat-057">FAT-057</code></li><li><code title="urn:qam:industrial:test:sat-011">SAT-011</code></li></ul></div>
+        <div><p>BM25 missed</p><span class="empty-note">None missed</span></div>
+        <div><p>QAM missed</p><span class="empty-note">None missed</span></div>
+      </div>
+    </section>
+
+    <section class="case-section evidence-comparison" aria-labelledby="impact-1">
+      <div class="section-heading section-heading-wide">
+        <span>02</span><div><p>Signature evidence view</p><h3 id="impact-1">A bounded link-path rail beside disconnected top-k chunks</h3></div>
+      </div>
+      <div class="evidence-grid">
+        <div class="graph-arm">
+          <header class="arm-header">
+            <div><span>ARM B</span><h4>Quick Agentic Memory</h4></div>
+            <p>Resolve · traverse LINKS_TO ↔ · read at commit</p>
+          </header>
+          <div class="focus-lock">
+            <span>Resolved focus</span>
+            <code>urn:qam:industrial:component:iol-m8</code>
+            <span class="status-mark is-pass ">EXACT</span>
+          </div>
+          <div class="chain-register" role="list" aria-label="Commit-pinned bidirectional LINKS_TO paths"><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 01</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500 linked bidirectionally with FAT-042">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>FAT-042</strong>
+              <code title="urn:qam:industrial:test:fat-042">FAT-042</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 02</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2 linked bidirectionally with FAT-057">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>FAT-057</strong>
+              <code title="urn:qam:industrial:test:fat-057">FAT-057</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 03</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2 linked bidirectionally with SAT-011">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>SAT-011</strong>
+              <code title="urn:qam:industrial:test:sat-011">SAT-011</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 04</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500 linked bidirectionally with SAT-021">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>SAT-021</strong>
+              <code title="urn:qam:industrial:test:sat-021">SAT-021</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 05</span>
+          <b>1 hop</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 06</span>
+          <b>1 hop</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 07</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500 linked bidirectionally with FB_IO_DIAG">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">PLC diagnostic</span>
+              <strong>FB_IO_DIAG</strong>
+              <code title="urn:qam:industrial:plc:fb-io-diag">FB-IO-diag</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 08</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2 linked bidirectionally with FB_PALLET_DIAG">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">PLC diagnostic</span>
+              <strong>FB_PALLET_DIAG</strong>
+              <code title="urn:qam:industrial:plc:fb-pallet-diag">FB-pallet-diag</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 09</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500 linked bidirectionally with IO-MAP-17">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">I/O mapping</span>
+              <strong>IO-MAP-17</strong>
+              <code title="urn:qam:industrial:io-map:io-map-17">IO-map-17</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 10</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2 linked bidirectionally with IO-MAP-22">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">I/O mapping</span>
+              <strong>IO-MAP-22</strong>
+              <code title="urn:qam:industrial:io-map:io-map-22">IO-map-22</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 11</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2 linked bidirectionally with PARAM-SET-09">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Parameter set</span>
+              <strong>PARAM-SET-09</strong>
+              <code title="urn:qam:industrial:parameter-set:param-set-09">param-set-09</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 12</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500 linked bidirectionally with PARAM-SET-17">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Parameter set</span>
+              <strong>PARAM-SET-17</strong>
+              <code title="urn:qam:industrial:parameter-set:param-set-17">param-set-17</code>
+            </span>
+          </div>
+        </div>
+      </div></div>
+        </div>
+        <aside class="baseline-arm">
+          <header class="arm-header">
+            <div><span>ARM A</span><h4>Classical local BM25</h4></div>
+            <p>Ranked lexical chunks; no relation order</p>
+          </header>
+          <ol class="chunk-list"><li>
+        <span class="chunk-rank">01</span>
+        <span class="chunk-copy">
+          <strong>FAT-057</strong>
+          <code>acceptance-tests/fat-057.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>fat</em><em>i/o</em><em>plc</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.036</span>
+      </li><li>
+        <span class="chunk-rank">02</span>
+        <span class="chunk-copy">
+          <strong>PARAM-SET-17</strong>
+          <code>parameters/param-set-17.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>fat</em><em>iol-m8</em><em>parameter</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.033</span>
+      </li><li>
+        <span class="chunk-rank">03</span>
+        <span class="chunk-copy">
+          <strong>FAT-042</strong>
+          <code>acceptance-tests/fat-042.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>fat</em><em>i/o</em><em>plc</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>4.722</span>
+      </li><li>
+        <span class="chunk-rank">04</span>
+        <span class="chunk-copy">
+          <strong>FB_PALLET_DIAG</strong>
+          <code>plc/fb-pallet-diag.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>iol-m8</em><em>parameter</em><em>plc</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>4.197</span>
+      </li><li>
+        <span class="chunk-rank">05</span>
+        <span class="chunk-copy">
+          <strong>FB_IO_DIAG</strong>
+          <code>plc/fb-io-diag.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>machine</em><em>plc</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>3.842</span>
+      </li><li>
+        <span class="chunk-rank">06</span>
+        <span class="chunk-copy">
+          <strong>SAT-011</strong>
+          <code>acceptance-tests/sat-011.md</code>
+          <span class="chunk-terms"><em>i/o</em><em>sat</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>3.456</span>
+      </li><li>
+        <span class="chunk-rank">07</span>
+        <span class="chunk-copy">
+          <strong>FAT-099</strong>
+          <code>acceptance-tests/fat-099.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>fat</em><em>iol-m8</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>3.257</span>
+      </li><li>
+        <span class="chunk-rank">08</span>
+        <span class="chunk-copy">
+          <strong>PARAM-SET-09</strong>
+          <code>parameters/param-set-09.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>iol-m8</em><em>parameter</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>3.239</span>
+      </li><li>
+        <span class="chunk-rank">09</span>
+        <span class="chunk-copy">
+          <strong>SAT-021</strong>
+          <code>acceptance-tests/sat-021.md</code>
+          <span class="chunk-terms"><em>i/o</em><em>sat</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>3.061</span>
+      </li><li>
+        <span class="chunk-rank">10</span>
+        <span class="chunk-copy">
+          <strong>FB_STAINLESS_DIAG</strong>
+          <code>plc/fb-stainless-diag.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>iol-m8</em><em>plc</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>2.953</span>
+      </li><li>
+        <span class="chunk-rank">11</span>
+        <span class="chunk-copy">
+          <strong>PARAM-SET-S08</strong>
+          <code>parameters/param-set-s08.md</code>
+          <span class="chunk-terms"><em>iol-m8</em><em>parameter</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>2.885</span>
+      </li><li>
+        <span class="chunk-rank">12</span>
+        <span class="chunk-copy">
+          <strong>IO-MAP-22</strong>
+          <code>io-mappings/io-map-22.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>i/o</em><em>iol-m8</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>2.403</span>
+      </li><li>
+        <span class="chunk-rank">13</span>
+        <span class="chunk-copy">
+          <strong>IO-MAP-17</strong>
+          <code>io-mappings/io-map-17.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>i/o</em><em>iol-m8</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>2.232</span>
+      </li><li>
+        <span class="chunk-rank">14</span>
+        <span class="chunk-copy">
+          <strong>IO-MAP-S08</strong>
+          <code>io-mappings/io-map-s08.md</code>
+          <span class="chunk-terms"><em>i/o</em><em>iol-m8</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>1.896</span>
+      </li><li>
+        <span class="chunk-rank">15</span>
+        <span class="chunk-copy">
+          <strong>PKG-200/V300</strong>
+          <code>machines/pkg-200-v300.md</code>
+          <span class="chunk-terms"><em>iol-m8</em><em>machine</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>1.823</span>
+      </li><li>
+        <span class="chunk-rank">16</span>
+        <span class="chunk-copy">
+          <strong>PAL-80/V1</strong>
+          <code>machines/pal-80-v1.md</code>
+          <span class="chunk-terms"><em>iol-m8</em><em>machine</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>1.815</span>
+      </li><li>
+        <span class="chunk-rank">17</span>
+        <span class="chunk-copy">
+          <strong>PKG-200/V500</strong>
+          <code>machines/pkg-200-v500.md</code>
+          <span class="chunk-terms"><em>iol-m8</em><em>machine</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>1.613</span>
+      </li><li>
+        <span class="chunk-rank">18</span>
+        <span class="chunk-copy">
+          <strong>PAL-80/V2</strong>
+          <code>machines/pal-80-v2.md</code>
+          <span class="chunk-terms"><em>iol-m8</em><em>machine</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>1.603</span>
+      </li></ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="integrity-1">
+      <div class="section-heading">
+        <span>03</span><div><p>Traceability ledger</p><h3 id="integrity-1">Every QAM evidence read names its source commit</h3></div>
+      </div>
+      <div class="integrity-grid">
+        <div><div class="evidence-table-wrap"><table class="evidence-table">
+    <thead><tr><th scope="col">Evidence concept</th><th scope="col">Source</th><th scope="col">Content hash</th><th scope="col">Commit pin</th></tr></thead>
+    <tbody><tr>
+          <th scope="row"><span>IOL-M8</span><code title="urn:qam:industrial:component:iol-m8">components/iol-m8.md</code></th>
+          <td>0 resources</td>
+          <td><code>4fb1fb5dd3bc</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>FAT-042</span><code title="urn:qam:industrial:test:fat-042">acceptance-tests/fat-042.md</code></th>
+          <td>0 resources</td>
+          <td><code>d0be11201e03</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>FAT-057</span><code title="urn:qam:industrial:test:fat-057">acceptance-tests/fat-057.md</code></th>
+          <td>0 resources</td>
+          <td><code>bf003df2cdf0</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>SAT-011</span><code title="urn:qam:industrial:test:sat-011">acceptance-tests/sat-011.md</code></th>
+          <td>0 resources</td>
+          <td><code>607e124437d7</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>SAT-021</span><code title="urn:qam:industrial:test:sat-021">acceptance-tests/sat-021.md</code></th>
+          <td>0 resources</td>
+          <td><code>19c6fa92887e</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>PAL-80-V2</span><code title="urn:qam:industrial:machine-variant:pal-80-v2">machines/pal-80-v2.md</code></th>
+          <td>0 resources</td>
+          <td><code>7b51e4e46af2</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>PKG-200-V500</span><code title="urn:qam:industrial:machine-variant:pkg-200-v500">machines/pkg-200-v500.md</code></th>
+          <td>0 resources</td>
+          <td><code>08d350c547fd</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>FB-IO-diag</span><code title="urn:qam:industrial:plc:fb-io-diag">plc/fb-io-diag.md</code></th>
+          <td>0 resources</td>
+          <td><code>2262c7fcb9e9</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>FB-pallet-diag</span><code title="urn:qam:industrial:plc:fb-pallet-diag">plc/fb-pallet-diag.md</code></th>
+          <td>0 resources</td>
+          <td><code>5bc3d2076a1d</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>IO-map-17</span><code title="urn:qam:industrial:io-map:io-map-17">io-mappings/io-map-17.md</code></th>
+          <td>0 resources</td>
+          <td><code>6ab8beb2e1c9</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>IO-map-22</span><code title="urn:qam:industrial:io-map:io-map-22">io-mappings/io-map-22.md</code></th>
+          <td>0 resources</td>
+          <td><code>f397f267c5f2</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>param-set-09</span><code title="urn:qam:industrial:parameter-set:param-set-09">parameters/param-set-09.md</code></th>
+          <td>0 resources</td>
+          <td><code>7917a45e416e</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>param-set-17</span><code title="urn:qam:industrial:parameter-set:param-set-17">parameters/param-set-17.md</code></th>
+          <td>0 resources</td>
+          <td><code>cc51fc544c42</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr></tbody>
+  </table></div></div>
+        <aside>
+          <p class="minor-heading">Acceptance checks</p>
+          <ul class="acceptance-checks"><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Focus resolution</b>
+        <code>urn:qam:industrial:component:iol-m8</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Traversal complete</b>
+        <code>≤ 2 hops</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Required recall</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Excluded scope</b>
+        <code>0 hits</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Lifecycle status</b>
+        <code>controlled status</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Link-path coverage</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Minimum precision</b>
+        <code>100% ≥ 80%</code>
+      </li></ul>
+          <dl class="method-calls">
+            <div><dt>Resolve</dt><dd>2</dd></div>
+            <div><dt>Neighbors</dt><dd>5</dd></div>
+            <div><dt>Paths</dt><dd>12</dd></div>
+            <div><dt>Pinned reads</dt><dd>13</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+  </article><article class="case-panel" id="case-panel-2" role="tabpanel" aria-labelledby="case-tab-2" data-case-panel hidden>
+    <header class="case-header">
+      <div class="case-identity">
+        <span class="case-sequence">CASE 02 / 08</span>
+        <p>Q-002-article-alias</p>
+      </div>
+      <div class="case-question">
+        <p class="section-kicker">Engineering question</p>
+        <h2>Article XK8-IO is being discontinued. Identify the exact component and every delivered machine variant that uses it; do not confuse it with XK8-IOS.</h2>
+        <p class="resolution-terms"><b>Resolution terms</b><code>XK8-IO</code><code>machine variant</code></p>
+      </div>
+      <span class="status-mark is-pass case-result">ACCEPTANCE PASS</span>
+    </header>
+
+    <section class="case-section" aria-labelledby="measure-2">
+      <div class="section-heading">
+        <span>01</span><div><p>Comparative controls</p><h3 id="measure-2">What each retrieval arm recovered</h3></div>
+      </div>
+      <div class="metric-table-wrap"><table class="metric-table">
+    <thead><tr><th scope="col">Control measure</th><th scope="col">A · BM25 chunks</th><th scope="col">B · QAM graph</th><th scope="col">B − A</th></tr></thead>
+    <tbody><tr>
+          <th scope="row">Required concept recall<small>2 gold concepts</small></th>
+          <td>100%</td>
+          <td>100%</td>
+          <td class="metric-delta ">±0 pp</td>
+        </tr><tr>
+          <th scope="row">Relationship-path recall<small>BM25 arm emits no paths</small></th>
+          <td>N/A</td>
+          <td>100%</td>
+          <td class="metric-delta ">not comparable</td>
+        </tr><tr>
+          <th scope="row">Retrieval precision<small>Different retrieval units</small></th>
+          <td>50%</td>
+          <td>100%</td>
+          <td class="metric-delta is-positive">+50 pp</td>
+        </tr><tr>
+          <th scope="row">Excluded-scope hits<small>Lower is better</small></th>
+          <td>2</td>
+          <td>0</td>
+          <td class="metric-delta is-positive">-2</td>
+        </tr></tbody>
+  </table></div>
+      <div class="scope-ledger">
+        <div><p>Gold required</p><ul class="uid-tags"><li><code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code></li><li><code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code></li></ul></div>
+        <div><p>BM25 missed</p><span class="empty-note">None missed</span></div>
+        <div><p>QAM missed</p><span class="empty-note">None missed</span></div>
+      </div>
+    </section>
+
+    <section class="case-section evidence-comparison" aria-labelledby="impact-2">
+      <div class="section-heading section-heading-wide">
+        <span>02</span><div><p>Signature evidence view</p><h3 id="impact-2">A bounded link-path rail beside disconnected top-k chunks</h3></div>
+      </div>
+      <div class="evidence-grid">
+        <div class="graph-arm">
+          <header class="arm-header">
+            <div><span>ARM B</span><h4>Quick Agentic Memory</h4></div>
+            <p>Resolve · traverse LINKS_TO ↔ · read at commit</p>
+          </header>
+          <div class="focus-lock">
+            <span>Resolved focus</span>
+            <code>urn:qam:industrial:component:iol-m8</code>
+            <span class="status-mark is-pass ">EXACT</span>
+          </div>
+          <div class="chain-register" role="list" aria-label="Commit-pinned bidirectional LINKS_TO paths"><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 01</span>
+          <b>1 hop</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 02</span>
+          <b>1 hop</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span>
+          </div>
+        </div>
+      </div></div>
+        </div>
+        <aside class="baseline-arm">
+          <header class="arm-header">
+            <div><span>ARM A</span><h4>Classical local BM25</h4></div>
+            <p>Ranked lexical chunks; no relation order</p>
+          </header>
+          <ol class="chunk-list"><li>
+        <span class="chunk-rank">01</span>
+        <span class="chunk-copy">
+          <strong>PAL-80/V1</strong>
+          <code>machines/pal-80-v1.md</code>
+          <span class="chunk-terms"><em>machine</em><em>variant</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>0.272</span>
+      </li><li>
+        <span class="chunk-rank">02</span>
+        <span class="chunk-copy">
+          <strong>PKG-200/V300</strong>
+          <code>machines/pkg-200-v300.md</code>
+          <span class="chunk-terms"><em>machine</em><em>variant</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>0.270</span>
+      </li><li>
+        <span class="chunk-rank">03</span>
+        <span class="chunk-copy">
+          <strong>PKG-200/V500</strong>
+          <code>machines/pkg-200-v500.md</code>
+          <span class="chunk-terms"><em>machine</em><em>variant</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>0.263</span>
+      </li><li>
+        <span class="chunk-rank">04</span>
+        <span class="chunk-copy">
+          <strong>PAL-80/V2</strong>
+          <code>machines/pal-80-v2.md</code>
+          <span class="chunk-terms"><em>machine</em><em>variant</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>0.240</span>
+      </li></ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="integrity-2">
+      <div class="section-heading">
+        <span>03</span><div><p>Traceability ledger</p><h3 id="integrity-2">Every QAM evidence read names its source commit</h3></div>
+      </div>
+      <div class="integrity-grid">
+        <div><div class="evidence-table-wrap"><table class="evidence-table">
+    <thead><tr><th scope="col">Evidence concept</th><th scope="col">Source</th><th scope="col">Content hash</th><th scope="col">Commit pin</th></tr></thead>
+    <tbody><tr>
+          <th scope="row"><span>IOL-M8</span><code title="urn:qam:industrial:component:iol-m8">components/iol-m8.md</code></th>
+          <td>0 resources</td>
+          <td><code>4fb1fb5dd3bc</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>PAL-80-V2</span><code title="urn:qam:industrial:machine-variant:pal-80-v2">machines/pal-80-v2.md</code></th>
+          <td>0 resources</td>
+          <td><code>7b51e4e46af2</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>PKG-200-V500</span><code title="urn:qam:industrial:machine-variant:pkg-200-v500">machines/pkg-200-v500.md</code></th>
+          <td>0 resources</td>
+          <td><code>08d350c547fd</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr></tbody>
+  </table></div></div>
+        <aside>
+          <p class="minor-heading">Acceptance checks</p>
+          <ul class="acceptance-checks"><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Focus resolution</b>
+        <code>urn:qam:industrial:component:iol-m8</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Traversal complete</b>
+        <code>≤ 2 hops</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Required recall</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Excluded scope</b>
+        <code>0 hits</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Lifecycle status</b>
+        <code>controlled status</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Link-path coverage</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Minimum precision</b>
+        <code>100% ≥ 80%</code>
+      </li></ul>
+          <dl class="method-calls">
+            <div><dt>Resolve</dt><dd>2</dd></div>
+            <div><dt>Neighbors</dt><dd>5</dd></div>
+            <div><dt>Paths</dt><dd>2</dd></div>
+            <div><dt>Pinned reads</dt><dd>3</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+  </article><article class="case-panel" id="case-panel-3" role="tabpanel" aria-labelledby="case-tab-3" data-case-panel hidden>
+    <header class="case-header">
+      <div class="case-identity">
+        <span class="case-sequence">CASE 03 / 08</span>
+        <p>Q-003-engineering-alias</p>
+      </div>
+      <div class="case-question">
+        <p class="section-kicker">Engineering question</p>
+        <h2>Engineering records call the obsolete device AL-8P. Resolve that alias and list the affected delivered variants without including the stainless IOL-M8S installation.</h2>
+        <p class="resolution-terms"><b>Resolution terms</b><code>AL-8P</code><code>variants</code></p>
+      </div>
+      <span class="status-mark is-pass case-result">ACCEPTANCE PASS</span>
+    </header>
+
+    <section class="case-section" aria-labelledby="measure-3">
+      <div class="section-heading">
+        <span>01</span><div><p>Comparative controls</p><h3 id="measure-3">What each retrieval arm recovered</h3></div>
+      </div>
+      <div class="metric-table-wrap"><table class="metric-table">
+    <thead><tr><th scope="col">Control measure</th><th scope="col">A · BM25 chunks</th><th scope="col">B · QAM graph</th><th scope="col">B − A</th></tr></thead>
+    <tbody><tr>
+          <th scope="row">Required concept recall<small>2 gold concepts</small></th>
+          <td>0%</td>
+          <td>100%</td>
+          <td class="metric-delta is-positive">+100 pp</td>
+        </tr><tr>
+          <th scope="row">Relationship-path recall<small>BM25 arm emits no paths</small></th>
+          <td>N/A</td>
+          <td>100%</td>
+          <td class="metric-delta ">not comparable</td>
+        </tr><tr>
+          <th scope="row">Retrieval precision<small>Different retrieval units</small></th>
+          <td>0%</td>
+          <td>100%</td>
+          <td class="metric-delta is-positive">+100 pp</td>
+        </tr><tr>
+          <th scope="row">Excluded-scope hits<small>Lower is better</small></th>
+          <td>0</td>
+          <td>0</td>
+          <td class="metric-delta ">±0</td>
+        </tr></tbody>
+  </table></div>
+      <div class="scope-ledger">
+        <div><p>Gold required</p><ul class="uid-tags"><li><code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code></li><li><code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code></li></ul></div>
+        <div><p>BM25 missed</p><ul class="uid-tags"><li><code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code></li><li><code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code></li></ul></div>
+        <div><p>QAM missed</p><span class="empty-note">None missed</span></div>
+      </div>
+    </section>
+
+    <section class="case-section evidence-comparison" aria-labelledby="impact-3">
+      <div class="section-heading section-heading-wide">
+        <span>02</span><div><p>Signature evidence view</p><h3 id="impact-3">A bounded link-path rail beside disconnected top-k chunks</h3></div>
+      </div>
+      <div class="evidence-grid">
+        <div class="graph-arm">
+          <header class="arm-header">
+            <div><span>ARM B</span><h4>Quick Agentic Memory</h4></div>
+            <p>Resolve · traverse LINKS_TO ↔ · read at commit</p>
+          </header>
+          <div class="focus-lock">
+            <span>Resolved focus</span>
+            <code>urn:qam:industrial:component:iol-m8</code>
+            <span class="status-mark is-pass ">EXACT</span>
+          </div>
+          <div class="chain-register" role="list" aria-label="Commit-pinned bidirectional LINKS_TO paths"><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 01</span>
+          <b>1 hop</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 02</span>
+          <b>1 hop</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span>
+          </div>
+        </div>
+      </div></div>
+        </div>
+        <aside class="baseline-arm">
+          <header class="arm-header">
+            <div><span>ARM A</span><h4>Classical local BM25</h4></div>
+            <p>Ranked lexical chunks; no relation order</p>
+          </header>
+          <p class="empty-state">No lexical chunk matched this case.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="integrity-3">
+      <div class="section-heading">
+        <span>03</span><div><p>Traceability ledger</p><h3 id="integrity-3">Every QAM evidence read names its source commit</h3></div>
+      </div>
+      <div class="integrity-grid">
+        <div><div class="evidence-table-wrap"><table class="evidence-table">
+    <thead><tr><th scope="col">Evidence concept</th><th scope="col">Source</th><th scope="col">Content hash</th><th scope="col">Commit pin</th></tr></thead>
+    <tbody><tr>
+          <th scope="row"><span>IOL-M8</span><code title="urn:qam:industrial:component:iol-m8">components/iol-m8.md</code></th>
+          <td>0 resources</td>
+          <td><code>4fb1fb5dd3bc</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>PAL-80-V2</span><code title="urn:qam:industrial:machine-variant:pal-80-v2">machines/pal-80-v2.md</code></th>
+          <td>0 resources</td>
+          <td><code>7b51e4e46af2</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>PKG-200-V500</span><code title="urn:qam:industrial:machine-variant:pkg-200-v500">machines/pkg-200-v500.md</code></th>
+          <td>0 resources</td>
+          <td><code>08d350c547fd</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr></tbody>
+  </table></div></div>
+        <aside>
+          <p class="minor-heading">Acceptance checks</p>
+          <ul class="acceptance-checks"><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Focus resolution</b>
+        <code>urn:qam:industrial:component:iol-m8</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Traversal complete</b>
+        <code>≤ 2 hops</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Required recall</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Excluded scope</b>
+        <code>0 hits</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Lifecycle status</b>
+        <code>controlled status</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Link-path coverage</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Minimum precision</b>
+        <code>100% ≥ 80%</code>
+      </li></ul>
+          <dl class="method-calls">
+            <div><dt>Resolve</dt><dd>2</dd></div>
+            <div><dt>Neighbors</dt><dd>5</dd></div>
+            <div><dt>Paths</dt><dd>2</dd></div>
+            <div><dt>Pinned reads</dt><dd>3</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+  </article><article class="case-panel" id="case-panel-4" role="tabpanel" aria-labelledby="case-tab-4" data-case-panel hidden>
+    <header class="case-header">
+      <div class="case-identity">
+        <span class="case-sequence">CASE 04 / 08</span>
+        <p>Q-004-current-guidance</p>
+      </div>
+      <div class="case-question">
+        <p class="section-kicker">Engineering question</p>
+        <h2>Which current service bulletin and controlled change govern the IOL-M8 replacement assessment? Reject superseded guidance.</h2>
+        <p class="resolution-terms"><b>Resolution terms</b><code>IOL-M8</code><code>current</code><code>service bulletin</code><code>controlled change</code></p>
+      </div>
+      <span class="status-mark is-pass case-result">ACCEPTANCE PASS</span>
+    </header>
+
+    <section class="case-section" aria-labelledby="measure-4">
+      <div class="section-heading">
+        <span>01</span><div><p>Comparative controls</p><h3 id="measure-4">What each retrieval arm recovered</h3></div>
+      </div>
+      <div class="metric-table-wrap"><table class="metric-table">
+    <thead><tr><th scope="col">Control measure</th><th scope="col">A · BM25 chunks</th><th scope="col">B · QAM graph</th><th scope="col">B − A</th></tr></thead>
+    <tbody><tr>
+          <th scope="row">Required concept recall<small>2 gold concepts</small></th>
+          <td>100%</td>
+          <td>100%</td>
+          <td class="metric-delta ">±0 pp</td>
+        </tr><tr>
+          <th scope="row">Relationship-path recall<small>BM25 arm emits no paths</small></th>
+          <td>N/A</td>
+          <td>100%</td>
+          <td class="metric-delta ">not comparable</td>
+        </tr><tr>
+          <th scope="row">Retrieval precision<small>Different retrieval units</small></th>
+          <td>67%</td>
+          <td>100%</td>
+          <td class="metric-delta is-positive">+33 pp</td>
+        </tr><tr>
+          <th scope="row">Excluded-scope hits<small>Lower is better</small></th>
+          <td>1</td>
+          <td>0</td>
+          <td class="metric-delta is-positive">-1</td>
+        </tr></tbody>
+  </table></div>
+      <div class="scope-ledger">
+        <div><p>Gold required</p><ul class="uid-tags"><li><code title="urn:qam:industrial:service-bulletin:sb-2026-04">SB-2026-04</code></li><li><code title="urn:qam:industrial:change-request:cr-1042">CR-1042</code></li></ul></div>
+        <div><p>BM25 missed</p><span class="empty-note">None missed</span></div>
+        <div><p>QAM missed</p><span class="empty-note">None missed</span></div>
+      </div>
+    </section>
+
+    <section class="case-section evidence-comparison" aria-labelledby="impact-4">
+      <div class="section-heading section-heading-wide">
+        <span>02</span><div><p>Signature evidence view</p><h3 id="impact-4">A bounded link-path rail beside disconnected top-k chunks</h3></div>
+      </div>
+      <div class="evidence-grid">
+        <div class="graph-arm">
+          <header class="arm-header">
+            <div><span>ARM B</span><h4>Quick Agentic Memory</h4></div>
+            <p>Resolve · traverse LINKS_TO ↔ · read at commit</p>
+          </header>
+          <div class="focus-lock">
+            <span>Resolved focus</span>
+            <code>urn:qam:industrial:component:iol-m8</code>
+            <span class="status-mark is-pass ">EXACT</span>
+          </div>
+          <div class="chain-register" role="list" aria-label="Commit-pinned bidirectional LINKS_TO paths"><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 01</span>
+          <b>1 hop</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with SB-2026-04">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Service bulletin</span>
+              <strong>SB-2026-04</strong>
+              <code title="urn:qam:industrial:service-bulletin:sb-2026-04">SB-2026-04</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 02</span>
+          <b>1 hop</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with CR-1042">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Controlled change</span>
+              <strong>CR-1042</strong>
+              <code title="urn:qam:industrial:change-request:cr-1042">CR-1042</code>
+            </span>
+          </div>
+        </div>
+      </div></div>
+        </div>
+        <aside class="baseline-arm">
+          <header class="arm-header">
+            <div><span>ARM A</span><h4>Classical local BM25</h4></div>
+            <p>Ranked lexical chunks; no relation order</p>
+          </header>
+          <ol class="chunk-list"><li>
+        <span class="chunk-rank">01</span>
+        <span class="chunk-copy">
+          <strong>SB-2026-04</strong>
+          <code>service-bulletins/sb-2026-04.md</code>
+          <span class="chunk-terms"><em>bulletin</em><em>change</em><em>current</em><em>iol-m8</em><em>service</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>3.342</span>
+      </li><li>
+        <span class="chunk-rank">02</span>
+        <span class="chunk-copy">
+          <strong>SB-2026-S08</strong>
+          <code>service-bulletins/sb-2026-s08.md</code>
+          <span class="chunk-terms"><em>bulletin</em><em>iol-m8</em><em>service</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>1.399</span>
+      </li><li>
+        <span class="chunk-rank">03</span>
+        <span class="chunk-copy">
+          <strong>CR-1042</strong>
+          <code>change-requests/cr-1042.md</code>
+          <span class="chunk-terms"><em>change</em><em>iol-m8</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>0.880</span>
+      </li></ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="integrity-4">
+      <div class="section-heading">
+        <span>03</span><div><p>Traceability ledger</p><h3 id="integrity-4">Every QAM evidence read names its source commit</h3></div>
+      </div>
+      <div class="integrity-grid">
+        <div><div class="evidence-table-wrap"><table class="evidence-table">
+    <thead><tr><th scope="col">Evidence concept</th><th scope="col">Source</th><th scope="col">Content hash</th><th scope="col">Commit pin</th></tr></thead>
+    <tbody><tr>
+          <th scope="row"><span>IOL-M8</span><code title="urn:qam:industrial:component:iol-m8">components/iol-m8.md</code></th>
+          <td>0 resources</td>
+          <td><code>4fb1fb5dd3bc</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>SB-2026-04</span><code title="urn:qam:industrial:service-bulletin:sb-2026-04">service-bulletins/sb-2026-04.md</code></th>
+          <td>0 resources</td>
+          <td><code>5e0ed0154097</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>CR-1042</span><code title="urn:qam:industrial:change-request:cr-1042">change-requests/cr-1042.md</code></th>
+          <td>0 resources</td>
+          <td><code>216fce3f8146</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr></tbody>
+  </table></div></div>
+        <aside>
+          <p class="minor-heading">Acceptance checks</p>
+          <ul class="acceptance-checks"><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Focus resolution</b>
+        <code>urn:qam:industrial:component:iol-m8</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Traversal complete</b>
+        <code>≤ 2 hops</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Required recall</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Excluded scope</b>
+        <code>0 hits</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Lifecycle status</b>
+        <code>controlled status</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Link-path coverage</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Minimum precision</b>
+        <code>100% ≥ 80%</code>
+      </li></ul>
+          <dl class="method-calls">
+            <div><dt>Resolve</dt><dd>2</dd></div>
+            <div><dt>Neighbors</dt><dd>5</dd></div>
+            <div><dt>Paths</dt><dd>2</dd></div>
+            <div><dt>Pinned reads</dt><dd>3</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+  </article><article class="case-panel" id="case-panel-5" role="tabpanel" aria-labelledby="case-tab-5" data-case-panel hidden>
+    <header class="case-header">
+      <div class="case-identity">
+        <span class="case-sequence">CASE 05 / 08</span>
+        <p>Q-005-pkg-chain</p>
+      </div>
+      <div class="case-question">
+        <p class="section-kicker">Engineering question</p>
+        <h2>For the impacted PKG-200 variant, return the variant, its I/O mapping, PLC diagnostic block, parameter set, and required FAT and SAT specifications for the IOL-M8 change.</h2>
+        <p class="resolution-terms"><b>Resolution terms</b><code>IOL-M8</code><code>PKG-200</code><code>variant</code><code>I/O mapping</code><code>diagnostic block</code><code>parameter set</code><code>FAT</code><code>SAT</code></p>
+      </div>
+      <span class="status-mark is-pass case-result">ACCEPTANCE PASS</span>
+    </header>
+
+    <section class="case-section" aria-labelledby="measure-5">
+      <div class="section-heading">
+        <span>01</span><div><p>Comparative controls</p><h3 id="measure-5">What each retrieval arm recovered</h3></div>
+      </div>
+      <div class="metric-table-wrap"><table class="metric-table">
+    <thead><tr><th scope="col">Control measure</th><th scope="col">A · BM25 chunks</th><th scope="col">B · QAM graph</th><th scope="col">B − A</th></tr></thead>
+    <tbody><tr>
+          <th scope="row">Required concept recall<small>6 gold concepts</small></th>
+          <td>33%</td>
+          <td>100%</td>
+          <td class="metric-delta is-positive">+67 pp</td>
+        </tr><tr>
+          <th scope="row">Relationship-path recall<small>BM25 arm emits no paths</small></th>
+          <td>N/A</td>
+          <td>100%</td>
+          <td class="metric-delta ">not comparable</td>
+        </tr><tr>
+          <th scope="row">Retrieval precision<small>Different retrieval units</small></th>
+          <td>33%</td>
+          <td>100%</td>
+          <td class="metric-delta is-positive">+67 pp</td>
+        </tr><tr>
+          <th scope="row">Excluded-scope hits<small>Lower is better</small></th>
+          <td>2</td>
+          <td>0</td>
+          <td class="metric-delta is-positive">-2</td>
+        </tr></tbody>
+  </table></div>
+      <div class="scope-ledger">
+        <div><p>Gold required</p><ul class="uid-tags"><li><code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code></li><li><code title="urn:qam:industrial:io-map:io-map-17">IO-map-17</code></li><li><code title="urn:qam:industrial:plc:fb-io-diag">FB-IO-diag</code></li><li><code title="urn:qam:industrial:parameter-set:param-set-17">param-set-17</code></li><li><code title="urn:qam:industrial:test:fat-042">FAT-042</code></li><li><code title="urn:qam:industrial:test:sat-021">SAT-021</code></li></ul></div>
+        <div><p>BM25 missed</p><ul class="uid-tags"><li><code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code></li><li><code title="urn:qam:industrial:plc:fb-io-diag">FB-IO-diag</code></li><li><code title="urn:qam:industrial:test:fat-042">FAT-042</code></li><li><code title="urn:qam:industrial:test:sat-021">SAT-021</code></li></ul></div>
+        <div><p>QAM missed</p><span class="empty-note">None missed</span></div>
+      </div>
+    </section>
+
+    <section class="case-section evidence-comparison" aria-labelledby="impact-5">
+      <div class="section-heading section-heading-wide">
+        <span>02</span><div><p>Signature evidence view</p><h3 id="impact-5">A bounded link-path rail beside disconnected top-k chunks</h3></div>
+      </div>
+      <div class="evidence-grid">
+        <div class="graph-arm">
+          <header class="arm-header">
+            <div><span>ARM B</span><h4>Quick Agentic Memory</h4></div>
+            <p>Resolve · traverse LINKS_TO ↔ · read at commit</p>
+          </header>
+          <div class="focus-lock">
+            <span>Resolved focus</span>
+            <code>urn:qam:industrial:component:iol-m8</code>
+            <span class="status-mark is-pass ">EXACT</span>
+          </div>
+          <div class="chain-register" role="list" aria-label="Commit-pinned bidirectional LINKS_TO paths"><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 01</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500 linked bidirectionally with FAT-042">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>FAT-042</strong>
+              <code title="urn:qam:industrial:test:fat-042">FAT-042</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 02</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500 linked bidirectionally with SAT-021">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>SAT-021</strong>
+              <code title="urn:qam:industrial:test:sat-021">SAT-021</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 03</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500 linked bidirectionally with IO-MAP-17">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">I/O mapping</span>
+              <strong>IO-MAP-17</strong>
+              <code title="urn:qam:industrial:io-map:io-map-17">IO-map-17</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 04</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500 linked bidirectionally with PARAM-SET-17">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Parameter set</span>
+              <strong>PARAM-SET-17</strong>
+              <code title="urn:qam:industrial:parameter-set:param-set-17">param-set-17</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 05</span>
+          <b>1 hop</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 06</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500 linked bidirectionally with FB_IO_DIAG">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">PLC diagnostic</span>
+              <strong>FB_IO_DIAG</strong>
+              <code title="urn:qam:industrial:plc:fb-io-diag">FB-IO-diag</code>
+            </span>
+          </div>
+        </div>
+      </div></div>
+        </div>
+        <aside class="baseline-arm">
+          <header class="arm-header">
+            <div><span>ARM A</span><h4>Classical local BM25</h4></div>
+            <p>Ranked lexical chunks; no relation order</p>
+          </header>
+          <ol class="chunk-list"><li>
+        <span class="chunk-rank">01</span>
+        <span class="chunk-copy">
+          <strong>PARAM-SET-17</strong>
+          <code>parameters/param-set-17.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>fat</em><em>iol-m8</em><em>parameter</em><em>set</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>7.090</span>
+      </li><li>
+        <span class="chunk-rank">02</span>
+        <span class="chunk-copy">
+          <strong>FB_PALLET_DIAG</strong>
+          <code>plc/fb-pallet-diag.md</code>
+          <span class="chunk-terms"><em>block</em><em>diagnostic</em><em>iol-m8</em><em>parameter</em><em>set</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>6.113</span>
+      </li><li>
+        <span class="chunk-rank">03</span>
+        <span class="chunk-copy">
+          <strong>IO-MAP-S08</strong>
+          <code>io-mappings/io-map-s08.md</code>
+          <span class="chunk-terms"><em>i/o</em><em>iol-m8</em><em>mapping</em><em>set</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.444</span>
+      </li><li>
+        <span class="chunk-rank">04</span>
+        <span class="chunk-copy">
+          <strong>PARAM-SET-09</strong>
+          <code>parameters/param-set-09.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>iol-m8</em><em>parameter</em><em>set</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.325</span>
+      </li><li>
+        <span class="chunk-rank">05</span>
+        <span class="chunk-copy">
+          <strong>IO-MAP-17</strong>
+          <code>io-mappings/io-map-17.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>i/o</em><em>iol-m8</em><em>mapping</em><em>variant</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.158</span>
+      </li><li>
+        <span class="chunk-rank">06</span>
+        <span class="chunk-copy">
+          <strong>PARAM-SET-S08</strong>
+          <code>parameters/param-set-s08.md</code>
+          <span class="chunk-terms"><em>iol-m8</em><em>parameter</em><em>set</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.016</span>
+      </li></ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="integrity-5">
+      <div class="section-heading">
+        <span>03</span><div><p>Traceability ledger</p><h3 id="integrity-5">Every QAM evidence read names its source commit</h3></div>
+      </div>
+      <div class="integrity-grid">
+        <div><div class="evidence-table-wrap"><table class="evidence-table">
+    <thead><tr><th scope="col">Evidence concept</th><th scope="col">Source</th><th scope="col">Content hash</th><th scope="col">Commit pin</th></tr></thead>
+    <tbody><tr>
+          <th scope="row"><span>IOL-M8</span><code title="urn:qam:industrial:component:iol-m8">components/iol-m8.md</code></th>
+          <td>0 resources</td>
+          <td><code>4fb1fb5dd3bc</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>FAT-042</span><code title="urn:qam:industrial:test:fat-042">acceptance-tests/fat-042.md</code></th>
+          <td>0 resources</td>
+          <td><code>d0be11201e03</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>SAT-021</span><code title="urn:qam:industrial:test:sat-021">acceptance-tests/sat-021.md</code></th>
+          <td>0 resources</td>
+          <td><code>19c6fa92887e</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>IO-map-17</span><code title="urn:qam:industrial:io-map:io-map-17">io-mappings/io-map-17.md</code></th>
+          <td>0 resources</td>
+          <td><code>6ab8beb2e1c9</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>param-set-17</span><code title="urn:qam:industrial:parameter-set:param-set-17">parameters/param-set-17.md</code></th>
+          <td>0 resources</td>
+          <td><code>cc51fc544c42</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>PKG-200-V500</span><code title="urn:qam:industrial:machine-variant:pkg-200-v500">machines/pkg-200-v500.md</code></th>
+          <td>0 resources</td>
+          <td><code>08d350c547fd</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>FB-IO-diag</span><code title="urn:qam:industrial:plc:fb-io-diag">plc/fb-io-diag.md</code></th>
+          <td>0 resources</td>
+          <td><code>2262c7fcb9e9</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr></tbody>
+  </table></div></div>
+        <aside>
+          <p class="minor-heading">Acceptance checks</p>
+          <ul class="acceptance-checks"><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Focus resolution</b>
+        <code>urn:qam:industrial:component:iol-m8</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Traversal complete</b>
+        <code>≤ 2 hops</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Required recall</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Excluded scope</b>
+        <code>0 hits</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Lifecycle status</b>
+        <code>controlled status</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Link-path coverage</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Minimum precision</b>
+        <code>100% ≥ 80%</code>
+      </li></ul>
+          <dl class="method-calls">
+            <div><dt>Resolve</dt><dd>2</dd></div>
+            <div><dt>Neighbors</dt><dd>5</dd></div>
+            <div><dt>Paths</dt><dd>6</dd></div>
+            <div><dt>Pinned reads</dt><dd>7</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+  </article><article class="case-panel" id="case-panel-6" role="tabpanel" aria-labelledby="case-tab-6" data-case-panel hidden>
+    <header class="case-header">
+      <div class="case-identity">
+        <span class="case-sequence">CASE 06 / 08</span>
+        <p>Q-006-pal-chain</p>
+      </div>
+      <div class="case-question">
+        <p class="section-kicker">Engineering question</p>
+        <h2>For the impacted PAL-80 variant, return the variant, its I/O mapping, PLC diagnostic block, parameter set, and required FAT and SAT specifications for the IOL-M8 change.</h2>
+        <p class="resolution-terms"><b>Resolution terms</b><code>IOL-M8</code><code>PAL-80</code><code>variant</code><code>I/O mapping</code><code>diagnostic block</code><code>parameter set</code><code>FAT</code><code>SAT</code></p>
+      </div>
+      <span class="status-mark is-pass case-result">ACCEPTANCE PASS</span>
+    </header>
+
+    <section class="case-section" aria-labelledby="measure-6">
+      <div class="section-heading">
+        <span>01</span><div><p>Comparative controls</p><h3 id="measure-6">What each retrieval arm recovered</h3></div>
+      </div>
+      <div class="metric-table-wrap"><table class="metric-table">
+    <thead><tr><th scope="col">Control measure</th><th scope="col">A · BM25 chunks</th><th scope="col">B · QAM graph</th><th scope="col">B − A</th></tr></thead>
+    <tbody><tr>
+          <th scope="row">Required concept recall<small>6 gold concepts</small></th>
+          <td>33%</td>
+          <td>100%</td>
+          <td class="metric-delta is-positive">+67 pp</td>
+        </tr><tr>
+          <th scope="row">Relationship-path recall<small>BM25 arm emits no paths</small></th>
+          <td>N/A</td>
+          <td>100%</td>
+          <td class="metric-delta ">not comparable</td>
+        </tr><tr>
+          <th scope="row">Retrieval precision<small>Different retrieval units</small></th>
+          <td>33%</td>
+          <td>100%</td>
+          <td class="metric-delta is-positive">+67 pp</td>
+        </tr><tr>
+          <th scope="row">Excluded-scope hits<small>Lower is better</small></th>
+          <td>2</td>
+          <td>0</td>
+          <td class="metric-delta is-positive">-2</td>
+        </tr></tbody>
+  </table></div>
+      <div class="scope-ledger">
+        <div><p>Gold required</p><ul class="uid-tags"><li><code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code></li><li><code title="urn:qam:industrial:io-map:io-map-22">IO-map-22</code></li><li><code title="urn:qam:industrial:plc:fb-pallet-diag">FB-pallet-diag</code></li><li><code title="urn:qam:industrial:parameter-set:param-set-09">param-set-09</code></li><li><code title="urn:qam:industrial:test:fat-057">FAT-057</code></li><li><code title="urn:qam:industrial:test:sat-011">SAT-011</code></li></ul></div>
+        <div><p>BM25 missed</p><ul class="uid-tags"><li><code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code></li><li><code title="urn:qam:industrial:io-map:io-map-22">IO-map-22</code></li><li><code title="urn:qam:industrial:test:fat-057">FAT-057</code></li><li><code title="urn:qam:industrial:test:sat-011">SAT-011</code></li></ul></div>
+        <div><p>QAM missed</p><span class="empty-note">None missed</span></div>
+      </div>
+    </section>
+
+    <section class="case-section evidence-comparison" aria-labelledby="impact-6">
+      <div class="section-heading section-heading-wide">
+        <span>02</span><div><p>Signature evidence view</p><h3 id="impact-6">A bounded link-path rail beside disconnected top-k chunks</h3></div>
+      </div>
+      <div class="evidence-grid">
+        <div class="graph-arm">
+          <header class="arm-header">
+            <div><span>ARM B</span><h4>Quick Agentic Memory</h4></div>
+            <p>Resolve · traverse LINKS_TO ↔ · read at commit</p>
+          </header>
+          <div class="focus-lock">
+            <span>Resolved focus</span>
+            <code>urn:qam:industrial:component:iol-m8</code>
+            <span class="status-mark is-pass ">EXACT</span>
+          </div>
+          <div class="chain-register" role="list" aria-label="Commit-pinned bidirectional LINKS_TO paths"><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 01</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2 linked bidirectionally with FAT-057">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>FAT-057</strong>
+              <code title="urn:qam:industrial:test:fat-057">FAT-057</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 02</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2 linked bidirectionally with SAT-011">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>SAT-011</strong>
+              <code title="urn:qam:industrial:test:sat-011">SAT-011</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 03</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2 linked bidirectionally with IO-MAP-22">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">I/O mapping</span>
+              <strong>IO-MAP-22</strong>
+              <code title="urn:qam:industrial:io-map:io-map-22">IO-map-22</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 04</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2 linked bidirectionally with PARAM-SET-09">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Parameter set</span>
+              <strong>PARAM-SET-09</strong>
+              <code title="urn:qam:industrial:parameter-set:param-set-09">param-set-09</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 05</span>
+          <b>1 hop</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 06</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2 linked bidirectionally with FB_PALLET_DIAG">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">PLC diagnostic</span>
+              <strong>FB_PALLET_DIAG</strong>
+              <code title="urn:qam:industrial:plc:fb-pallet-diag">FB-pallet-diag</code>
+            </span>
+          </div>
+        </div>
+      </div></div>
+        </div>
+        <aside class="baseline-arm">
+          <header class="arm-header">
+            <div><span>ARM A</span><h4>Classical local BM25</h4></div>
+            <p>Ranked lexical chunks; no relation order</p>
+          </header>
+          <ol class="chunk-list"><li>
+        <span class="chunk-rank">01</span>
+        <span class="chunk-copy">
+          <strong>PARAM-SET-17</strong>
+          <code>parameters/param-set-17.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>fat</em><em>iol-m8</em><em>parameter</em><em>set</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>7.090</span>
+      </li><li>
+        <span class="chunk-rank">02</span>
+        <span class="chunk-copy">
+          <strong>FB_PALLET_DIAG</strong>
+          <code>plc/fb-pallet-diag.md</code>
+          <span class="chunk-terms"><em>block</em><em>diagnostic</em><em>iol-m8</em><em>parameter</em><em>set</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>6.113</span>
+      </li><li>
+        <span class="chunk-rank">03</span>
+        <span class="chunk-copy">
+          <strong>IO-MAP-S08</strong>
+          <code>io-mappings/io-map-s08.md</code>
+          <span class="chunk-terms"><em>i/o</em><em>iol-m8</em><em>mapping</em><em>set</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.444</span>
+      </li><li>
+        <span class="chunk-rank">04</span>
+        <span class="chunk-copy">
+          <strong>PARAM-SET-09</strong>
+          <code>parameters/param-set-09.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>iol-m8</em><em>parameter</em><em>set</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.325</span>
+      </li><li>
+        <span class="chunk-rank">05</span>
+        <span class="chunk-copy">
+          <strong>IO-MAP-17</strong>
+          <code>io-mappings/io-map-17.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>i/o</em><em>iol-m8</em><em>mapping</em><em>variant</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.158</span>
+      </li><li>
+        <span class="chunk-rank">06</span>
+        <span class="chunk-copy">
+          <strong>PARAM-SET-S08</strong>
+          <code>parameters/param-set-s08.md</code>
+          <span class="chunk-terms"><em>iol-m8</em><em>parameter</em><em>set</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.016</span>
+      </li></ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="integrity-6">
+      <div class="section-heading">
+        <span>03</span><div><p>Traceability ledger</p><h3 id="integrity-6">Every QAM evidence read names its source commit</h3></div>
+      </div>
+      <div class="integrity-grid">
+        <div><div class="evidence-table-wrap"><table class="evidence-table">
+    <thead><tr><th scope="col">Evidence concept</th><th scope="col">Source</th><th scope="col">Content hash</th><th scope="col">Commit pin</th></tr></thead>
+    <tbody><tr>
+          <th scope="row"><span>IOL-M8</span><code title="urn:qam:industrial:component:iol-m8">components/iol-m8.md</code></th>
+          <td>0 resources</td>
+          <td><code>4fb1fb5dd3bc</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>FAT-057</span><code title="urn:qam:industrial:test:fat-057">acceptance-tests/fat-057.md</code></th>
+          <td>0 resources</td>
+          <td><code>bf003df2cdf0</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>SAT-011</span><code title="urn:qam:industrial:test:sat-011">acceptance-tests/sat-011.md</code></th>
+          <td>0 resources</td>
+          <td><code>607e124437d7</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>IO-map-22</span><code title="urn:qam:industrial:io-map:io-map-22">io-mappings/io-map-22.md</code></th>
+          <td>0 resources</td>
+          <td><code>f397f267c5f2</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>param-set-09</span><code title="urn:qam:industrial:parameter-set:param-set-09">parameters/param-set-09.md</code></th>
+          <td>0 resources</td>
+          <td><code>7917a45e416e</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>PAL-80-V2</span><code title="urn:qam:industrial:machine-variant:pal-80-v2">machines/pal-80-v2.md</code></th>
+          <td>0 resources</td>
+          <td><code>7b51e4e46af2</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>FB-pallet-diag</span><code title="urn:qam:industrial:plc:fb-pallet-diag">plc/fb-pallet-diag.md</code></th>
+          <td>0 resources</td>
+          <td><code>5bc3d2076a1d</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr></tbody>
+  </table></div></div>
+        <aside>
+          <p class="minor-heading">Acceptance checks</p>
+          <ul class="acceptance-checks"><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Focus resolution</b>
+        <code>urn:qam:industrial:component:iol-m8</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Traversal complete</b>
+        <code>≤ 2 hops</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Required recall</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Excluded scope</b>
+        <code>0 hits</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Lifecycle status</b>
+        <code>controlled status</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Link-path coverage</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Minimum precision</b>
+        <code>100% ≥ 80%</code>
+      </li></ul>
+          <dl class="method-calls">
+            <div><dt>Resolve</dt><dd>2</dd></div>
+            <div><dt>Neighbors</dt><dd>5</dd></div>
+            <div><dt>Paths</dt><dd>6</dd></div>
+            <div><dt>Pinned reads</dt><dd>7</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+  </article><article class="case-panel" id="case-panel-7" role="tabpanel" aria-labelledby="case-tab-7" data-case-panel hidden>
+    <header class="case-header">
+      <div class="case-identity">
+        <span class="case-sequence">CASE 07 / 08</span>
+        <p>Q-007-m8s-distractor</p>
+      </div>
+      <div class="case-question">
+        <p class="section-kicker">Engineering question</p>
+        <h2>Trace the separate IOL-M8S stainless-enclosure installation: identify its machine variant, I/O mapping, PLC diagnostic block, parameter set, FAT acceptance test, and service bulletin. Confirm that it is not part of the IOL-M8 obsolescence scope.</h2>
+        <p class="resolution-terms"><b>Resolution terms</b><code>IOL-M8S</code><code>stainless-enclosure</code><code>machine variant</code><code>I/O mapping</code><code>PLC diagnostic block</code><code>parameter set</code><code>FAT</code><code>acceptance test</code><code>service bulletin</code></p>
+      </div>
+      <span class="status-mark is-pass case-result">ACCEPTANCE PASS</span>
+    </header>
+
+    <section class="case-section" aria-labelledby="measure-7">
+      <div class="section-heading">
+        <span>01</span><div><p>Comparative controls</p><h3 id="measure-7">What each retrieval arm recovered</h3></div>
+      </div>
+      <div class="metric-table-wrap"><table class="metric-table">
+    <thead><tr><th scope="col">Control measure</th><th scope="col">A · BM25 chunks</th><th scope="col">B · QAM graph</th><th scope="col">B − A</th></tr></thead>
+    <tbody><tr>
+          <th scope="row">Required concept recall<small>6 gold concepts</small></th>
+          <td>100%</td>
+          <td>100%</td>
+          <td class="metric-delta ">±0 pp</td>
+        </tr><tr>
+          <th scope="row">Relationship-path recall<small>BM25 arm emits no paths</small></th>
+          <td>N/A</td>
+          <td>100%</td>
+          <td class="metric-delta ">not comparable</td>
+        </tr><tr>
+          <th scope="row">Retrieval precision<small>Different retrieval units</small></th>
+          <td>50%</td>
+          <td>100%</td>
+          <td class="metric-delta is-positive">+50 pp</td>
+        </tr><tr>
+          <th scope="row">Excluded-scope hits<small>Lower is better</small></th>
+          <td>1</td>
+          <td>0</td>
+          <td class="metric-delta is-positive">-1</td>
+        </tr></tbody>
+  </table></div>
+      <div class="scope-ledger">
+        <div><p>Gold required</p><ul class="uid-tags"><li><code title="urn:qam:industrial:machine-variant:pal-80-v1">PAL-80-V1</code></li><li><code title="urn:qam:industrial:io-map:io-map-s08">IO-map-s08</code></li><li><code title="urn:qam:industrial:plc:fb-stainless-diag">FB-stainless-diag</code></li><li><code title="urn:qam:industrial:parameter-set:param-set-s08">param-set-s08</code></li><li><code title="urn:qam:industrial:test:fat-099">FAT-099</code></li><li><code title="urn:qam:industrial:service-bulletin:sb-2026-s08">SB-2026-s08</code></li></ul></div>
+        <div><p>BM25 missed</p><span class="empty-note">None missed</span></div>
+        <div><p>QAM missed</p><span class="empty-note">None missed</span></div>
+      </div>
+    </section>
+
+    <section class="case-section evidence-comparison" aria-labelledby="impact-7">
+      <div class="section-heading section-heading-wide">
+        <span>02</span><div><p>Signature evidence view</p><h3 id="impact-7">A bounded link-path rail beside disconnected top-k chunks</h3></div>
+      </div>
+      <div class="evidence-grid">
+        <div class="graph-arm">
+          <header class="arm-header">
+            <div><span>ARM B</span><h4>Quick Agentic Memory</h4></div>
+            <p>Resolve · traverse LINKS_TO ↔ · read at commit</p>
+          </header>
+          <div class="focus-lock">
+            <span>Resolved focus</span>
+            <code>urn:qam:industrial:component:iol-m8s</code>
+            <span class="status-mark is-pass ">EXACT</span>
+          </div>
+          <div class="chain-register" role="list" aria-label="Commit-pinned bidirectional LINKS_TO paths"><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 01</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8S linked bidirectionally with PAL-80/V1 linked bidirectionally with FAT-099">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8S</strong>
+              <code title="urn:qam:industrial:component:iol-m8s">IOL-M8S</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V1</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v1">PAL-80-V1</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>FAT-099</strong>
+              <code title="urn:qam:industrial:test:fat-099">FAT-099</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 02</span>
+          <b>1 hop</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8S linked bidirectionally with PAL-80/V1">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8S</strong>
+              <code title="urn:qam:industrial:component:iol-m8s">IOL-M8S</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V1</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v1">PAL-80-V1</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 03</span>
+          <b>1 hop</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8S linked bidirectionally with SB-2026-S08">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8S</strong>
+              <code title="urn:qam:industrial:component:iol-m8s">IOL-M8S</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Service bulletin</span>
+              <strong>SB-2026-S08</strong>
+              <code title="urn:qam:industrial:service-bulletin:sb-2026-s08">SB-2026-s08</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 04</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8S linked bidirectionally with PAL-80/V1 linked bidirectionally with IO-MAP-S08">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8S</strong>
+              <code title="urn:qam:industrial:component:iol-m8s">IOL-M8S</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V1</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v1">PAL-80-V1</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">I/O mapping</span>
+              <strong>IO-MAP-S08</strong>
+              <code title="urn:qam:industrial:io-map:io-map-s08">IO-map-s08</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 05</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8S linked bidirectionally with PAL-80/V1 linked bidirectionally with PARAM-SET-S08">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8S</strong>
+              <code title="urn:qam:industrial:component:iol-m8s">IOL-M8S</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V1</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v1">PAL-80-V1</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Parameter set</span>
+              <strong>PARAM-SET-S08</strong>
+              <code title="urn:qam:industrial:parameter-set:param-set-s08">param-set-s08</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 06</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8S linked bidirectionally with PAL-80/V1 linked bidirectionally with FB_STAINLESS_DIAG">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8S</strong>
+              <code title="urn:qam:industrial:component:iol-m8s">IOL-M8S</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V1</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v1">PAL-80-V1</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">PLC diagnostic</span>
+              <strong>FB_STAINLESS_DIAG</strong>
+              <code title="urn:qam:industrial:plc:fb-stainless-diag">FB-stainless-diag</code>
+            </span>
+          </div>
+        </div>
+      </div></div>
+        </div>
+        <aside class="baseline-arm">
+          <header class="arm-header">
+            <div><span>ARM A</span><h4>Classical local BM25</h4></div>
+            <p>Ranked lexical chunks; no relation order</p>
+          </header>
+          <ol class="chunk-list"><li>
+        <span class="chunk-rank">01</span>
+        <span class="chunk-copy">
+          <strong>FAT-099</strong>
+          <code>acceptance-tests/fat-099.md</code>
+          <span class="chunk-terms"><em>acceptance</em><em>diagnostic</em><em>fat</em><em>iol-m8s</em><em>stainless-enclosure</em><em>test</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>9.629</span>
+      </li><li>
+        <span class="chunk-rank">02</span>
+        <span class="chunk-copy">
+          <strong>FAT-057</strong>
+          <code>acceptance-tests/fat-057.md</code>
+          <span class="chunk-terms"><em>acceptance</em><em>diagnostic</em><em>fat</em><em>i/o</em><em>plc</em><em>test</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>8.373</span>
+      </li><li>
+        <span class="chunk-rank">03</span>
+        <span class="chunk-copy">
+          <strong>IO-MAP-S08</strong>
+          <code>io-mappings/io-map-s08.md</code>
+          <span class="chunk-terms"><em>i/o</em><em>iol-m8s</em><em>mapping</em><em>set</em><em>stainless-enclosure</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>8.089</span>
+      </li><li>
+        <span class="chunk-rank">04</span>
+        <span class="chunk-copy">
+          <strong>FB_PALLET_DIAG</strong>
+          <code>plc/fb-pallet-diag.md</code>
+          <span class="chunk-terms"><em>block</em><em>diagnostic</em><em>parameter</em><em>plc</em><em>set</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>8.062</span>
+      </li><li>
+        <span class="chunk-rank">05</span>
+        <span class="chunk-copy">
+          <strong>SB-2026-S08</strong>
+          <code>service-bulletins/sb-2026-s08.md</code>
+          <span class="chunk-terms"><em>bulletin</em><em>iol-m8s</em><em>service</em><em>stainless-enclosure</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>8.041</span>
+      </li><li>
+        <span class="chunk-rank">06</span>
+        <span class="chunk-copy">
+          <strong>FAT-042</strong>
+          <code>acceptance-tests/fat-042.md</code>
+          <span class="chunk-terms"><em>acceptance</em><em>diagnostic</em><em>fat</em><em>i/o</em><em>plc</em><em>test</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>7.871</span>
+      </li><li>
+        <span class="chunk-rank">07</span>
+        <span class="chunk-copy">
+          <strong>PARAM-SET-S08</strong>
+          <code>parameters/param-set-s08.md</code>
+          <span class="chunk-terms"><em>iol-m8s</em><em>parameter</em><em>set</em><em>stainless-enclosure</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>7.418</span>
+      </li><li>
+        <span class="chunk-rank">08</span>
+        <span class="chunk-copy">
+          <strong>FB_STAINLESS_DIAG</strong>
+          <code>plc/fb-stainless-diag.md</code>
+          <span class="chunk-terms"><em>block</em><em>diagnostic</em><em>iol-m8s</em><em>plc</em><em>stainless-enclosure</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>7.260</span>
+      </li><li>
+        <span class="chunk-rank">09</span>
+        <span class="chunk-copy">
+          <strong>PARAM-SET-17</strong>
+          <code>parameters/param-set-17.md</code>
+          <span class="chunk-terms"><em>diagnostic</em><em>fat</em><em>parameter</em><em>set</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>7.244</span>
+      </li><li>
+        <span class="chunk-rank">10</span>
+        <span class="chunk-copy">
+          <strong>FB_IO_DIAG</strong>
+          <code>plc/fb-io-diag.md</code>
+          <span class="chunk-terms"><em>block</em><em>diagnostic</em><em>machine</em><em>plc</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.979</span>
+      </li><li>
+        <span class="chunk-rank">11</span>
+        <span class="chunk-copy">
+          <strong>PAL-80/V1</strong>
+          <code>machines/pal-80-v1.md</code>
+          <span class="chunk-terms"><em>iol-m8s</em><em>machine</em><em>stainless-enclosure</em><em>variant</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.805</span>
+      </li><li>
+        <span class="chunk-rank">12</span>
+        <span class="chunk-copy">
+          <strong>SB-2026-04</strong>
+          <code>service-bulletins/sb-2026-04.md</code>
+          <span class="chunk-terms"><em>bulletin</em><em>iol-m8s</em><em>service</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>5.782</span>
+      </li></ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="integrity-7">
+      <div class="section-heading">
+        <span>03</span><div><p>Traceability ledger</p><h3 id="integrity-7">Every QAM evidence read names its source commit</h3></div>
+      </div>
+      <div class="integrity-grid">
+        <div><div class="evidence-table-wrap"><table class="evidence-table">
+    <thead><tr><th scope="col">Evidence concept</th><th scope="col">Source</th><th scope="col">Content hash</th><th scope="col">Commit pin</th></tr></thead>
+    <tbody><tr>
+          <th scope="row"><span>IOL-M8S</span><code title="urn:qam:industrial:component:iol-m8s">components/iol-m8s.md</code></th>
+          <td>0 resources</td>
+          <td><code>91b7faa4e6e8</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>FAT-099</span><code title="urn:qam:industrial:test:fat-099">acceptance-tests/fat-099.md</code></th>
+          <td>0 resources</td>
+          <td><code>969f87d30e40</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>PAL-80-V1</span><code title="urn:qam:industrial:machine-variant:pal-80-v1">machines/pal-80-v1.md</code></th>
+          <td>0 resources</td>
+          <td><code>5e4cd022f4c8</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>SB-2026-s08</span><code title="urn:qam:industrial:service-bulletin:sb-2026-s08">service-bulletins/sb-2026-s08.md</code></th>
+          <td>0 resources</td>
+          <td><code>956fafa8964c</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>IO-map-s08</span><code title="urn:qam:industrial:io-map:io-map-s08">io-mappings/io-map-s08.md</code></th>
+          <td>0 resources</td>
+          <td><code>bd1232419ad5</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>param-set-s08</span><code title="urn:qam:industrial:parameter-set:param-set-s08">parameters/param-set-s08.md</code></th>
+          <td>0 resources</td>
+          <td><code>a3fc77f4ab38</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>FB-stainless-diag</span><code title="urn:qam:industrial:plc:fb-stainless-diag">plc/fb-stainless-diag.md</code></th>
+          <td>0 resources</td>
+          <td><code>80f41267ab27</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr></tbody>
+  </table></div></div>
+        <aside>
+          <p class="minor-heading">Acceptance checks</p>
+          <ul class="acceptance-checks"><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Focus resolution</b>
+        <code>urn:qam:industrial:component:iol-m8s</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Traversal complete</b>
+        <code>≤ 2 hops</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Required recall</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Excluded scope</b>
+        <code>0 hits</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Lifecycle status</b>
+        <code>controlled status</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Link-path coverage</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Minimum precision</b>
+        <code>100% ≥ 80%</code>
+      </li></ul>
+          <dl class="method-calls">
+            <div><dt>Resolve</dt><dd>2</dd></div>
+            <div><dt>Neighbors</dt><dd>3</dd></div>
+            <div><dt>Paths</dt><dd>6</dd></div>
+            <div><dt>Pinned reads</dt><dd>7</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+  </article><article class="case-panel" id="case-panel-8" role="tabpanel" aria-labelledby="case-tab-8" data-case-panel hidden>
+    <header class="case-header">
+      <div class="case-identity">
+        <span class="case-sequence">CASE 08 / 08</span>
+        <p>Q-008-acceptance-tests</p>
+      </div>
+      <div class="case-question">
+        <p class="section-kicker">Engineering question</p>
+        <h2>Which FAT and SAT specifications must be repeated for the delivered IOL-M8 installations, and through which machine variant is each test connected? Exclude the IOL-M8S FAT.</h2>
+        <p class="resolution-terms"><b>Resolution terms</b><code>IOL-M8</code><code>FAT</code><code>SAT</code></p>
+      </div>
+      <span class="status-mark is-pass case-result">ACCEPTANCE PASS</span>
+    </header>
+
+    <section class="case-section" aria-labelledby="measure-8">
+      <div class="section-heading">
+        <span>01</span><div><p>Comparative controls</p><h3 id="measure-8">What each retrieval arm recovered</h3></div>
+      </div>
+      <div class="metric-table-wrap"><table class="metric-table">
+    <thead><tr><th scope="col">Control measure</th><th scope="col">A · BM25 chunks</th><th scope="col">B · QAM graph</th><th scope="col">B − A</th></tr></thead>
+    <tbody><tr>
+          <th scope="row">Required concept recall<small>4 gold concepts</small></th>
+          <td>100%</td>
+          <td>100%</td>
+          <td class="metric-delta ">±0 pp</td>
+        </tr><tr>
+          <th scope="row">Relationship-path recall<small>BM25 arm emits no paths</small></th>
+          <td>N/A</td>
+          <td>100%</td>
+          <td class="metric-delta ">not comparable</td>
+        </tr><tr>
+          <th scope="row">Retrieval precision<small>Different retrieval units</small></th>
+          <td>80%</td>
+          <td>100%</td>
+          <td class="metric-delta is-positive">+20 pp</td>
+        </tr><tr>
+          <th scope="row">Excluded-scope hits<small>Lower is better</small></th>
+          <td>1</td>
+          <td>0</td>
+          <td class="metric-delta is-positive">-1</td>
+        </tr></tbody>
+  </table></div>
+      <div class="scope-ledger">
+        <div><p>Gold required</p><ul class="uid-tags"><li><code title="urn:qam:industrial:test:fat-042">FAT-042</code></li><li><code title="urn:qam:industrial:test:sat-021">SAT-021</code></li><li><code title="urn:qam:industrial:test:fat-057">FAT-057</code></li><li><code title="urn:qam:industrial:test:sat-011">SAT-011</code></li></ul></div>
+        <div><p>BM25 missed</p><span class="empty-note">None missed</span></div>
+        <div><p>QAM missed</p><span class="empty-note">None missed</span></div>
+      </div>
+    </section>
+
+    <section class="case-section evidence-comparison" aria-labelledby="impact-8">
+      <div class="section-heading section-heading-wide">
+        <span>02</span><div><p>Signature evidence view</p><h3 id="impact-8">A bounded link-path rail beside disconnected top-k chunks</h3></div>
+      </div>
+      <div class="evidence-grid">
+        <div class="graph-arm">
+          <header class="arm-header">
+            <div><span>ARM B</span><h4>Quick Agentic Memory</h4></div>
+            <p>Resolve · traverse LINKS_TO ↔ · read at commit</p>
+          </header>
+          <div class="focus-lock">
+            <span>Resolved focus</span>
+            <code>urn:qam:industrial:component:iol-m8</code>
+            <span class="status-mark is-pass ">EXACT</span>
+          </div>
+          <div class="chain-register" role="list" aria-label="Commit-pinned bidirectional LINKS_TO paths"><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 01</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500 linked bidirectionally with FAT-042">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>FAT-042</strong>
+              <code title="urn:qam:industrial:test:fat-042">FAT-042</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 02</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2 linked bidirectionally with FAT-057">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>FAT-057</strong>
+              <code title="urn:qam:industrial:test:fat-057">FAT-057</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 03</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PAL-80/V2 linked bidirectionally with SAT-011">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PAL-80/V2</strong>
+              <code title="urn:qam:industrial:machine-variant:pal-80-v2">PAL-80-V2</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>SAT-011</strong>
+              <code title="urn:qam:industrial:test:sat-011">SAT-011</code>
+            </span>
+          </div>
+        </div>
+      </div><div class="chain-row" role="listitem">
+        <div class="chain-row-label">
+          <span>PATH 04</span>
+          <b>2 hops</b>
+        </div>
+        <div class="rail-viewport" tabindex="0" aria-label="IOL-M8 linked bidirectionally with PKG-200/V500 linked bidirectionally with SAT-021">
+          <div class="rail">
+            <span class="commit-pin " title="Pinned source commit e0dd9b1fa0948075d640d440e913d24695d5b184">
+              <span>PINNED COMMIT</span>
+              <code>e0dd9b1fa094</code>
+            </span>
+            <span class="rail-coupling rail-coupling-pin" aria-hidden="true"><i></i></span>
+
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Component</span>
+              <strong>IOL-M8</strong>
+              <code title="urn:qam:industrial:component:iol-m8">IOL-M8</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">Delivered variant</span>
+              <strong>PKG-200/V500</strong>
+              <code title="urn:qam:industrial:machine-variant:pkg-200-v500">PKG-200-V500</code>
+            </span><span class="rail-coupling" aria-hidden="true"><i>↔</i></span>
+            <span class="rail-node" role="listitem">
+              <span class="rail-node-kind">FAT / SAT evidence</span>
+              <strong>SAT-021</strong>
+              <code title="urn:qam:industrial:test:sat-021">SAT-021</code>
+            </span>
+          </div>
+        </div>
+      </div></div>
+        </div>
+        <aside class="baseline-arm">
+          <header class="arm-header">
+            <div><span>ARM A</span><h4>Classical local BM25</h4></div>
+            <p>Ranked lexical chunks; no relation order</p>
+          </header>
+          <ol class="chunk-list"><li>
+        <span class="chunk-rank">01</span>
+        <span class="chunk-copy">
+          <strong>FAT-099</strong>
+          <code>acceptance-tests/fat-099.md</code>
+          <span class="chunk-terms"><em>fat</em><em>iol-m8</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>2.610</span>
+      </li><li>
+        <span class="chunk-rank">02</span>
+        <span class="chunk-copy">
+          <strong>SAT-011</strong>
+          <code>acceptance-tests/sat-011.md</code>
+          <span class="chunk-terms"><em>sat</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>1.142</span>
+      </li><li>
+        <span class="chunk-rank">03</span>
+        <span class="chunk-copy">
+          <strong>SAT-021</strong>
+          <code>acceptance-tests/sat-021.md</code>
+          <span class="chunk-terms"><em>sat</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>1.128</span>
+      </li><li>
+        <span class="chunk-rank">04</span>
+        <span class="chunk-copy">
+          <strong>FAT-057</strong>
+          <code>acceptance-tests/fat-057.md</code>
+          <span class="chunk-terms"><em>fat</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>0.748</span>
+      </li><li>
+        <span class="chunk-rank">05</span>
+        <span class="chunk-copy">
+          <strong>FAT-042</strong>
+          <code>acceptance-tests/fat-042.md</code>
+          <span class="chunk-terms"><em>fat</em></span>
+        </span>
+        <span class="chunk-score"><small>BM25</small>0.720</span>
+      </li></ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="integrity-8">
+      <div class="section-heading">
+        <span>03</span><div><p>Traceability ledger</p><h3 id="integrity-8">Every QAM evidence read names its source commit</h3></div>
+      </div>
+      <div class="integrity-grid">
+        <div><div class="evidence-table-wrap"><table class="evidence-table">
+    <thead><tr><th scope="col">Evidence concept</th><th scope="col">Source</th><th scope="col">Content hash</th><th scope="col">Commit pin</th></tr></thead>
+    <tbody><tr>
+          <th scope="row"><span>IOL-M8</span><code title="urn:qam:industrial:component:iol-m8">components/iol-m8.md</code></th>
+          <td>0 resources</td>
+          <td><code>4fb1fb5dd3bc</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>FAT-042</span><code title="urn:qam:industrial:test:fat-042">acceptance-tests/fat-042.md</code></th>
+          <td>0 resources</td>
+          <td><code>d0be11201e03</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>FAT-057</span><code title="urn:qam:industrial:test:fat-057">acceptance-tests/fat-057.md</code></th>
+          <td>0 resources</td>
+          <td><code>bf003df2cdf0</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>SAT-011</span><code title="urn:qam:industrial:test:sat-011">acceptance-tests/sat-011.md</code></th>
+          <td>0 resources</td>
+          <td><code>607e124437d7</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr><tr>
+          <th scope="row"><span>SAT-021</span><code title="urn:qam:industrial:test:sat-021">acceptance-tests/sat-021.md</code></th>
+          <td>0 resources</td>
+          <td><code>19c6fa92887e</code></td>
+          <td><span class="status-mark is-pass ">e0dd9b1fa094</span></td>
+        </tr></tbody>
+  </table></div></div>
+        <aside>
+          <p class="minor-heading">Acceptance checks</p>
+          <ul class="acceptance-checks"><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Focus resolution</b>
+        <code>urn:qam:industrial:component:iol-m8</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Traversal complete</b>
+        <code>≤ 2 hops</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Required recall</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Excluded scope</b>
+        <code>0 hits</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Lifecycle status</b>
+        <code>controlled status</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Link-path coverage</b>
+        <code>100%</code>
+      </li><li class="is-pass">
+        <span aria-hidden="true">✓</span>
+        <b>Minimum precision</b>
+        <code>100% ≥ 80%</code>
+      </li></ul>
+          <dl class="method-calls">
+            <div><dt>Resolve</dt><dd>2</dd></div>
+            <div><dt>Neighbors</dt><dd>5</dd></div>
+            <div><dt>Paths</dt><dd>4</dd></div>
+            <div><dt>Pinned reads</dt><dd>5</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+  </article></section></div>
+
+  <section class="methodology" aria-labelledby="methodology-heading">
+    <header><div><p class="hero-kicker">Method statement</p><h2 id="methodology-heading">Scope of this controlled synthetic demonstration</h2></div><span class="honesty-mark">RETRIEVAL ONLY · NO LLM ANSWER GRADING</span></header>
+    <div class="method-grid"><section><h3>Arm A · BM25 lexical retrieval</h3><p>Deterministic BM25 over Markdown chunks (maximum 1000 characters, 160 overlap). It returns ranked chunks and does not generate an answer or relationship path.</p></section><section><h3>Arm B · Bounded QAM link traversal</h3><p>Alias resolution starts from the named component, then follows backlinks and neighbors over explicit <code>LINKS_TO</code> edges in both directions for at most two hops. Path records, source lineage, and content reads carry the selected Git commit; the report marks them unverified unless the knowledge tree is tracked and clean. It does not generate an answer.</p></section></div>
+    <div class="limitations"><h3>Interpretation limits</h3><ul><li>This run grades deterministic retrieval and evidence, not generated natural-language answers.</li><li>A single synthetic corpus does not establish statistical significance or universal superiority.</li><li>Both arms use the same query-derived terms, status/type scope, and concept-level top-k budget.</li><li>BM25 does not emit relationship paths; its path coverage is reported as not applicable.</li><li>A hybrid or GraphRAG baseline with entity resolution and traversal may reduce the observed gap.</li></ul></div>
+  </section>
+  <footer class="report-footer"><span>Schema qam-industrial-report/1.0 · OKF 0.2 · 27 concepts / 167 graph edges / 27 chunks</span><span>Generated 2026-08-23T13:51:54+02:00</span></footer>
+</main>
+<script>
+  (function () {
+    "use strict";
+    var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-case-tab]"));
+    var panels = Array.prototype.slice.call(document.querySelectorAll("[data-case-panel]"));
+    var activeLabel = document.getElementById("active-case-label");
+    if (tabs.length === 0 || tabs.length !== panels.length) return;
+    function selectCase(index, moveFocus) {
+      var safeIndex = Math.max(0, Math.min(index, tabs.length - 1));
+      tabs.forEach(function (tab, itemIndex) {
+        var selected = itemIndex === safeIndex;
+        tab.setAttribute("aria-selected", selected ? "true" : "false");
+        tab.setAttribute("tabindex", selected ? "0" : "-1");
+        panels[itemIndex].hidden = !selected;
+      });
+      if (activeLabel) activeLabel.textContent = "Case " + (safeIndex + 1) + " of " + tabs.length;
+      if (moveFocus) tabs[safeIndex].focus();
+    }
+    tabs.forEach(function (tab, index) {
+      tab.addEventListener("click", function () { selectCase(index, false); });
+      tab.addEventListener("keydown", function (event) {
+        var next = index;
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") next = (index + 1) % tabs.length;
+        else if (event.key === "ArrowUp" || event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+        else if (event.key === "Home") next = 0;
+        else if (event.key === "End") next = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        selectCase(next, true);
+      });
+    });
+  }());
+</script>
+</body>
+</html>
