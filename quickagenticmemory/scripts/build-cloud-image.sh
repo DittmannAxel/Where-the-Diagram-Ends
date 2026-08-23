@@ -371,7 +371,7 @@ remote_manifest_found='false'
 remote_manifest_absent='false'
 tag_probe_attempt=1
 tag_probe_attempts=3
-[ "${temporary_assignment_created}" != 'true' ] || tag_probe_attempts=12
+[ "${temporary_assignment_created}" != 'true' ] || tag_probe_attempts=60
 while [ "${tag_probe_attempt}" -le "${tag_probe_attempts}" ]; do
   : > "${remote_manifest_error}"
   if remote_manifest="$(az acr repository show \
@@ -549,16 +549,35 @@ az acr repository update \
   --delete-enabled false \
   --write-enabled false \
   --output none >&2
-
-locked_manifest="$(az acr repository show \
+az acr repository update \
   --name "${registry_name}" \
   --image "${repository}:${image_tag}" \
-  --output json)"
-jq -e --arg digest "${published_digest}" '
-  .digest == $digest and
-  .changeableAttributes.writeEnabled == false and
-  .changeableAttributes.deleteEnabled == false' \
-  <<< "${locked_manifest}" >/dev/null \
+  --delete-enabled false \
+  --write-enabled false \
+  --output none >&2
+
+lock_verified='false'
+lock_attempt=1
+while [ "${lock_attempt}" -le "${cleanup_poll_attempts}" ]; do
+  locked_manifest="$(az acr repository show \
+    --name "${registry_name}" \
+    --image "${repository}:${image_tag}" \
+    --output json)"
+  if jq -e --arg digest "${published_digest}" '
+    .digest == $digest and
+    .changeableAttributes.writeEnabled == false and
+    .changeableAttributes.deleteEnabled == false' \
+    <<< "${locked_manifest}" >/dev/null; then
+    lock_verified='true'
+    break
+  fi
+  if [ "${lock_attempt}" -lt "${cleanup_poll_attempts}" ]; then
+    qam_info "waiting for the exact ACR manifest lock to converge"
+    sleep "${poll_interval_seconds}"
+  fi
+  lock_attempt=$((lock_attempt + 1))
+done
+[ "${lock_verified}" = 'true' ] \
   || qam_fail "ACR did not preserve the exact digest with write/delete locks"
 
 if [ "${temporary_assignment_cleanup_required}" = 'true' ]; then

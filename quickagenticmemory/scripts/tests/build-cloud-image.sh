@@ -83,7 +83,7 @@ case "${1:-}:${2:-}:${3:-}" in
         fi
         write_enabled=true
         delete_enabled=true
-        if [ -f "${QAM_CLOUD_BUILD_LOCK_FILE:?}" ]; then
+        if [ -f "${QAM_CLOUD_BUILD_LOCK_FILE:?}" ] && [ "${repository_show_count}" -gt 3 ]; then
           write_enabled=false
           delete_enabled=false
         fi
@@ -96,8 +96,11 @@ case "${1:-}:${2:-}:${3:-}" in
     esac
     ;;
   acr:repository:update)
-    [ "${image}" = "qam-mcp@${QAM_CLOUD_BUILD_DIGEST:?}" ] || exit 81
-    touch "${QAM_CLOUD_BUILD_LOCK_FILE:?}"
+    case "${image}" in
+      "qam-mcp@${QAM_CLOUD_BUILD_DIGEST:?}") ;;
+      "qam-mcp:${QAM_CLOUD_BUILD_SOURCE_SHA:?}") touch "${QAM_CLOUD_BUILD_LOCK_FILE:?}" ;;
+      *) exit 81 ;;
+    esac
     ;;
   acr:build:*)
     [ "${@: -1}" = "${QAM_CLOUD_BUILD_SOURCE_URL:?}#${QAM_CLOUD_BUILD_SOURCE_SHA:?}" ] || exit 82
