@@ -62,7 +62,7 @@ quickagenticmemory/scripts/deploy-industrial-platform.sh \
   --operator-principal-id '<foundry-operator-user-object-id>' \
   --runtime-principal-id '<mcp-runtime-managed-identity-object-id>' \
   --deployment-principal-id '<github-environment-oidc-object-id>' \
-  --fabric-sku F2
+  --fabric-sku F64
 ```
 
 This command intentionally has no mandatory `what-if` step. It uses Bicep for the F capacity and Foundry account/project/model, then the public Fabric APIs for the isolated Workspace, Lakehouse, Graph Model, and checked-in Notebook. A repeated run must reuse the exact-name resources and roles. It explicitly enables the documented infrastructure guide's runtime Contributor compatibility workaround because this scenario's managed-identity Graph Preview acceptance failed under Viewer. The deployment principal is also Contributor during definition publication; an operator must downgrade that separate smoke identity to Viewer after the publication and final acceptance window.

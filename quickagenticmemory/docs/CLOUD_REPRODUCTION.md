@@ -193,6 +193,11 @@ Fabric Notebook plus `RefreshGraph` can take 6–10 minutes; ACR remote build is
 and Container Apps plus Foundry identity/attach can each take several minutes. Every helper uses a
 bounded poll and exits nonzero on unknown or terminal failure states.
 
+After `RefreshGraph`, live GQL uses 60 attempts with a 30-second interval by default so a retriable
+capacity `429` can settle. Authorized operators may set `QAM_FABRIC_GRAPH_QUERY_ATTEMPTS` and
+`QAM_FABRIC_GRAPH_QUERY_RETRY_SECONDS`; both are validated and bounded before publication, and the
+last failed attempt exits nonzero without running acceptance cleanup.
+
 ## What the driver invokes
 
 The driver composes the checked-in, independently testable helpers rather than reproducing their
@@ -242,6 +247,9 @@ The terminal receipt is `receipts/cloud-acceptance.json`. It is emitted only whe
 - Foundry reports exactly the four required QAM events and the expected content marker; and
 - post-smoke cleanup proves one project-MI `Qam.Read`, zero Agent Application `Qam.Read`, and the
   active `ProjectManagedIdentity` connection.
+
+A deliberately redacted receipt and screenshots from the successful public industrial run are
+checked in under [`tests/industrial-component-obsolescence/screens/`](../tests/industrial-component-obsolescence/screens/).
 
 Do not copy the raw receipts into `screens/` or commit them. A public evidence bundle must be built
 from an explicit allowlist and omit subscription, tenant, resource, application, principal,

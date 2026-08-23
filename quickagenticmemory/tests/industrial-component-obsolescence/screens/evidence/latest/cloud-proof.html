@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quick Agentic Memory — Cloud Acceptance</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f5f7fa;
+      --muted: #a7b0bd;
+      --panel: #151a22;
+      --line: #2a3340;
+      --green: #62e6a7;
+      --cyan: #69d7ff;
+      --amber: #ffc66d;
+      --purple: #b7a3ff;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 80% 0%, rgba(105, 215, 255, .12), transparent 34rem),
+        radial-gradient(circle at 0% 35%, rgba(183, 163, 255, .09), transparent 30rem),
+        #0b0e13;
+      color: var(--ink);
+      font: 15px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main { width: min(1240px, calc(100% - 64px)); margin: 0 auto; padding: 52px 0 72px; }
+    .eyebrow { color: var(--cyan); font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { max-width: 850px; margin: 12px 0 12px; font-size: clamp(40px, 6vw, 76px); line-height: .98; letter-spacing: -.045em; }
+    h2 { margin: 0 0 20px; font-size: 26px; letter-spacing: -.025em; }
+    p { margin: 0; }
+    .lede { max-width: 780px; color: var(--muted); font-size: 18px; }
+    .status-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 28px 0 38px; }
+    .pill { border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; background: rgba(21,26,34,.85); color: var(--muted); }
+    .pill.pass { border-color: rgba(98,230,167,.5); background: rgba(98,230,167,.1); color: var(--green); font-weight: 800; }
+    .mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+    .card { border: 1px solid var(--line); border-radius: 20px; padding: 24px; background: linear-gradient(145deg, rgba(24,30,40,.96), rgba(16,20,27,.96)); box-shadow: 0 18px 50px rgba(0,0,0,.22); }
+    .metric { grid-column: span 3; min-height: 148px; }
+    .metric .value { margin-top: 16px; font-size: 38px; font-weight: 780; letter-spacing: -.04em; }
+    .metric .label { color: var(--muted); }
+    .metric .check { color: var(--green); float: right; }
+    .source { grid-column: span 7; }
+    .security { grid-column: span 5; }
+    .label-small { color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+    .source-path { margin: 14px 0 8px; color: var(--cyan); overflow-wrap: anywhere; }
+    .commit { color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+    .checks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    .check-row { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; background: rgba(7,9,13,.35); }
+    .check-row strong { display: block; color: var(--green); }
+    .chain { grid-column: span 12; padding: 28px; margin-top: 18px; }
+    .flow { display: grid; grid-template-columns: 1fr 36px 1fr 36px 1fr 36px 1fr; align-items: stretch; gap: 8px; }
+    .node { min-height: 150px; border: 1px solid var(--line); border-radius: 16px; padding: 18px; background: #0f141b; }
+    .node .number { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: rgba(105,215,255,.13); color: var(--cyan); font-weight: 800; }
+    .node h3 { margin: 14px 0 7px; font-size: 18px; }
+    .node p { color: var(--muted); font-size: 13px; }
+    .arrow { display: grid; place-items: center; color: var(--cyan); font-size: 25px; }
+    .section { padding-top: 54px; }
+    .trace { grid-column: span 7; }
+    .boundary { grid-column: span 5; }
+    .event { display: grid; grid-template-columns: 42px 1fr auto; gap: 12px; align-items: center; padding: 14px 0; border-top: 1px solid var(--line); }
+    .event:first-of-type { border-top: 0; }
+    .event-index { color: var(--purple); font-weight: 800; }
+    .event-name { font-family: "SFMono-Regular", Consolas, monospace; }
+    .event-result { color: var(--green); font-size: 12px; font-weight: 800; }
+    .boundary ul { margin: 14px 0 0; padding-left: 20px; color: var(--muted); }
+    .boundary li { margin: 9px 0; }
+    .proof { margin-top: 18px; border-left: 3px solid var(--green); padding: 14px 16px; background: rgba(98,230,167,.07); color: #dceee5; }
+    footer { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: 12px; }
+    a { color: var(--cyan); text-decoration: none; }
+    @media (max-width: 900px) {
+      main { width: min(100% - 32px, 720px); padding-top: 32px; }
+      .metric, .source, .security, .trace, .boundary { grid-column: span 12; }
+      .flow { grid-template-columns: 1fr; }
+      .arrow { transform: rotate(90deg); min-height: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section id="overview">
+      <div class="eyebrow">Where the diagram ends · cloud evidence</div>
+      <h1>Quick Agentic Memory passed end to end.</h1>
+      <p class="lede">A public, commit-pinned industrial Markdown corpus was projected into Microsoft Fabric Graph, exposed through an Entra-protected MCP gateway, and used by a Microsoft Foundry Agent Application.</p>
+      <div class="status-row">
+        <span class="pill pass">✓ CLOUD ACCEPTANCE PASSED</span>
+        <span class="pill">Sweden Central</span>
+        <span class="pill">Fabric F64</span>
+        <span class="pill">2026-08-23 20:43 UTC</span>
+      </div>
+
+      <div class="grid">
+        <article class="card metric"><span class="check">✓</span><div class="label">Markdown documents</div><div class="value">28</div></article>
+        <article class="card metric"><span class="check">✓</span><div class="label">Graph nodes</div><div class="value">107</div></article>
+        <article class="card metric"><span class="check">✓</span><div class="label">Graph edges</div><div class="value">167</div></article>
+        <article class="card metric"><span class="check">✓</span><div class="label">Healthy active revisions</div><div class="value">1</div></article>
+
+        <article class="card source">
+          <div class="label-small">Exact public source</div>
+          <div class="source-path mono">quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge</div>
+          <div class="commit mono">ae3b513f3c3c549874a476ca020d1ff5a6fcf436</div>
+          <div class="proof">GitHub Actions passed on the same commit. Fabric GQL returned the same repository, projection, commit, and exact 107/167 counts.</div>
+        </article>
+
+        <article class="card security">
+          <div class="label-small">Live boundary checks</div>
+          <div class="checks">
+            <div class="check-row"><strong>200</strong>Health endpoint</div>
+            <div class="check-row"><strong>401</strong>Anonymous MCP</div>
+            <div class="check-row"><strong>1</strong>Project MI Qam.Read</div>
+            <div class="check-row"><strong>0</strong>Agent app Qam.Read</div>
+          </div>
+        </article>
+
+        <article class="card chain">
+          <h2>The tested cloud chain</h2>
+          <div class="flow">
+            <div class="node"><span class="number">1</span><h3>Public GitHub</h3><p>28 synthetic OKF Markdown documents at one immutable commit.</p></div>
+            <div class="arrow">→</div>
+            <div class="node"><span class="number">2</span><h3>Fabric Graph</h3><p>Notebook, canonical definition, RefreshGraph and bounded live GQL.</p></div>
+            <div class="arrow">→</div>
+            <div class="node"><span class="number">3</span><h3>MCP + Entra</h3><p>Digest-pinned Container App; EasyAuth allows only the project managed identity.</p></div>
+            <div class="arrow">→</div>
+            <div class="node"><span class="number">4</span><h3>Foundry Agent</h3><p>Graph navigation, provenance and exact-commit source reread.</p></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="agent-trace" class="section">
+      <div class="eyebrow">Authenticated agent proof</div>
+      <h2>One bounded, provenance-preserving tool chain</h2>
+      <div class="grid">
+        <article class="card trace">
+          <div class="event"><div class="event-index">01</div><div class="event-name">qam.resolve_concepts</div><div class="event-result">PASSED</div></div>
+          <div class="event"><div class="event-index">02</div><div class="event-name">qam.get_neighbors</div><div class="event-result">PASSED</div></div>
+          <div class="event"><div class="event-index">03</div><div class="event-name">qam.trace_provenance</div><div class="event-result">PASSED</div></div>
+          <div class="event"><div class="event-index">04</div><div class="event-name">qam.read_concepts</div><div class="event-result">PASSED</div></div>
+          <div class="proof">The final content marker was read from GitHub at the same commit carried by the Fabric projection.</div>
+        </article>
+        <article class="card boundary">
+          <div class="label-small">Acceptance controls</div>
+          <ul>
+            <li><strong>ProjectManagedIdentity</strong> connection; no client secret.</li>
+            <li>EasyAuth audience, application and principal allowlists verified live.</li>
+            <li>ACR cloud build from the exact public commit, digest pinned and locked.</li>
+            <li>Temporary ACR writer removed after build.</li>
+            <li>Definition updater returned to <strong>Viewer</strong> after GQL acceptance.</li>
+            <li>Superseded Foundry access and connection cleanup verified.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      <span>Public redacted evidence · raw tenant receipts are not published</span>
+      <span><a href="cloud-deployment-receipt.json">Machine-readable receipt</a> · Synthetic PoC data · Fabric Graph Preview</span>
+    </footer>
+  </main>
+</body>
+</html>

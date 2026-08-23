@@ -4,8 +4,8 @@
 
 **Where the Diagram Ends** is my personal collection of small experiments that take architecture beyond diagrams. Each project turns an idea into something tangible, runnable, and testable: a proof that shows whether the idea actually works.
 
-> 🚧 **Coming soon:** The first proofs of concept are currently being built and tested.
+The first proof is now implemented and has passed a complete Azure cloud acceptance run.
 
 ## Proofs of concept
 
-- [Quick Agentic Memory](./quickagenticmemory/) — Coming soon. A graph-first memory experiment that connects Markdown knowledge in GitHub with Microsoft Fabric Graph and Microsoft Foundry agents.
+- [Quick Agentic Memory](./quickagenticmemory/) — A graph-first memory proof that connects public, commit-pinned Markdown in GitHub with Microsoft Fabric Graph, an Entra-protected MCP gateway, and a Microsoft Foundry Agent Application. See the [redacted cloud evidence](./quickagenticmemory/tests/industrial-component-obsolescence/screens/).
