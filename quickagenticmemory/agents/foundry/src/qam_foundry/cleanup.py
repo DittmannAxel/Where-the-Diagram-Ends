@@ -331,8 +331,7 @@ def validate_cleanup_inputs(
     if registration.get("allowedTools") != list(ALLOWED_TOOLS):
         raise CleanupValidationError("registration does not contain the exact read-only tool allowlist")
 
-    smoke_version = smoke.get("receiptVersion")
-    if smoke_version is not None and smoke_version != SMOKE_RECEIPT_VERSION:
+    if smoke.get("receiptVersion") != SMOKE_RECEIPT_VERSION:
         raise CleanupValidationError("smoke receipt has an unsupported version")
     if smoke.get("status") != "passed" or smoke.get("contentMarkerVerified") is not True:
         raise CleanupValidationError("smoke receipt is not a passed content proof")

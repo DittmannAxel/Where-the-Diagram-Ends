@@ -14,6 +14,7 @@ from qam_foundry.cleanup import (
     CONNECTION_API_VERSION,
     GRAPH_SCOPE,
     PROJECT_API_VERSION,
+    SMOKE_RECEIPT_VERSION,
     STALE_CONNECTION_NAME,
     CleanupValidationError,
     execute_cleanup,
@@ -53,6 +54,7 @@ CONTAINER_APP_ID = (
 
 def smoke_receipt() -> dict[str, Any]:
     return {
+        "receiptVersion": SMOKE_RECEIPT_VERSION,
         "status": "passed",
         "applicationName": APPLICATION_NAME,
         "toolEvents": [f"qam.{name}" for name in SMOKE_REQUIRED_TOOLS],
@@ -417,6 +419,14 @@ def test_input_validation_rejects_unpassed_or_mismatched_smoke(
     smoke[field] = value
 
     with pytest.raises(CleanupValidationError, match=message):
+        validate_cleanup_inputs(smoke, access_receipt(), attached_registration(), COMMIT)
+
+
+def test_input_validation_rejects_unversioned_smoke() -> None:
+    smoke = smoke_receipt()
+    del smoke["receiptVersion"]
+
+    with pytest.raises(CleanupValidationError, match="unsupported version"):
         validate_cleanup_inputs(smoke, access_receipt(), attached_registration(), COMMIT)
 
 
