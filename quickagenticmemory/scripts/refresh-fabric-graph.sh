@@ -14,6 +14,7 @@ request_timeout_seconds="${QAM_FABRIC_GRAPH_REFRESH_REQUEST_TIMEOUT_SECONDS:-60}
 connect_timeout_seconds="${QAM_FABRIC_GRAPH_REFRESH_CONNECT_TIMEOUT_SECONDS:-10}"
 default_poll_seconds="${QAM_FABRIC_GRAPH_REFRESH_DEFAULT_POLL_SECONDS:-10}"
 max_retry_after_seconds="${QAM_FABRIC_GRAPH_REFRESH_MAX_RETRY_AFTER_SECONDS:-300}"
+token_refresh_limit="${QAM_FABRIC_GRAPH_REFRESH_TOKEN_REFRESHES:-2}"
 
 usage() {
   printf '%s\n' \
@@ -67,6 +68,7 @@ validate_positive_integer "${request_timeout_seconds}" "request timeout" 300
 validate_positive_integer "${connect_timeout_seconds}" "connect timeout" 60
 validate_nonnegative_integer "${default_poll_seconds}" "default poll interval" 300
 validate_nonnegative_integer "${max_retry_after_seconds}" "maximum Retry-After" 600
+validate_nonnegative_integer "${token_refresh_limit}" "Fabric token refresh limit" 5
 [ "${connect_timeout_seconds}" -le "${request_timeout_seconds}" ] \
   || qam_fail "connect timeout must not exceed request timeout"
 
@@ -75,11 +77,18 @@ qam_require_command curl
 qam_require_command date
 qam_require_command jq
 
-access_token="$(az account get-access-token \
-  --resource 'https://api.fabric.microsoft.com' \
-  --query accessToken \
-  --output tsv)"
-[ -n "${access_token}" ] || qam_fail "could not acquire a Microsoft Fabric access token"
+acquire_fabric_access_token() {
+  local acquired_token
+  acquired_token="$(az account get-access-token \
+    --resource 'https://api.fabric.microsoft.com' \
+    --query accessToken \
+    --output tsv)"
+  [ -n "${acquired_token}" ] || qam_fail "could not acquire a Microsoft Fabric access token"
+  printf '%s' "${acquired_token}"
+}
+
+access_token="$(acquire_fabric_access_token)"
+token_refreshes=0
 
 response_file="$(mktemp)"
 headers_file="$(mktemp)"
@@ -226,6 +235,20 @@ while [ -z "${terminal_status}" ] \
       wait_before_retry "$(retry_after_seconds true)"
       continue
       ;;
+    401)
+      if ! jq -e '.errorCode == "TokenExpired"' "${response_file}" >/dev/null 2>&1; then
+        sed -n '1,40p' "${response_file}" >&2
+        qam_fail "polling Fabric Graph refresh returned a non-renewable HTTP 401"
+      fi
+      [ "${token_refreshes}" -lt "${token_refresh_limit}" ] \
+        || qam_fail "Fabric access token expired after ${token_refresh_limit} bounded renewals"
+      renewed_access_token="$(acquire_fabric_access_token)"
+      [ "${renewed_access_token}" != "${access_token}" ] \
+        || qam_fail "Azure CLI returned the same expired Microsoft Fabric access token"
+      access_token="${renewed_access_token}"
+      token_refreshes=$((token_refreshes + 1))
+      continue
+      ;;
     200) ;;
     *)
       sed -n '1,40p' "${response_file}" >&2
@@ -269,6 +292,7 @@ jq -cn \
   --arg status "${terminal_status}" \
   --argjson startHttpStatus "${start_http_status}" \
   --argjson pollAttempts "${poll_attempts}" \
+  --argjson tokenRefreshes "${token_refreshes}" \
   --argjson timeoutSeconds "${overall_timeout_seconds}" \
   --argjson elapsedSeconds "$((completed_at - started_at))" '
     {
@@ -279,6 +303,7 @@ jq -cn \
       startHttpStatus: $startHttpStatus,
       status: $status,
       pollAttempts: $pollAttempts,
+      tokenRefreshes: $tokenRefreshes,
       timeoutSeconds: $timeoutSeconds,
       elapsedSeconds: $elapsedSeconds,
       verified: true

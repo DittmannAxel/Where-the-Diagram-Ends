@@ -17,7 +17,13 @@ trap 'rm -rf "${test_root}"' EXIT
 az() {
   case "${1:-} ${2:-}" in
     'account show') return 0 ;;
-    'account get-access-token') printf '%s\n' 'mock-fabric-token'; return 0 ;;
+    'account get-access-token')
+      local token_number
+      token_number="$(( $(wc -l < "${QAM_REFRESH_TEST_TOKEN_LOG}" | tr -d ' ') + 1 ))"
+      printf 'token-%s\n' "${token_number}" >> "${QAM_REFRESH_TEST_TOKEN_LOG}"
+      printf 'mock-fabric-token-%s\n' "${token_number}"
+      return 0
+      ;;
     *) return 1 ;;
   esac
 }
@@ -53,6 +59,7 @@ curl() {
   local connect_timeout=''
   local max_time=''
   local content_length='absent'
+  local authorization=''
   local url=''
   local request_number
   local status='200'
@@ -69,6 +76,9 @@ curl() {
         if [ "${argument}" = 'Content-Length: 0' ]; then
           content_length='0'
         fi
+        case "${argument}" in
+          'Authorization: Bearer '*) authorization="${argument#Authorization: Bearer }" ;;
+        esac
         ;;
     esac
     previous="${argument}"
@@ -77,6 +87,8 @@ curl() {
   printf '%s %s connect=%s max=%s content-length=%s\n' \
     "${method}" "${url}" "${connect_timeout}" "${max_time}" "${content_length}" \
     >> "${QAM_REFRESH_TEST_REQUEST_LOG}"
+  printf '%s %s %s\n' "${method}" "${url}" "${authorization}" \
+    >> "${QAM_REFRESH_TEST_AUTH_LOG}"
   request_number="$(wc -l < "${QAM_REFRESH_TEST_REQUEST_LOG}" | tr -d ' ')"
   : > "${headers_file}"
   : > "${output_file}"
@@ -147,6 +159,19 @@ curl() {
       fi
       job_status='Completed'
       ;;
+    token-expired)
+      if [ "${request_number}" -eq 2 ]; then
+        printf '%s\n' '{"errorCode":"TokenExpired","message":"Access token has expired"}' > "${output_file}"
+        printf '401'
+        return
+      fi
+      job_status='Completed'
+      ;;
+    unauthorized)
+      printf '%s\n' '{"errorCode":"Unauthorized"}' > "${output_file}"
+      printf '401'
+      return
+      ;;
     failed) job_status='Failed' ;;
     unknown-status) job_status='Paused' ;;
     malformed-job)
@@ -184,10 +209,14 @@ run_scenario() {
   : > "${scenario_dir}/requests.log"
   : > "${scenario_dir}/sleep.log"
   : > "${scenario_dir}/date.log"
+  : > "${scenario_dir}/tokens.log"
+  : > "${scenario_dir}/auth.log"
   QAM_REFRESH_TEST_SCENARIO="${scenario}" \
   QAM_REFRESH_TEST_REQUEST_LOG="${scenario_dir}/requests.log" \
   QAM_REFRESH_TEST_SLEEP_LOG="${scenario_dir}/sleep.log" \
   QAM_REFRESH_TEST_DATE_LOG="${scenario_dir}/date.log" \
+  QAM_REFRESH_TEST_TOKEN_LOG="${scenario_dir}/tokens.log" \
+  QAM_REFRESH_TEST_AUTH_LOG="${scenario_dir}/auth.log" \
   QAM_REFRESH_TEST_WORKSPACE="${workspace_id}" \
   QAM_REFRESH_TEST_GRAPH="${graph_model_id}" \
   QAM_REFRESH_TEST_JOB="${job_instance_id}" \
@@ -223,6 +252,7 @@ jq -e \
     .startHttpStatus == 202 and
     .status == "Completed" and
     .pollAttempts == 2 and
+    .tokenRefreshes == 0 and
     .timeoutSeconds == 30 and
     .verified == true
   ' <<< "${success_receipt}" >/dev/null \
@@ -248,6 +278,25 @@ jq -e '.status == "Completed" and .verified == true' <<< "${start_throttle_recei
 poll_throttle_receipt="$(run_scenario poll-throttle)"
 jq -e '.status == "Completed" and .pollAttempts == 2' <<< "${poll_throttle_receipt}" >/dev/null \
   || qam_fail "Fabric Graph refresh did not recover from poll throttling"
+
+token_expired_receipt="$(run_scenario token-expired)"
+jq -e '.status == "Completed" and .pollAttempts == 2 and .tokenRefreshes == 1' \
+  <<< "${token_expired_receipt}" >/dev/null \
+  || qam_fail "Fabric Graph refresh did not renew an expired polling token exactly once"
+token_expired_dir="$(find "${test_root}" -type d -name 'token-expired-*' | head -1)"
+[ "$(wc -l < "${token_expired_dir}/tokens.log" | tr -d ' ')" -eq 2 ] \
+  || qam_fail "Fabric Graph refresh did not bound token acquisition to initial plus one renewal"
+[ "$(grep -Fxc "GET ${job_url} mock-fabric-token-1" "${token_expired_dir}/auth.log")" -eq 1 ] \
+  || qam_fail "Fabric Graph refresh did not use the initial token for the first exact-job poll"
+[ "$(grep -Fxc "GET ${job_url} mock-fabric-token-2" "${token_expired_dir}/auth.log")" -eq 1 ] \
+  || qam_fail "Fabric Graph refresh did not continue the same exact job with the renewed token"
+[ "$(grep -Fxc "GET ${job_url} connect=2 max=5 content-length=absent" "${token_expired_dir}/requests.log")" -eq 2 ] \
+  || qam_fail "Fabric Graph refresh started a new job instead of continuing the exact existing job"
+
+expect_failure unauthorized
+unauthorized_dir="$(find "${test_root}" -type d -name 'unauthorized-*' | head -1)"
+[ "$(wc -l < "${unauthorized_dir}/tokens.log" | tr -d ' ')" -eq 1 ] \
+  || qam_fail "Fabric Graph refresh renewed a token for a non-expiry HTTP 401"
 
 for scenario in \
   cross-origin \
@@ -276,11 +325,15 @@ fi
 
 touch "${test_root}/hard-deadline-requests.log" \
   "${test_root}/hard-deadline-sleep.log" \
-  "${test_root}/hard-deadline-date.log"
+  "${test_root}/hard-deadline-date.log" \
+  "${test_root}/hard-deadline-token.log" \
+  "${test_root}/hard-deadline-auth.log"
 if QAM_REFRESH_TEST_SCENARIO='hard-deadline' \
   QAM_REFRESH_TEST_REQUEST_LOG="${test_root}/hard-deadline-requests.log" \
   QAM_REFRESH_TEST_SLEEP_LOG="${test_root}/hard-deadline-sleep.log" \
   QAM_REFRESH_TEST_DATE_LOG="${test_root}/hard-deadline-date.log" \
+  QAM_REFRESH_TEST_TOKEN_LOG="${test_root}/hard-deadline-token.log" \
+  QAM_REFRESH_TEST_AUTH_LOG="${test_root}/hard-deadline-auth.log" \
   QAM_REFRESH_TEST_WORKSPACE="${workspace_id}" \
   QAM_REFRESH_TEST_GRAPH="${graph_model_id}" \
   QAM_REFRESH_TEST_JOB="${job_instance_id}" \
