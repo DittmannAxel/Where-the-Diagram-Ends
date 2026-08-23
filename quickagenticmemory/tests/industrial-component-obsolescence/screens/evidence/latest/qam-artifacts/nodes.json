@@ -1,0 +1,1687 @@
+[
+  {
+    "id": "urn:qam:concept:01ff408850e7195b34d8c85a0a050a2d318504e2cb5338a2c09ab34714f4569c",
+    "kind": "Concept",
+    "title": "SB-2026-04",
+    "path": "service-bulletins/sb-2026-04.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/service-bulletins/sb-2026-04.md",
+    "conceptId": "service-bulletins/sb-2026-04",
+    "type": "Service Bulletin",
+    "tags": [
+      "component-obsolescence",
+      "current",
+      "service-bulletin"
+    ],
+    "aliases": [
+      "EOL notice 2026-04",
+      "current IOL-M8 bulletin"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "5e0ed0154097f0359704a00fdddd3a75b006711076c87591c6caa8bffbb16812",
+    "summary": "Current fictional IOL-M8 end-of-life and replacement-assessment notice.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/service-bulletins/sb-2026-04.md"
+  },
+  {
+    "id": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "kind": "Concept",
+    "title": "IOL-M8",
+    "path": "components/iol-m8.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/components/iol-m8.md",
+    "conceptId": "components/iol-m8",
+    "type": "Industrial Component",
+    "tags": [
+      "component-obsolescence",
+      "io-link",
+      "non-safety",
+      "subject"
+    ],
+    "aliases": [
+      "8-port IO-Link Master",
+      "AL-8P",
+      "IOL M8",
+      "XK8-IO"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "4fb1fb5dd3bcbc13dce1cd8364e73ce00910b37741668a2fc4232d6e5abcd614",
+    "summary": "Fictional eight-port IO-Link master announced for end of life.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/components/iol-m8.md"
+  },
+  {
+    "id": "urn:qam:concept:16c58a9cff7ebcb4d3e16041f7b013a602a0d045277b1ea0d254f4ab8e3bd767",
+    "kind": "Concept",
+    "title": "PARAM-SET-09",
+    "path": "parameters/param-set-09.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/parameters/param-set-09.md",
+    "conceptId": "parameters/param-set-09",
+    "type": "Parameter Set",
+    "tags": [
+      "palletizing",
+      "parameter-set"
+    ],
+    "aliases": [
+      "PAL V2 master parameters",
+      "V2 parameter set"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "7917a45e416ed199f149eeadaddc1cd5a0f5047f01d2127d96f0796af9c1e14b",
+    "summary": "PAL-80/V2 IOL-M8 port and diagnostic parameters.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/parameters/param-set-09.md"
+  },
+  {
+    "id": "urn:qam:concept:1bd1ddad93f57be1643651e73eecd0ff65e046e616671e2867cf06ed16b7566f",
+    "kind": "Concept",
+    "title": "FAT-099",
+    "path": "acceptance-tests/fat-099.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/acceptance-tests/fat-099.md",
+    "conceptId": "acceptance-tests/fat-099",
+    "type": "Acceptance Test",
+    "tags": [
+      "fat",
+      "stainless-enclosure",
+      "test-specification"
+    ],
+    "aliases": [
+      "M8S seal FAT",
+      "PAL V1 stainless test"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "969f87d30e400ae0222e6118a334fe670d8f7940004d64c31401b0f8d8a248ca",
+    "summary": "PAL-80/V1 enclosure and diagnostic test for the distinct IOL-M8S.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/acceptance-tests/fat-099.md"
+  },
+  {
+    "id": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "kind": "Concept",
+    "title": "PAL-80/V2",
+    "path": "machines/pal-80-v2.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/machines/pal-80-v2.md",
+    "conceptId": "machines/pal-80-v2",
+    "type": "Machine Variant",
+    "tags": [
+      "delivered",
+      "machine-variant",
+      "palletizing"
+    ],
+    "aliases": [
+      "PAL 80 V2",
+      "PAL-V2"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "7b51e4e46af26a61ae978791cbb80950ad58023dcf865415203eb28611a44e10",
+    "summary": "Delivered PAL-80 variant directly using IOL-M8.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/machines/pal-80-v2.md"
+  },
+  {
+    "id": "urn:qam:concept:2e94aa9be842c869145f9e15865fcb1f4195349febc8e8d6ff76d2cca135b4cc",
+    "kind": "Concept",
+    "title": "FB_IO_DIAG",
+    "path": "plc/fb-io-diag.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/plc/fb-io-diag.md",
+    "conceptId": "plc/fb-io-diag",
+    "type": "PLC Function Block",
+    "tags": [
+      "diagnostics",
+      "plc",
+      "structured-text"
+    ],
+    "aliases": [
+      "PKG IO diagnostics",
+      "V500 diagnostic FB"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "2262c7fcb9e9aa1dc07a1eea15113a45d234fcee76717d7fcb0fd03a6d84209b",
+    "summary": "PKG-200/V500 diagnostic block coupled to the IOL-M8 process image.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/plc/fb-io-diag.md"
+  },
+  {
+    "id": "urn:qam:concept:30afaf00e68e58cea7358ef57fcac5dab6d629dd413fbb85c11a16bbc447ce39",
+    "kind": "Concept",
+    "title": "CR-1042",
+    "path": "change-requests/cr-1042.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/change-requests/cr-1042.md",
+    "conceptId": "change-requests/cr-1042",
+    "type": "Change Request",
+    "tags": [
+      "change-control",
+      "component-obsolescence"
+    ],
+    "aliases": [
+      "IOL-M8 replacement change",
+      "master obsolescence change"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "216fce3f81463762cc8b55d26de6925bf2456ea57325d63480ff34c11305f2ca",
+    "summary": "Controlled assessment for replacing IOL-M8 in impacted machine variants.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/change-requests/cr-1042.md"
+  },
+  {
+    "id": "urn:qam:concept:320625bfa5b000f4b8b8703c61d5b6c9a4215a68390ebc86585b4d9443453923",
+    "kind": "Concept",
+    "title": "PKG-200/V300",
+    "path": "machines/pkg-200-v300.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/machines/pkg-200-v300.md",
+    "conceptId": "machines/pkg-200-v300",
+    "type": "Machine Variant",
+    "tags": [
+      "delivered",
+      "machine-variant",
+      "packaging"
+    ],
+    "aliases": [
+      "PKG 200 V300",
+      "PKG-V300"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "2eef5ade1e78e5ff4c56b74934d0bdb5e061d42bfaecb9d1c079e0a36c34ba31",
+    "summary": "Delivered PKG-200 variant without IOL-M8 or IOL-M8S.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/machines/pkg-200-v300.md"
+  },
+  {
+    "id": "urn:qam:concept:3cd1080824ce519277d95b831bb29260af4792ce23e2fb42c60acf95cace7bd0",
+    "kind": "Concept",
+    "title": "PARAM-SET-S08",
+    "path": "parameters/param-set-s08.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/parameters/param-set-s08.md",
+    "conceptId": "parameters/param-set-s08",
+    "type": "Parameter Set",
+    "tags": [
+      "parameter-set",
+      "stainless-enclosure"
+    ],
+    "aliases": [
+      "M8S parameter set",
+      "PAL V1 stainless parameters"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "a3fc77f4ab388ab33c82d3ed540f2933a44338ca27818113807edb493f8e1c61",
+    "summary": "PAL-80/V1 parameters for IOL-M8S only.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/parameters/param-set-s08.md"
+  },
+  {
+    "id": "urn:qam:concept:4420de5a4a8ac84e25c67646111e7609bda131d8c3986503fe5e74479e794e39",
+    "kind": "Concept",
+    "title": "FAT-042",
+    "path": "acceptance-tests/fat-042.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/acceptance-tests/fat-042.md",
+    "conceptId": "acceptance-tests/fat-042",
+    "type": "Acceptance Test",
+    "tags": [
+      "fat",
+      "packaging",
+      "test-specification"
+    ],
+    "aliases": [
+      "PKG V500 diagnostic FAT",
+      "V500 I/O checkout"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "d0be11201e0302ad6bec6f6707f722c29b1f6e451f33cd14b9b8cb15d154892c",
+    "summary": "Planned PKG-200/V500 factory test for IOL-M8 mapped I/O and replacement diagnostics.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/acceptance-tests/fat-042.md"
+  },
+  {
+    "id": "urn:qam:concept:44df4761a4c3eaffbd9d74d1a66fa61ef3416aed15b30dbae27d08cf29e79613",
+    "kind": "Concept",
+    "title": "NXL-R8",
+    "path": "components/nxl-r8.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/components/nxl-r8.md",
+    "conceptId": "components/nxl-r8",
+    "type": "Industrial Component",
+    "tags": [
+      "candidate",
+      "io-link",
+      "replacement"
+    ],
+    "aliases": [
+      "NextLink R8",
+      "replacement candidate R8"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "draft",
+    "contentHash": "94c8553fbb6b1775d7094fe7c94eae8d4d7c8e0fb9ceff2eba76a891aa0c24cc",
+    "summary": "Fictional candidate replacement that requires engineering validation.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/components/nxl-r8.md"
+  },
+  {
+    "id": "urn:qam:concept:52d26a8a6cd9cb659f8a9be020059d0f2db78792c09e039b90e9509300127fcf",
+    "kind": "Concept",
+    "title": "FB_STAINLESS_DIAG",
+    "path": "plc/fb-stainless-diag.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/plc/fb-stainless-diag.md",
+    "conceptId": "plc/fb-stainless-diag",
+    "type": "PLC Function Block",
+    "tags": [
+      "diagnostics",
+      "plc",
+      "stainless-enclosure"
+    ],
+    "aliases": [
+      "M8S diagnostics",
+      "PAL V1 stainless diagnostic FB"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "80f41267ab274d91ed83fa57b37f82afbcc7444d0f8369552995e03249ae16de",
+    "summary": "PAL-80/V1 diagnostics for IOL-M8S, not IOL-M8.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/plc/fb-stainless-diag.md"
+  },
+  {
+    "id": "urn:qam:concept:8336cc40dc1b71b249a518892cdee913c110f1bc45e280515b848067ead5d982",
+    "kind": "Concept",
+    "title": "FAT-057",
+    "path": "acceptance-tests/fat-057.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/acceptance-tests/fat-057.md",
+    "conceptId": "acceptance-tests/fat-057",
+    "type": "Acceptance Test",
+    "tags": [
+      "fat",
+      "palletizing",
+      "test-specification"
+    ],
+    "aliases": [
+      "PAL V2 diagnostic FAT",
+      "V2 gripper I/O checkout"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "bf003df2cdf0380f8e581d9e9cddd6b3b3fb550a83c77580975f4630da3d0358",
+    "summary": "Planned PAL-80/V2 factory test for IOL-M8 gripper and pallet diagnostics.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/acceptance-tests/fat-057.md"
+  },
+  {
+    "id": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "kind": "Concept",
+    "title": "PKG-200/V500",
+    "path": "machines/pkg-200-v500.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/machines/pkg-200-v500.md",
+    "conceptId": "machines/pkg-200-v500",
+    "type": "Machine Variant",
+    "tags": [
+      "delivered",
+      "machine-variant",
+      "packaging"
+    ],
+    "aliases": [
+      "PKG 200 V500",
+      "PKG-V500"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "08d350c547fdac70310800aebcfc0276851ff5b860fb2a76e88f1a32c0837f1c",
+    "summary": "Delivered PKG-200 variant directly using IOL-M8.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/machines/pkg-200-v500.md"
+  },
+  {
+    "id": "urn:qam:concept:8c91b830d2c2e2bb502fb98fd8077432022120b057c446aa8dd6539e0b8ce754",
+    "kind": "Concept",
+    "title": "IOL-M8S",
+    "path": "components/iol-m8s.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/components/iol-m8s.md",
+    "conceptId": "components/iol-m8s",
+    "type": "Industrial Component",
+    "tags": [
+      "io-link",
+      "non-safety",
+      "stainless-enclosure"
+    ],
+    "aliases": [
+      "8-port stainless IO-Link master",
+      "IOL M8S",
+      "XK8-IOS"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "91b7faa4e6e8b951acd0578ff44fa9846f518b7075b9e96ee04749d8abd242c8",
+    "summary": "Fictional stainless-enclosure IO-Link master that is distinct from IOL-M8.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/components/iol-m8s.md"
+  },
+  {
+    "id": "urn:qam:concept:95e6ac9ab8e260c9506350f0717a642c17fa9c84d1696173f7430942408c5720",
+    "kind": "Concept",
+    "title": "SAT-021",
+    "path": "acceptance-tests/sat-021.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/acceptance-tests/sat-021.md",
+    "conceptId": "acceptance-tests/sat-021",
+    "type": "Acceptance Test",
+    "tags": [
+      "packaging",
+      "sat",
+      "test-specification"
+    ],
+    "aliases": [
+      "PKG V500 recovery SAT",
+      "V500 site I/O test"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "19c6fa92887e746ce68adf9e3253cef11a7116f0dfcfafd2c4fbf8a82855a38b",
+    "summary": "Planned PKG-200/V500 site test for IOL-M8 wiring, recovery, and sustained diagnostics.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/acceptance-tests/sat-021.md"
+  },
+  {
+    "id": "urn:qam:concept:a9ec67b2e4936c96a11447471cd2ffe29671b4fa080b4590ad07916ca1750415",
+    "kind": "Concept",
+    "title": "IO-MAP-17",
+    "path": "io-mappings/io-map-17.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/io-mappings/io-map-17.md",
+    "conceptId": "io-mappings/io-map-17",
+    "type": "I/O Mapping",
+    "tags": [
+      "io-link",
+      "io-mapping",
+      "packaging"
+    ],
+    "aliases": [
+      "PKG V500 I/O map",
+      "V500 sensor map"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "6ab8beb2e1c907f6ccc645346f7770bec99f8407b6ff3e700c68bdb1fec1b4c1",
+    "summary": "PKG-200/V500 standard I/O assignment for the IOL-M8 process image.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/io-mappings/io-map-17.md"
+  },
+  {
+    "id": "urn:qam:concept:aa304905f9211482f2cc3f5757770cbd19f8809460bccf64bbc963d56f8bc23f",
+    "kind": "Concept",
+    "title": "PKG-200",
+    "path": "machines/pkg-200.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/machines/pkg-200.md",
+    "conceptId": "machines/pkg-200",
+    "type": "Machine Family",
+    "tags": [
+      "machine-family",
+      "packaging"
+    ],
+    "aliases": [
+      "PKG 200 family"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "25225bc5cc0409e63f97c76b2e3c64d07c061f661a8b82d3476d94a7a06dbad8",
+    "summary": "Fictional modular carton-packaging machine family.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/machines/pkg-200.md"
+  },
+  {
+    "id": "urn:qam:concept:ade795affbabb248d44afd5d9a717a734cc2876c5a0e5e08dbab01fd25eeaaa4",
+    "kind": "Concept",
+    "title": "PAL-80",
+    "path": "machines/pal-80.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/machines/pal-80.md",
+    "conceptId": "machines/pal-80",
+    "type": "Machine Family",
+    "tags": [
+      "machine-family",
+      "palletizing"
+    ],
+    "aliases": [
+      "PAL 80 family"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "c0606a2497bcbcaae072f7394d46f46ec822c883771f986f8da9ca32a63eb261",
+    "summary": "Fictional compact palletizing machine family.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/machines/pal-80.md"
+  },
+  {
+    "id": "urn:qam:concept:b5cd7a9ed19bec659dc94f804033838f61057acf149442509568659a4064d369",
+    "kind": "Concept",
+    "title": "SAT-011",
+    "path": "acceptance-tests/sat-011.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/acceptance-tests/sat-011.md",
+    "conceptId": "acceptance-tests/sat-011",
+    "type": "Acceptance Test",
+    "tags": [
+      "palletizing",
+      "sat",
+      "test-specification"
+    ],
+    "aliases": [
+      "PAL V2 recovery SAT",
+      "V2 site I/O test"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "607e124437d7b77230bbab7ee766f03a57dfc6f99e287b63936eaf2c8c8f1195",
+    "summary": "Planned PAL-80/V2 site test for IOL-M8 sensor recovery and parameter persistence.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/acceptance-tests/sat-011.md"
+  },
+  {
+    "id": "urn:qam:concept:b6fca1fbfb4a11c5a04192d26d882a5a0df55cdde6693642b5b526317de5bfae",
+    "kind": "Concept",
+    "title": "SB-2026-S08",
+    "path": "service-bulletins/sb-2026-s08.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/service-bulletins/sb-2026-s08.md",
+    "conceptId": "service-bulletins/sb-2026-s08",
+    "type": "Service Bulletin",
+    "tags": [
+      "service-bulletin",
+      "stainless-enclosure"
+    ],
+    "aliases": [
+      "M8S seal inspection bulletin",
+      "stainless master notice"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "956fafa8964c87a52f079d36b23f719ab98b5edfbd6cbf8911e9e2986313acd1",
+    "summary": "Unrelated fictional maintenance notice for IOL-M8S.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/service-bulletins/sb-2026-s08.md"
+  },
+  {
+    "id": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "kind": "Concept",
+    "title": "PAL-80/V1",
+    "path": "machines/pal-80-v1.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/machines/pal-80-v1.md",
+    "conceptId": "machines/pal-80-v1",
+    "type": "Machine Variant",
+    "tags": [
+      "delivered",
+      "machine-variant",
+      "palletizing",
+      "stainless-enclosure"
+    ],
+    "aliases": [
+      "PAL 80 V1",
+      "PAL stainless variant",
+      "PAL-V1"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "5e4cd022f4c89c857518b28dcf1fe9e8c2220c2704e2a1492c8a918eaaaafd51",
+    "summary": "Delivered PAL-80 variant using the distinct IOL-M8S component.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/machines/pal-80-v1.md"
+  },
+  {
+    "id": "urn:qam:concept:c5c4fd7ff3969da89a9791eb008771211c09407dea307e080fce8353449ec70a",
+    "kind": "Concept",
+    "title": "PARAM-SET-17",
+    "path": "parameters/param-set-17.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/parameters/param-set-17.md",
+    "conceptId": "parameters/param-set-17",
+    "type": "Parameter Set",
+    "tags": [
+      "packaging",
+      "parameter-set"
+    ],
+    "aliases": [
+      "PKG V500 master parameters",
+      "V500 parameter set"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "cc51fc544c42790aadf2ec104f96038865ade34586f331a2b5dad3a4c87e1baf",
+    "summary": "PKG-200/V500 IOL-M8 port and diagnostic parameters.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/parameters/param-set-17.md"
+  },
+  {
+    "id": "urn:qam:concept:ce23fea957fcd5d81fd5903f0284b7d9b81b069530d68532385c3c5ac5aeb0ba",
+    "kind": "Concept",
+    "title": "IO-MAP-S08",
+    "path": "io-mappings/io-map-s08.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/io-mappings/io-map-s08.md",
+    "conceptId": "io-mappings/io-map-s08",
+    "type": "I/O Mapping",
+    "tags": [
+      "io-link",
+      "io-mapping",
+      "stainless-enclosure"
+    ],
+    "aliases": [
+      "M8S process map",
+      "PAL V1 stainless I/O map"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "bd1232419ad5d63b959143e6a45a66c35ab532817ca64bfc29c802256b127ee3",
+    "summary": "PAL-80/V1 mapping for the incompatible IOL-M8S process image.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/io-mappings/io-map-s08.md"
+  },
+  {
+    "id": "urn:qam:concept:edfa57d82b5649357badcbaa83660e4a0ca9f5053ad48bae7bac8f1923a6a0ba",
+    "kind": "Concept",
+    "title": "FB_PALLET_DIAG",
+    "path": "plc/fb-pallet-diag.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/plc/fb-pallet-diag.md",
+    "conceptId": "plc/fb-pallet-diag",
+    "type": "PLC Function Block",
+    "tags": [
+      "diagnostics",
+      "palletizing",
+      "plc"
+    ],
+    "aliases": [
+      "PAL IO diagnostics",
+      "V2 pallet diagnostic FB"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "5bc3d2076a1dbb8308132c5d27afc01a0b61af383e41927a2e68a1445890703f",
+    "summary": "PAL-80/V2 diagnostic block coupled to the IOL-M8 process image.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/plc/fb-pallet-diag.md"
+  },
+  {
+    "id": "urn:qam:concept:f18d567898909fea2691d7ac32af289c8c4e184be128c6af591acc03c739e2d8",
+    "kind": "Concept",
+    "title": "IO-MAP-22",
+    "path": "io-mappings/io-map-22.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/io-mappings/io-map-22.md",
+    "conceptId": "io-mappings/io-map-22",
+    "type": "I/O Mapping",
+    "tags": [
+      "io-link",
+      "io-mapping",
+      "palletizing"
+    ],
+    "aliases": [
+      "PAL V2 I/O map",
+      "V2 gripper sensor map"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "stable",
+    "contentHash": "f397f267c5f208851886f9ae1638c175d7e0f3359b2d8be2fcdd75e2f8a79405",
+    "summary": "PAL-80/V2 standard I/O assignment for the IOL-M8 process image.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/io-mappings/io-map-22.md"
+  },
+  {
+    "id": "urn:qam:concept:fb9a1ce2913cc425264e374c90817131ed7334f7e55b8dfc8b52263680475c97",
+    "kind": "Concept",
+    "title": "SB-2024-11",
+    "path": "service-bulletins/sb-2024-11.md",
+    "repositoryPath": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/service-bulletins/sb-2024-11.md",
+    "conceptId": "service-bulletins/sb-2024-11",
+    "type": "Service Bulletin",
+    "tags": [
+      "component-obsolescence",
+      "service-bulletin",
+      "superseded"
+    ],
+    "aliases": [
+      "old IOL-M8 bulletin",
+      "preliminary M8-R6 advice"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "status": "deprecated",
+    "contentHash": "e1810415eca7b756101e604cfbfc10c1e617390091db0162bb627158fa71e4eb",
+    "summary": "Superseded fictional preliminary recommendation for IOL-M8.",
+    "sourceUrl": "https://github.com/DittmannAxel/Where-the-Diagram-Ends/blob/e0dd9b1fa0948075d640d440e913d24695d5b184/quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge/service-bulletins/sb-2024-11.md"
+  },
+  {
+    "id": "urn:qam:tag:02d7da1bae3fd0767a5544e2fea76eaf5fa5ae73697edd181388c2acc7e1c87b",
+    "kind": "Tag",
+    "title": "parameter-set",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "parameter-set"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "parameter-set"
+  },
+  {
+    "id": "urn:qam:tag:10c298abf10e082fc90cad0c311c4aa460e6426574b429eaa594c0d563442323",
+    "kind": "Tag",
+    "title": "machine-family",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "machine-family"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "machine-family"
+  },
+  {
+    "id": "urn:qam:tag:17fb37a9e74ad686aadf58adc12d3e16911a74b9468f634beacd234d0085359f",
+    "kind": "Tag",
+    "title": "service-bulletin",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "service-bulletin"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "service-bulletin"
+  },
+  {
+    "id": "urn:qam:tag:2350ba1cc0771eb556a63e86d2010d7efcf7df296ebb06e40f54b6113fcd26b9",
+    "kind": "Tag",
+    "title": "structured-text",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "structured-text"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "structured-text"
+  },
+  {
+    "id": "urn:qam:tag:339efeab70b4cc6e2755ec57d2290484ef2363f955c16df3900ad44382227429",
+    "kind": "Tag",
+    "title": "sat",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "sat"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "sat"
+  },
+  {
+    "id": "urn:qam:tag:373e0712c83cffe15ff427b60e788b549f82496fe5fd5391f7921832b04c6b20",
+    "kind": "Tag",
+    "title": "delivered",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "delivered"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "delivered"
+  },
+  {
+    "id": "urn:qam:tag:42bee013a9dff464e1cd6e337e66ddb3a46094e0b81b8c69d25eb86df0b9ed11",
+    "kind": "Tag",
+    "title": "palletizing",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "palletizing"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "palletizing"
+  },
+  {
+    "id": "urn:qam:tag:444bd9c51d51643ccd939e7eb50c847bde7bfdfe271f2fca928e7dbfc73377f0",
+    "kind": "Tag",
+    "title": "superseded",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "superseded"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "superseded"
+  },
+  {
+    "id": "urn:qam:tag:5d7557a319848b815d298edc9fc44eeebddb9e4aeb7a2c194f4f61a77989fe6f",
+    "kind": "Tag",
+    "title": "component-obsolescence",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "component-obsolescence"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "component-obsolescence"
+  },
+  {
+    "id": "urn:qam:tag:5f732c6d66465e6f067990f3d7794dc7edf3c1471041b099363c547645c05a04",
+    "kind": "Tag",
+    "title": "stainless-enclosure",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "stainless-enclosure"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "stainless-enclosure"
+  },
+  {
+    "id": "urn:qam:tag:70b387372b9b5da5ac4f97bf42adc2c47019a730d55a6fbdbac6762fed8c1fe8",
+    "kind": "Tag",
+    "title": "non-safety",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "non-safety"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "non-safety"
+  },
+  {
+    "id": "urn:qam:tag:71669691cb0b0f1bf662939c0db0782fb1a71b103bba2564051bb58bf0e303e6",
+    "kind": "Tag",
+    "title": "packaging",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "packaging"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "packaging"
+  },
+  {
+    "id": "urn:qam:tag:8fa78148b702fb4492246c6ccdf5b194f1a4de68b791cae14800c730456f9e67",
+    "kind": "Tag",
+    "title": "diagnostics",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "diagnostics"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "diagnostics"
+  },
+  {
+    "id": "urn:qam:tag:95713e9cbdd1dfcb2d4080c2537f418d43ca0da25f0d7d6631f4f7c97b89dc47",
+    "kind": "Tag",
+    "title": "replacement",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "replacement"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "replacement"
+  },
+  {
+    "id": "urn:qam:tag:97b0560280ed60a5a1eaa1bc45492543c8a986ad5a25b468c427eb83c3e88191",
+    "kind": "Tag",
+    "title": "current",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "current"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "current"
+  },
+  {
+    "id": "urn:qam:tag:98646067c72be944cf7081dccb2d823baecc279b54e5abc7ca3ff925baae2ff6",
+    "kind": "Tag",
+    "title": "io-link",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "io-link"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "io-link"
+  },
+  {
+    "id": "urn:qam:tag:a9491f4c1bf7b0cffbadcba2db8f028e4b3f2867cb59e1f3a0bc1968f3c51242",
+    "kind": "Tag",
+    "title": "subject",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "subject"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "subject"
+  },
+  {
+    "id": "urn:qam:tag:be07f5139a61ebb919cc31bc0a4c69e6990f98e5b1e73047657115abca90f0ee",
+    "kind": "Tag",
+    "title": "fat",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "fat"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "fat"
+  },
+  {
+    "id": "urn:qam:tag:be9c62fe63911866c02e6bc673b5db164246bb0746a8775bd29f80a5b13f4245",
+    "kind": "Tag",
+    "title": "machine-variant",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "machine-variant"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "machine-variant"
+  },
+  {
+    "id": "urn:qam:tag:cb2270987ebf533a89d0371c644409ae35787d124d249ac901eef8acb095bb55",
+    "kind": "Tag",
+    "title": "test-specification",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "test-specification"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "test-specification"
+  },
+  {
+    "id": "urn:qam:tag:dda18a0e21ae47c53b4309434cbc02ae8bf764fa83a6defbb719431242722aa7",
+    "kind": "Tag",
+    "title": "candidate",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "candidate"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "candidate"
+  },
+  {
+    "id": "urn:qam:tag:ed65b43e0091906920cfc4d79f73671923c7905a9d20919e0f3a4ae39c8b6400",
+    "kind": "Tag",
+    "title": "io-mapping",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "io-mapping"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "io-mapping"
+  },
+  {
+    "id": "urn:qam:tag:eec1534dcbd984de8cafe9df20c2247355356d2d558c8892bec64a666835ff8f",
+    "kind": "Tag",
+    "title": "plc",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "plc"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "plc"
+  },
+  {
+    "id": "urn:qam:tag:f6ff88e05a732ec9f30c652ea816039307d0536d17c67889457421c258e12ddb",
+    "kind": "Tag",
+    "title": "change-control",
+    "type": "Tag",
+    "tags": [],
+    "aliases": [
+      "change-control"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "change-control"
+  },
+  {
+    "id": "urn:qam:term:031bd91a643d9ebfae35b605609664e767f8108678389a0154c9f75a5721edd2",
+    "kind": "Term",
+    "title": "PAL-V1",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL-V1"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal-v1"
+  },
+  {
+    "id": "urn:qam:term:06f7a6c052e33ec9c28444ba151f79e66d62345331c7233675495e733a86df1f",
+    "kind": "Term",
+    "title": "IOL-M8 replacement change",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "IOL-M8 replacement change"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "iol-m8 replacement change"
+  },
+  {
+    "id": "urn:qam:term:0c4f36097cef409ac8aaee92cb848b32ac5b165e205a7c6e1e5d34f70ce28c7c",
+    "kind": "Term",
+    "title": "replacement candidate R8",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "replacement candidate R8"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "replacement candidate r8"
+  },
+  {
+    "id": "urn:qam:term:133e7689653d7f6251acbe4f889c3078e8cc3d6c76bd11679de9fbd8e511ec32",
+    "kind": "Term",
+    "title": "V500 parameter set",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "V500 parameter set"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "v500 parameter set"
+  },
+  {
+    "id": "urn:qam:term:13510cfdf8a021231fea6fdfc4c31e6cf84abd0ba274d6b85ddcde08b833bffc",
+    "kind": "Term",
+    "title": "PKG-V300",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PKG-V300"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pkg-v300"
+  },
+  {
+    "id": "urn:qam:term:14b55d98b0c664ea4f6a5022420001292e1810882fb0913dbe18c88861abc433",
+    "kind": "Term",
+    "title": "PAL IO diagnostics",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL IO diagnostics"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal io diagnostics"
+  },
+  {
+    "id": "urn:qam:term:1928dd1419d588bb517acc39410e9b09cf81fa2133f0b8597b34dd569b9f879a",
+    "kind": "Term",
+    "title": "XK8-IO",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "XK8-IO"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "xk8-io"
+  },
+  {
+    "id": "urn:qam:term:193a3132425f0aa6d6e552c93e2c1b7a95c26b67656532629647394532883a35",
+    "kind": "Term",
+    "title": "AL-8P",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "AL-8P"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "al-8p"
+  },
+  {
+    "id": "urn:qam:term:211fa81c13f40d482b059fd5a5e50e68fcdce9c3fafafacc1f4a4110d5ab9078",
+    "kind": "Term",
+    "title": "IOL M8S",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "IOL M8S"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "iol m8s"
+  },
+  {
+    "id": "urn:qam:term:237cc868477dcff3b982aa70bfbb10654174a9fe1a80e6d242b8e0963b0b2e11",
+    "kind": "Term",
+    "title": "V2 gripper I/O checkout",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "V2 gripper I/O checkout"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "v2 gripper i/o checkout"
+  },
+  {
+    "id": "urn:qam:term:23e53825d625b5dee2a862fa2791701a574ffd261b594971786037cf14b6f615",
+    "kind": "Term",
+    "title": "V2 gripper sensor map",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "V2 gripper sensor map"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "v2 gripper sensor map"
+  },
+  {
+    "id": "urn:qam:term:2b17d612ba060183e1b751f834d369415e449b8a01e681190be38bd82602daa3",
+    "kind": "Term",
+    "title": "V2 site I/O test",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "V2 site I/O test"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "v2 site i/o test"
+  },
+  {
+    "id": "urn:qam:term:2c8b72aec57bfa92a0680b42760ac469ffa697a0890b60ec38dee7ce4ad5177a",
+    "kind": "Term",
+    "title": "NextLink R8",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "NextLink R8"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "nextlink r8"
+  },
+  {
+    "id": "urn:qam:term:36011d906378a1720e04e31dde68533a9b7b41e40af1f16169e5385414afb364",
+    "kind": "Term",
+    "title": "PAL V2 recovery SAT",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL V2 recovery SAT"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal v2 recovery sat"
+  },
+  {
+    "id": "urn:qam:term:379734b39d5dbf527cce284383bc7698d024fc37a5cf33c8c5c6a62fb58607dd",
+    "kind": "Term",
+    "title": "V500 site I/O test",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "V500 site I/O test"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "v500 site i/o test"
+  },
+  {
+    "id": "urn:qam:term:38bde5c6bbce04db45df490cbe38ad51f7e49d96710cb8367d48edf11709a36c",
+    "kind": "Term",
+    "title": "PKG IO diagnostics",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PKG IO diagnostics"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pkg io diagnostics"
+  },
+  {
+    "id": "urn:qam:term:3a986c559eee608bed7570042fcf0159b0bc87da2f6925706305855dd8ab4505",
+    "kind": "Term",
+    "title": "V500 sensor map",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "V500 sensor map"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "v500 sensor map"
+  },
+  {
+    "id": "urn:qam:term:3e9ffa936f55d388ca1f1139776ee7c6a2157482a632af2b2dd812581931d79b",
+    "kind": "Term",
+    "title": "PAL V2 I/O map",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL V2 I/O map"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal v2 i/o map"
+  },
+  {
+    "id": "urn:qam:term:41280d64982d2d7e41cd7531208772c922ce029c4c4643499041ecd61d989113",
+    "kind": "Term",
+    "title": "PKG V500 recovery SAT",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PKG V500 recovery SAT"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pkg v500 recovery sat"
+  },
+  {
+    "id": "urn:qam:term:494f7ece1a40aaf623acf1c0fa127fe1c5b153e64d1afbc31901d49a0ab2bd39",
+    "kind": "Term",
+    "title": "8-port IO-Link Master",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "8-port IO-Link Master"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "8-port io-link master"
+  },
+  {
+    "id": "urn:qam:term:49def30525391035e7f6eecf3f67fa70fe1889d289231dcbf0468da0d7dd8552",
+    "kind": "Term",
+    "title": "PAL V1 stainless diagnostic FB",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL V1 stainless diagnostic FB"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal v1 stainless diagnostic fb"
+  },
+  {
+    "id": "urn:qam:term:51761021dcf0ea22197ba3fb5fc2260db7767f208c61c381636df7b1460df407",
+    "kind": "Term",
+    "title": "PAL V1 stainless I/O map",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL V1 stainless I/O map"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal v1 stainless i/o map"
+  },
+  {
+    "id": "urn:qam:term:5d1a59412cd4cc801d5cef3e6c123a3983664ccf8b20d1f5b2c9f7f0c10e4595",
+    "kind": "Term",
+    "title": "master obsolescence change",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "master obsolescence change"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "master obsolescence change"
+  },
+  {
+    "id": "urn:qam:term:5f6151f7ac878cd163294d16b3a8f47b46a502d6b833da548ead2a2d77d16c92",
+    "kind": "Term",
+    "title": "PAL-V2",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL-V2"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal-v2"
+  },
+  {
+    "id": "urn:qam:term:64fd0d1afe90a6d3cf9a3807939d5e70f5926d62baa5afa2a36ed46d8eb5c8f8",
+    "kind": "Term",
+    "title": "V2 pallet diagnostic FB",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "V2 pallet diagnostic FB"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "v2 pallet diagnostic fb"
+  },
+  {
+    "id": "urn:qam:term:67c61e670907c45d1f6065fec46611d2a1feca786909cfe0320202b4db2adc3c",
+    "kind": "Term",
+    "title": "PAL V1 stainless test",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL V1 stainless test"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal v1 stainless test"
+  },
+  {
+    "id": "urn:qam:term:730076a053d31512a4cf2386ec5ddb68c0006b7d38c0ac9a35464684cd68a2d3",
+    "kind": "Term",
+    "title": "V2 parameter set",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "V2 parameter set"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "v2 parameter set"
+  },
+  {
+    "id": "urn:qam:term:75b749ddc4ad2cd37ff658c9b677de48a1bff55bd56af49ce10713a7ddcf6127",
+    "kind": "Term",
+    "title": "EOL notice 2026-04",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "EOL notice 2026-04"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "eol notice 2026-04"
+  },
+  {
+    "id": "urn:qam:term:7dfd56c347b7e478a95defc9d3e244cbf85097aef4bedd40c08dc68151ed00f4",
+    "kind": "Term",
+    "title": "PAL V2 master parameters",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL V2 master parameters"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal v2 master parameters"
+  },
+  {
+    "id": "urn:qam:term:80ec1037650b06dd13de0fcfb75cd1a804f7db7041e21dd8650895e3edf5f5ee",
+    "kind": "Term",
+    "title": "PKG-V500",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PKG-V500"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pkg-v500"
+  },
+  {
+    "id": "urn:qam:term:821299f127de2ee383358663a280831a421c8cde068a85857f4d6cb20fb5140b",
+    "kind": "Term",
+    "title": "PAL stainless variant",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL stainless variant"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal stainless variant"
+  },
+  {
+    "id": "urn:qam:term:83792e86f81572258d4ac59ed0527c247306ad14b3f7e05069c464e4ccb7974a",
+    "kind": "Term",
+    "title": "M8S seal FAT",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "M8S seal FAT"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "m8s seal fat"
+  },
+  {
+    "id": "urn:qam:term:8972159fb10be65f3021806e4298821956e9d1bc5ecb980651164a6d5b52c29f",
+    "kind": "Term",
+    "title": "preliminary M8-R6 advice",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "preliminary M8-R6 advice"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "preliminary m8-r6 advice"
+  },
+  {
+    "id": "urn:qam:term:8a035b9620783620c72f16af43c33dcb8c9ab3872215db8bd6af16c260b1886d",
+    "kind": "Term",
+    "title": "IOL M8",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "IOL M8"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "iol m8"
+  },
+  {
+    "id": "urn:qam:term:8e8f0394ed0aee3c769672c855349e5211e7d79e31525bc6837aa192052ee60f",
+    "kind": "Term",
+    "title": "PAL 80 V2",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL 80 V2"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal 80 v2"
+  },
+  {
+    "id": "urn:qam:term:9b43facb87863cda3e24d3d48a0190b9262c72ed7f5ceff417df439ab71603f0",
+    "kind": "Term",
+    "title": "M8S parameter set",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "M8S parameter set"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "m8s parameter set"
+  },
+  {
+    "id": "urn:qam:term:9b8ad2f201f938e5bee13ca27aadd9fa5f3626e07c406b14d1b87cec0bd848cb",
+    "kind": "Term",
+    "title": "PAL 80 family",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL 80 family"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal 80 family"
+  },
+  {
+    "id": "urn:qam:term:a363809f53ce20eced1d8bb0ac68f8cdbb26b63431b80e529a35576c83965e63",
+    "kind": "Term",
+    "title": "PKG 200 V500",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PKG 200 V500"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pkg 200 v500"
+  },
+  {
+    "id": "urn:qam:term:a55a44f159aec4438c6ac805215d9a8747e41be866de0b3b1b0de54380db29a5",
+    "kind": "Term",
+    "title": "PAL 80 V1",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL 80 V1"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal 80 v1"
+  },
+  {
+    "id": "urn:qam:term:a7feaceed43baff0e361d87768a9116a13945545845a9b8040314da40d158308",
+    "kind": "Term",
+    "title": "V500 I/O checkout",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "V500 I/O checkout"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "v500 i/o checkout"
+  },
+  {
+    "id": "urn:qam:term:ad519196fa7062389b4737543f409442febdfbc1c01d1e95223871f5210c8745",
+    "kind": "Term",
+    "title": "PKG V500 I/O map",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PKG V500 I/O map"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pkg v500 i/o map"
+  },
+  {
+    "id": "urn:qam:term:ae0f935beae3d20ef46ac87c89cc9b7e0dd655f3cc9539ac13e1f64b3619fa6d",
+    "kind": "Term",
+    "title": "M8S diagnostics",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "M8S diagnostics"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "m8s diagnostics"
+  },
+  {
+    "id": "urn:qam:term:aefe76aa8484270ece99302d1d7bb5c91c596ecd714af91246c2a0be4b4eb477",
+    "kind": "Term",
+    "title": "PKG V500 diagnostic FAT",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PKG V500 diagnostic FAT"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pkg v500 diagnostic fat"
+  },
+  {
+    "id": "urn:qam:term:b5c2417b788c9cc8ed19ba2c758f5f0d9cdc9640c57be90f72e6e47bd1b1cc98",
+    "kind": "Term",
+    "title": "M8S process map",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "M8S process map"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "m8s process map"
+  },
+  {
+    "id": "urn:qam:term:b926a7a77ea49a98fe94ded3e7202599ea312e4f56e48f2fc5d22f8aba2c75c2",
+    "kind": "Term",
+    "title": "8-port stainless IO-Link master",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "8-port stainless IO-Link master"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "8-port stainless io-link master"
+  },
+  {
+    "id": "urn:qam:term:d0998eb758235f0aec946fc1f29bf8b8977ed94fb3d696a251318c61162da6c3",
+    "kind": "Term",
+    "title": "M8S seal inspection bulletin",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "M8S seal inspection bulletin"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "m8s seal inspection bulletin"
+  },
+  {
+    "id": "urn:qam:term:d176bc9ab1ff915774b298229d9141cadf8c1bd45bda643790e59fea9bcb9696",
+    "kind": "Term",
+    "title": "PKG V500 master parameters",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PKG V500 master parameters"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pkg v500 master parameters"
+  },
+  {
+    "id": "urn:qam:term:d55496a8a2df132c4793ce3852276e9b97284d1e348469fe59387f6ad61cb93e",
+    "kind": "Term",
+    "title": "current IOL-M8 bulletin",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "current IOL-M8 bulletin"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "current iol-m8 bulletin"
+  },
+  {
+    "id": "urn:qam:term:d77bab21b7895587a7e2b99e0df51bfffd81a5299041241f8ab61ed76b1bb060",
+    "kind": "Term",
+    "title": "PKG 200 V300",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PKG 200 V300"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pkg 200 v300"
+  },
+  {
+    "id": "urn:qam:term:dcbc9e7cb0b0bbd497b1a239c64261bc0715520bb8e31e6f9577ffa47ce926eb",
+    "kind": "Term",
+    "title": "old IOL-M8 bulletin",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "old IOL-M8 bulletin"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "old iol-m8 bulletin"
+  },
+  {
+    "id": "urn:qam:term:ecd7f50659db6374b4fa5940a6540503c1369e938f2eeaeef2504dfcf0d7d394",
+    "kind": "Term",
+    "title": "stainless master notice",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "stainless master notice"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "stainless master notice"
+  },
+  {
+    "id": "urn:qam:term:f080cb9818292bce03b5c66ace96f6638a2a9a1a149f6e8b02790348e476a80e",
+    "kind": "Term",
+    "title": "XK8-IOS",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "XK8-IOS"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "xk8-ios"
+  },
+  {
+    "id": "urn:qam:term:f3199f3e09731d0bcf21f14dd7ec2dd9b6ec63a09d47ebdeec892fb9f11157bc",
+    "kind": "Term",
+    "title": "PAL V1 stainless parameters",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL V1 stainless parameters"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal v1 stainless parameters"
+  },
+  {
+    "id": "urn:qam:term:f790b088d3ebe9ddc01b954118dbbd7af8e03889abce9c78bff988b9a6f333a6",
+    "kind": "Term",
+    "title": "V500 diagnostic FB",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "V500 diagnostic FB"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "v500 diagnostic fb"
+  },
+  {
+    "id": "urn:qam:term:fa18c644a3a563379f66f0248883305c134310a5eddff026730cbc1f6e400ce3",
+    "kind": "Term",
+    "title": "PAL V2 diagnostic FAT",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PAL V2 diagnostic FAT"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pal v2 diagnostic fat"
+  },
+  {
+    "id": "urn:qam:term:fab062efffff28fe8660580016287b8f78a0f126647d9ba394aab84bc4ec9949",
+    "kind": "Term",
+    "title": "PKG 200 family",
+    "type": "Term",
+    "tags": [],
+    "aliases": [
+      "PKG 200 family"
+    ],
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "normalizedValue": "pkg 200 family"
+  }
+]

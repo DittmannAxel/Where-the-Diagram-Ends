@@ -1,0 +1,367 @@
+name: QAM deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Protected GitHub environment and Azure stage
+        required: true
+        type: choice
+        default: dev
+        options:
+          - dev
+          - test
+          - prod
+      location:
+        description: Azure region
+        required: true
+        type: string
+        default: westeurope
+      private_networking:
+        description: Use Private Link; requires a network-connected runner labelled qam-private
+        required: true
+        type: boolean
+        default: false
+      update_fabric_definition:
+        description: Update an existing Preview Graph Model from an exported definition
+        required: true
+        type: boolean
+        default: false
+      fabric_definition_directory:
+        description: Repository-relative exported Graph Model definition directory
+        required: false
+        type: string
+        default: quickagenticmemory/fabric/graph-model-definition
+      smoke_fabric_graph:
+        description: Required pre-ACA commit-pinned Fabric GQL gate
+        required: true
+        type: boolean
+        default: true
+      expected_existing_image_digest:
+        description: Explicit sha256 digest required only when reusing an already-pushed commit tag
+        required: false
+        type: string
+        default: ''
+      foundation_only:
+        description: Stop after Azure foundation creation for Fabric/KV/GitHub administrator bootstrap
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: qam-deploy-${{ inputs.environment }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/qam-v') }}
+    environment: qam-${{ inputs.environment }}
+    runs-on: ${{ inputs.private_networking && 'qam-private' || 'ubuntu-latest' }}
+    timeout-minutes: 45
+    env:
+      AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+      AZURE_PRINCIPAL_ID: ${{ vars.AZURE_PRINCIPAL_ID }}
+      QAM_MCP_API_CLIENT_ID: ${{ vars.QAM_MCP_API_CLIENT_ID }}
+      QAM_ALLOWED_CLIENT_APPLICATION_IDS: ${{ vars.QAM_ALLOWED_CLIENT_APPLICATION_IDS }}
+      QAM_ALLOWED_PRINCIPAL_IDS: ${{ vars.QAM_ALLOWED_PRINCIPAL_IDS }}
+      QAM_FABRIC_WORKSPACE_ID: ${{ vars.QAM_FABRIC_WORKSPACE_ID }}
+      QAM_FABRIC_GRAPH_MODEL_ID: ${{ vars.QAM_FABRIC_GRAPH_MODEL_ID }}
+      QAM_GITHUB_REPOSITORY: ${{ vars.QAM_GITHUB_REPOSITORY }}
+      QAM_GITHUB_AUTH_MODE: ${{ vars.QAM_GITHUB_AUTH_MODE }}
+      QAM_GITHUB_APP_ID: ${{ vars.QAM_GITHUB_APP_ID }}
+      QAM_GITHUB_INSTALLATION_ID: ${{ vars.QAM_GITHUB_INSTALLATION_ID }}
+      QAM_GITHUB_PRIVATE_KEY_SECRET_URI: ${{ vars.QAM_GITHUB_PRIVATE_KEY_SECRET_URI }}
+      QAM_GITHUB_TOKEN_SECRET_URI: ${{ vars.QAM_GITHUB_TOKEN_SECRET_URI }}
+      QAM_GITHUB_API_URL: ${{ vars.QAM_GITHUB_API_URL }}
+      QAM_GITHUB_WEB_URL: ${{ vars.QAM_GITHUB_WEB_URL }}
+      QAM_WORKFLOW_ENVIRONMENT: ${{ inputs.environment }}
+      QAM_WORKFLOW_LOCATION: ${{ inputs.location }}
+      QAM_WORKFLOW_PRIVATE_NETWORKING: ${{ inputs.private_networking }}
+      QAM_WORKFLOW_IMAGE_TAG: ${{ github.sha }}
+      QAM_WORKFLOW_EXPECTED_EXISTING_IMAGE_DIGEST: ${{ inputs.expected_existing_image_digest }}
+      QAM_WORKFLOW_FABRIC_DEFINITION_DIRECTORY: ${{ inputs.fabric_definition_directory }}
+    steps:
+      - name: Check out approved source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+
+      - name: Sign in to Azure with GitHub OIDC
+        uses: azure/login@7184910d9eb2b1c5e48f7073824a90609bb9b6d6 # v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Validate deployment variables
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          required=(
+            AZURE_RESOURCE_GROUP
+            AZURE_PRINCIPAL_ID
+          )
+          if [ '${{ inputs.foundation_only }}' != 'true' ]; then
+            required+=(
+              QAM_MCP_API_CLIENT_ID
+              QAM_ALLOWED_CLIENT_APPLICATION_IDS
+              QAM_ALLOWED_PRINCIPAL_IDS
+              QAM_FABRIC_WORKSPACE_ID
+              QAM_FABRIC_GRAPH_MODEL_ID
+              QAM_GITHUB_REPOSITORY
+              QAM_GITHUB_AUTH_MODE
+            )
+          fi
+          for name in "${required[@]}"; do
+            [ -n "${!name:-}" ] || {
+              printf 'Missing GitHub Environment variable: %s\n' "${name}" >&2
+              exit 1
+            }
+          done
+          if [ '${{ inputs.foundation_only }}' = 'true' ]; then
+            exit 0
+          fi
+          if [ '${{ inputs.smoke_fabric_graph }}' != 'true' ]; then
+            printf 'Normal application deployment requires the pre-ACA Fabric GQL smoke gate.\n' >&2
+            exit 1
+          fi
+          case "${QAM_GITHUB_AUTH_MODE}" in
+            app)
+              [ -n "${QAM_GITHUB_APP_ID:-}" ] &&
+                [ -n "${QAM_GITHUB_INSTALLATION_ID:-}" ] &&
+                [ -n "${QAM_GITHUB_PRIVATE_KEY_SECRET_URI:-}" ] &&
+                [ -z "${QAM_GITHUB_TOKEN_SECRET_URI:-}" ] || {
+                  printf 'GitHub App mode requires App/Installation/private-key URI only.\n' >&2
+                  exit 1
+                }
+              ;;
+            token)
+              [ -n "${QAM_GITHUB_TOKEN_SECRET_URI:-}" ] &&
+                [ -z "${QAM_GITHUB_APP_ID:-}${QAM_GITHUB_INSTALLATION_ID:-}${QAM_GITHUB_PRIVATE_KEY_SECRET_URI:-}" ] || {
+                  printf 'GitHub token mode requires only the token secret URI.\n' >&2
+                  exit 1
+                }
+              ;;
+            none)
+              [ -z "${QAM_GITHUB_APP_ID:-}${QAM_GITHUB_INSTALLATION_ID:-}${QAM_GITHUB_PRIVATE_KEY_SECRET_URI:-}${QAM_GITHUB_TOKEN_SECRET_URI:-}" ] || {
+                printf 'GitHub none mode cannot include credential fields.\n' >&2
+                exit 1
+              }
+              ;;
+            *) printf 'QAM_GITHUB_AUTH_MODE must be app, token, or none.\n' >&2; exit 1 ;;
+          esac
+
+      - name: Install and validate Bicep
+        run: |
+          set -Eeuo pipefail
+          case "$(uname -m)" in
+            x86_64)
+              shellcheck_arch='x86_64'
+              shellcheck_sha256='8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198'
+              ;;
+            aarch64 | arm64)
+              shellcheck_arch='aarch64'
+              shellcheck_sha256='12b331c1d2db6b9eb13cfca64306b1b157a86eb69db83023e261eaa7e7c14588'
+              ;;
+            *) printf 'Unsupported runner architecture for ShellCheck.\n' >&2; exit 1 ;;
+          esac
+          shellcheck_archive="${RUNNER_TEMP}/shellcheck-v0.11.0.linux.${shellcheck_arch}.tar.xz"
+          curl --fail --location --silent --show-error \
+            --output "${shellcheck_archive}" \
+            "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.${shellcheck_arch}.tar.xz"
+          printf '%s  %s\n' "${shellcheck_sha256}" "${shellcheck_archive}" | sha256sum --check
+          tar --extract --xz --file "${shellcheck_archive}" --directory "${RUNNER_TEMP}"
+          sudo install --mode 0755 \
+            "${RUNNER_TEMP}/shellcheck-v0.11.0/shellcheck" \
+            /usr/local/bin/shellcheck
+          go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.7
+          go install github.com/zricethezav/gitleaks/v8@v8.28.0
+          go_bin="$(go env GOPATH)/bin"
+          printf '%s\n' "${go_bin}" >> "${GITHUB_PATH}"
+          export PATH="${go_bin}:${PATH}"
+          az bicep install
+          QAM_REQUIRE_INFRA_TOOLS=true quickagenticmemory/scripts/validate-infra.sh
+
+      - name: Deploy foundation
+        id: foundation
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          args=(
+            --resource-group "${AZURE_RESOURCE_GROUP}"
+            --location "${QAM_WORKFLOW_LOCATION}"
+            --environment "${QAM_WORKFLOW_ENVIRONMENT}"
+            --deployment-principal-id "${AZURE_PRINCIPAL_ID}"
+            --skip-app
+          )
+          if [ "${QAM_WORKFLOW_PRIVATE_NETWORKING}" = 'true' ]; then args+=(--private); fi
+          outputs="$(quickagenticmemory/scripts/deploy.sh "${args[@]}")"
+          acr_name="$(jq -er '.acrName.value' <<< "${outputs}")"
+          runtime_principal_id="$(jq -er '.runtimeIdentityPrincipalId.value' <<< "${outputs}")"
+          key_vault_name="$(jq -er '.keyVaultName.value' <<< "${outputs}")"
+          planned_app_resource_id="$(jq -er '.plannedAppResourceId.value | select(type == "string" and length > 0)' <<< "${outputs}")"
+          planned_app_fqdn="$(jq -er '.plannedAppFqdn.value | select(type == "string" and length > 0)' <<< "${outputs}")"
+          planned_app_url="$(jq -er '.plannedAppUrl.value | select(type == "string" and length > 0)' <<< "${outputs}")"
+          [ "${planned_app_url}" = "https://${planned_app_fqdn}" ] || {
+            printf 'Foundation outputs contain an inconsistent planned Container App URL.\n' >&2
+            exit 1
+          }
+          {
+            printf 'acr_name=%s\n' "${acr_name}"
+            printf 'runtime_principal_id=%s\n' "${runtime_principal_id}"
+            printf 'key_vault_name=%s\n' "${key_vault_name}"
+            printf 'planned_app_resource_id=%s\n' "${planned_app_resource_id}"
+            printf 'planned_app_fqdn=%s\n' "${planned_app_fqdn}"
+            printf 'planned_app_url=%s\n' "${planned_app_url}"
+          } >> "${GITHUB_OUTPUT}"
+
+      - name: Write foundation administrator handoff
+        if: ${{ inputs.foundation_only }}
+        run: |
+          github_auth_mode="${QAM_GITHUB_AUTH_MODE:-app}"
+          # Backticks below are literal Markdown delimiters.
+          # shellcheck disable=SC2016
+          {
+            printf '### Foundation created — administrator handoff required\n\n'
+            printf 'Tenant IDs, resource names, FQDNs, and secret URIs are intentionally omitted from this public job summary. Read the foundation step outputs inside the protected environment or rerun `deploy.sh --skip-app` from the administrator shell and retain its ignored JSON receipt.\n\n'
+            printf 'Use that receipt\x27s exact planned ARM resource ID, MCP URL, and FQDN for the tool-less Foundry Agent Application identity/access-receipt phase. The Container App does not exist yet, so these values are identity/address contracts—not a health or reachability result.\n\n'
+            if [ "${QAM_WORKFLOW_PRIVATE_NETWORKING}" = 'true' ]; then
+              printf '**Private mode:** the planned FQDN is reachable only from a client with routing and private DNS for the Container Apps private endpoint; this workflow does not provide hosted Foundry with that network path.\n\n'
+            fi
+            printf 'Before any image build or application deployment, an Azure administrator with ARM deployment rights plus `Microsoft.Authorization/roleAssignments/write` and `Microsoft.Authorization/policyAssignments/write` must run the isolated authorization template exactly once. It references existing resources and cannot reconcile their service configuration:\n\n'
+            printf '%s\n' '```bash' \
+              "quickagenticmemory/scripts/deploy.sh --resource-group '<resource-group>' --location '<region>' --environment '<dev|test|prod>' --deployment-principal-id '<github-oidc-object-id>' --skip-app --include-role-assignments" \
+              '```' ''
+            printf 'This sets ACR to ABAC repository-permission mode; assigns only Container Registry Repository Reader to the pull UAMI, Container Registry Repository Writer to the GitHub OIDC identity, Key Vault Secrets User and Monitoring Metrics Publisher to the runtime UAMI; and creates the RG-scoped Key Vault RBAC Deny policy. Routine workflow deployments never enable this phase.\n\n'
+            printf 'Before a normal app dispatch: seed the selected GitHub credential in this vault, then prove commit-pinned Contents:read from an administrator shell. Replace any `<...>` placeholder:\n\n'
+            printf '```bash\n'
+            case "${github_auth_mode}" in
+              app)
+                printf '%s\n' "quickagenticmemory/scripts/validate-github-access.sh --repository '<owner/repository>' --auth-mode app --app-id '<app-id>' --installation-id '<installation-id>' --private-key-secret-uri 'https://<vault>.vault.azure.net/secrets/<pem-secret>' --github-api-url 'https://api.github.com' --github-web-url 'https://github.com' --content-path quickagenticmemory/README.md --commit-sha '<full-approved-sha>' --live"
+                ;;
+              token)
+                printf '%s\n' "quickagenticmemory/scripts/validate-github-access.sh --repository '<owner/repository>' --auth-mode token --token-secret-uri 'https://<vault>.vault.azure.net/secrets/<token-secret>' --github-api-url 'https://api.github.com' --github-web-url 'https://github.com' --content-path quickagenticmemory/README.md --commit-sha '<full-approved-sha>' --live"
+                ;;
+              none)
+                printf '%s\n' "quickagenticmemory/scripts/validate-github-access.sh --repository '<owner/repository>' --auth-mode none --github-api-url 'https://api.github.com' --github-web-url 'https://github.com' --content-path quickagenticmemory/README.md --commit-sha '<full-approved-sha>' --live"
+                ;;
+              *) printf '# Set QAM_GITHUB_AUTH_MODE to app, token, or none and rerun this foundation handoff.\n' ;;
+            esac
+            printf '```\n\n'
+            printf 'Then have a Fabric workspace Admin grant the runtime UAMI Contributor and the protected OIDC smoke identity Viewer:\n\n'
+            printf '%s\n' '```bash'
+            printf '%s' "quickagenticmemory/scripts/grant-fabric-access.sh --workspace-id '<workspace-id>' --runtime-principal-id '<runtime-uami-object-id>' --runtime-role Contributor --smoke-principal-id '<github-oidc-object-id>'"
+            # GitHub resolves this expression before Bash sees the script.
+            # shellcheck disable=SC2050
+            if [ '${{ inputs.update_fabric_definition }}' = 'true' ]; then
+              printf '%s' " --definition-updater-principal-id '<github-oidc-object-id>'"
+            fi
+            printf '\n```\n'
+            printf '\nBefore a normal dispatch, publish the approved `nodes.ndjson`/`edges.ndjson` to immutable OneLake staging, run the reviewed Notebook into QamNode/QamEdge, verify the existing Graph Model mappings, save/refresh it, and run the bounded GQL smoke with `--expected-commit-sha %s`. The workflow repeats that exact commit-pinned smoke before building or deploying ACA.\n' "${GITHUB_SHA}"
+            printf '\nThe GitHub OIDC deployment identity is intentionally not granted Fabric Member/Admin and cannot self-bootstrap this access. Microsoft documents Viewer for Graph query, but this PoC explicitly selects Contributor as an observed managed-identity Preview compatibility workaround after Viewer returned GQL 42000 in its cloud acceptance run. The bounded smoke stays Viewer unless definition update was explicitly selected. Re-evaluate and remove the workaround when Viewer passes the same runtime test.\n'
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Update existing Fabric Graph Model definition
+        if: ${{ !inputs.foundation_only && inputs.update_fabric_definition }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          definition_path="$(realpath "${QAM_WORKFLOW_FABRIC_DEFINITION_DIRECTORY}")"
+          case "${definition_path}" in
+            "${GITHUB_WORKSPACE}"/*) ;;
+            *) printf 'Definition directory must be inside the checkout.\n' >&2; exit 1 ;;
+          esac
+          quickagenticmemory/scripts/update-fabric-graph-definition.sh \
+            --workspace-id "${QAM_FABRIC_WORKSPACE_ID}" \
+            --graph-model-id "${QAM_FABRIC_GRAPH_MODEL_ID}" \
+            --definition-dir "${definition_path}"
+
+      - name: Gate application deployment on commit-pinned Fabric Graph GQL
+        if: ${{ !inputs.foundation_only }}
+        run: >-
+          quickagenticmemory/scripts/smoke-test-fabric-graph.sh
+          --workspace-id "${QAM_FABRIC_WORKSPACE_ID}"
+          --graph-model-id "${QAM_FABRIC_GRAPH_MODEL_ID}"
+          --expected-commit-sha "${GITHUB_SHA}"
+
+      - name: Build and push immutable image
+        if: ${{ !inputs.foundation_only }}
+        id: image
+        env:
+          QAM_WORKFLOW_ACR_NAME: ${{ steps.foundation.outputs.acr_name }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          args=(
+            --registry "${QAM_WORKFLOW_ACR_NAME}"
+            --image-tag "${QAM_WORKFLOW_IMAGE_TAG}"
+          )
+          if [ -n "${QAM_WORKFLOW_EXPECTED_EXISTING_IMAGE_DIGEST}" ]; then
+            args+=(--expected-existing-digest "${QAM_WORKFLOW_EXPECTED_EXISTING_IMAGE_DIGEST}")
+          fi
+          image_digest="$(quickagenticmemory/scripts/build-push-image.sh "${args[@]}")"
+          printf 'image_digest=%s\n' "${image_digest}" >> "${GITHUB_OUTPUT}"
+
+      - name: Deploy MCP application
+        if: ${{ !inputs.foundation_only }}
+        id: application
+        shell: bash
+        env:
+          QAM_WORKFLOW_IMAGE_DIGEST: ${{ steps.image.outputs.image_digest }}
+          QAM_WORKFLOW_PLANNED_APP_URL: ${{ steps.foundation.outputs.planned_app_url }}
+        run: |
+          set -Eeuo pipefail
+          args=(
+            --resource-group "${AZURE_RESOURCE_GROUP}"
+            --location "${QAM_WORKFLOW_LOCATION}"
+            --environment "${QAM_WORKFLOW_ENVIRONMENT}"
+            --image-digest "${QAM_WORKFLOW_IMAGE_DIGEST}"
+            --deployment-principal-id "${AZURE_PRINCIPAL_ID}"
+            --mcp-api-client-id "${QAM_MCP_API_CLIENT_ID:-}"
+            --allowed-client-application-ids "${QAM_ALLOWED_CLIENT_APPLICATION_IDS}"
+            --allowed-principal-ids "${QAM_ALLOWED_PRINCIPAL_IDS}"
+            --fabric-workspace-id "${QAM_FABRIC_WORKSPACE_ID}"
+            --fabric-graph-model-id "${QAM_FABRIC_GRAPH_MODEL_ID}"
+            --github-repository "${QAM_GITHUB_REPOSITORY}"
+            --github-auth-mode "${QAM_GITHUB_AUTH_MODE}"
+            --github-app-id "${QAM_GITHUB_APP_ID:-}"
+            --github-installation-id "${QAM_GITHUB_INSTALLATION_ID:-}"
+            --github-private-key-secret-uri "${QAM_GITHUB_PRIVATE_KEY_SECRET_URI:-}"
+            --github-token-secret-uri "${QAM_GITHUB_TOKEN_SECRET_URI:-}"
+            --github-api-url "${QAM_GITHUB_API_URL:-https://api.github.com}"
+            --github-web-url "${QAM_GITHUB_WEB_URL:-https://github.com}"
+          )
+          if [ "${QAM_WORKFLOW_PRIVATE_NETWORKING}" = 'true' ]; then args+=(--private); fi
+          outputs="$(quickagenticmemory/scripts/deploy.sh "${args[@]}")"
+          app_url="$(jq -er '.appUrl.value' <<< "${outputs}")"
+          [ "${app_url}" = "${QAM_WORKFLOW_PLANNED_APP_URL}" ] || {
+            printf 'Deployed app URL does not match the foundation address contract.\n' >&2
+            exit 1
+          }
+          printf 'app_url=%s\n' "${app_url}" >> "${GITHUB_OUTPUT}"
+
+      - name: Smoke-test MCP public health and anonymous rejection
+        if: ${{ !inputs.foundation_only }}
+        env:
+          QAM_WORKFLOW_APP_URL: ${{ steps.application.outputs.app_url }}
+        run: |
+          quickagenticmemory/scripts/smoke-test.sh \
+            --url "${QAM_WORKFLOW_APP_URL}"
+
+      - name: Write deployment summary
+        if: ${{ !inputs.foundation_only }}
+        env:
+          QAM_WORKFLOW_APP_URL: ${{ steps.application.outputs.app_url }}
+          QAM_WORKFLOW_IMAGE_DIGEST: ${{ steps.image.outputs.image_digest }}
+        run: |
+          {
+            printf '### Quick Agentic Memory deployment\n\n'
+            printf -- "- Environment: \`%s\`\n" "${QAM_WORKFLOW_ENVIRONMENT}"
+            printf -- "- Region: \`%s\`\n" "${QAM_WORKFLOW_LOCATION}"
+            printf -- "- Image tag: \`%s\`\n" "${QAM_WORKFLOW_IMAGE_TAG}"
+            printf -- "- Image digest: \`%s\`\n" "${QAM_WORKFLOW_IMAGE_DIGEST}"
+            printf -- "- Private networking: \`%s\`\n" "${QAM_WORKFLOW_PRIVATE_NETWORKING}"
+            printf -- "- MCP URL: \`%s\`\n" "${QAM_WORKFLOW_APP_URL}"
+          } >> "${GITHUB_STEP_SUMMARY}"

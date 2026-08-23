@@ -1,0 +1,48 @@
+{
+  "name": "@where-the-diagram-ends/quick-agentic-memory-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Secure MCP gateway for Quick Agentic Memory",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "quick-agentic-memory-mcp": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "pretest": "node ../../scripts/sync-graph-contract.mjs --check",
+    "start": "node dist/cli.js",
+    "start:http": "node dist/cli.js --transport=http",
+    "start:stdio": "node dist/cli.js --transport=stdio",
+    "test": "npm run build && vitest run",
+    "test:unit": "vitest run test/unit",
+    "test:integration": "npm run build && vitest run test/integration"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@azure/identity": "4.13.2",
+    "@modelcontextprotocol/node": "2.0.0",
+    "@modelcontextprotocol/server": "2.0.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.0.0",
+    "@types/node": "24.5.2",
+    "typescript": "7.0.2",
+    "vitest": "4.1.11"
+  }
+}
