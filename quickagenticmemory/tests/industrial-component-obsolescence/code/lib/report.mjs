@@ -419,7 +419,7 @@ export function renderStaticHtml(report) {
     ? "Verified immutable source snapshot"
     : "Selected source state · not immutable";
 
-  return `<!doctype html>
+  const html = `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -614,4 +614,5 @@ export function renderStaticHtml(report) {
 </script>
 </body>
 </html>\n`;
+  return html.replace(/[ \t]+$/gmu, "");
 }

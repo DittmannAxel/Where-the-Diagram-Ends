@@ -77,7 +77,7 @@ node quickagenticmemory/packages/core/dist/cli.js project \
   --output quickagenticmemory/.artifacts/industrial-projection
 ```
 
-Then publish that immutable projection and require the Notebook, generated public Graph definition, and live bounded GQL query to agree on the same commit:
+Then publish that immutable projection and require the Notebook, generated public Graph definition, and live bounded GQL query to agree on the manifest's repository, projection ID, commit, and node/edge counts:
 
 ```bash
 quickagenticmemory/scripts/publish-industrial-fabric.sh \

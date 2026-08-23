@@ -46,24 +46,24 @@ export const QAM_EDGE_LIMIT = 50_000;
 
 function nodeQuery(limit: number): string {
   return `MATCH (n:\`QamNode\`)
-RETURN n.id AS \`id\`, n.kind AS \`kind\`, n.title AS \`title\`, n.type AS \`type\`,
-       n.path AS \`path\`, n.repositoryPath AS \`repositoryPath\`, n.conceptId AS \`conceptId\`,
-       n.tagsJson AS \`tagsJson\`, n.aliasesJson AS \`aliasesJson\`, n.projectionId AS \`projectionId\`,
-       n.commitSha AS \`commitSha\`, n.repository AS \`repository\`,
-       n.projectionGeneratedAt AS \`projectionGeneratedAt\`, n.okfVersion AS \`okfVersion\`,
-       n.summary AS \`summary\`, n.resource AS \`resource\`, n.status AS \`status\`,
-       n.contentHash AS \`contentHash\`,
-       n.sourceUrl AS \`sourceUrl\`, n.normalizedValue AS \`normalizedValue\`,
-       n.sourceIdsJson AS \`sourceIdsJson\`, n.authorsJson AS \`authorsJson\`,
-       n.usageCountsJson AS \`usageCountsJson\`, n.lastModified AS \`lastModified\`
+RETURN n.\`id\` AS \`id\`, n.\`kind\` AS \`kind\`, n.\`title\` AS \`title\`, n.\`type\` AS \`type\`,
+       n.\`path\` AS \`path\`, n.\`repositoryPath\` AS \`repositoryPath\`, n.\`conceptId\` AS \`conceptId\`,
+       n.\`tagsJson\` AS \`tagsJson\`, n.\`aliasesJson\` AS \`aliasesJson\`, n.\`projectionId\` AS \`projectionId\`,
+       n.\`commitSha\` AS \`commitSha\`, n.\`repository\` AS \`repository\`,
+       n.\`projectionGeneratedAt\` AS \`projectionGeneratedAt\`, n.\`okfVersion\` AS \`okfVersion\`,
+       n.\`summary\` AS \`summary\`, n.\`resource\` AS \`resource\`, n.\`status\` AS \`status\`,
+       n.\`contentHash\` AS \`contentHash\`,
+       n.\`sourceUrl\` AS \`sourceUrl\`, n.\`normalizedValue\` AS \`normalizedValue\`,
+       n.\`sourceIdsJson\` AS \`sourceIdsJson\`, n.\`authorsJson\` AS \`authorsJson\`,
+       n.\`usageCountsJson\` AS \`usageCountsJson\`, n.\`lastModified\` AS \`lastModified\`
 LIMIT ${limit};`;
 }
 
 function edgeQuery(limit: number): string {
   return `MATCH (source:\`QamNode\`)-[e:\`QamEdge\`]->(target:\`QamNode\`)
-RETURN e.id AS \`id\`, source.id AS \`from\`, target.id AS \`to\`, e.type AS \`type\`,
-       e.projectionId AS \`projectionId\`, e.commitSha AS \`commitSha\`, e.label AS \`label\`,
-       e.sourcePath AS \`sourcePath\`
+RETURN e.\`id\` AS \`id\`, source.\`id\` AS \`from\`, target.\`id\` AS \`to\`, e.\`type\` AS \`type\`,
+       e.\`projectionId\` AS \`projectionId\`, e.\`commitSha\` AS \`commitSha\`, e.\`label\` AS \`label\`,
+       e.\`sourcePath\` AS \`sourcePath\`
 LIMIT ${limit};`;
 }
 

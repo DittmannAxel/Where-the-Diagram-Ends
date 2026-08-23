@@ -9,7 +9,8 @@
     ],
     "data": [{
       "id": "urn:qam:edge:test", "from": "urn:qam:concept:a", "to": "urn:qam:concept:b",
-      "type": "LINKS_TO", "projectionId": "urn:qam:projection:test",
+      "type": "LINKS_TO",
+      "projectionId": "urn:qam:projection:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "commitSha": "1111111111111111111111111111111111111111", "label": "B",
       "sourcePath": "concepts/a.md"
     }]

@@ -121,12 +121,34 @@ fi
 qam_require_azure_login
 qam_require_command curl
 qam_require_command openssl
+fabric_access_token="$(az account get-access-token \
+  --resource 'https://api.fabric.microsoft.com' \
+  --query accessToken \
+  --output tsv)"
+[ -n "${fabric_access_token}" ] || qam_fail "could not acquire a Microsoft Fabric access token"
+workspace_response="$(curl \
+  --silent \
+  --show-error \
+  --fail \
+  --retry 5 \
+  --retry-all-errors \
+  --retry-delay 2 \
+  --connect-timeout 15 \
+  --max-time 120 \
+  --header "Authorization: Bearer ${fabric_access_token}" \
+  "https://api.fabric.microsoft.com/v1/workspaces/${workspace_id}?preferWorkspaceSpecificEndpoints=True")"
+dfs_endpoint="$(jq -r '.oneLakeEndpoints.dfsEndpoint // empty' <<< "${workspace_response}")"
+compact_workspace_id="$(printf '%s' "${workspace_id}" | tr -d '-')"
+printf '%s' "${dfs_endpoint}" \
+  | grep -Eq "^https://${compact_workspace_id}\\.[a-z0-9]+\\.dfs\\.fabric\\.microsoft\\.com$" \
+  || qam_fail "Fabric returned an invalid workspace-specific OneLake DFS endpoint"
+unset fabric_access_token workspace_response
 access_token="$(az account get-access-token \
   --resource 'https://storage.azure.com/' \
   --query accessToken \
   --output tsv)"
 [ -n "${access_token}" ] || qam_fail "could not acquire a OneLake/Azure Storage access token"
-base_url="https://onelake.dfs.fabric.microsoft.com/${workspace_id}/${lakehouse_id}"
+base_url="${dfs_endpoint}/${workspace_id}/${lakehouse_id}"
 nodes_sha256="$(openssl dgst -sha256 -r "${nodes_file}" | awk '{print $1}')"
 edges_sha256="$(openssl dgst -sha256 -r "${edges_file}" | awk '{print $1}')"
 temporary_id="$(openssl rand -hex 16)"
@@ -143,6 +165,7 @@ cleanup() {
       --request DELETE \
       --header "Authorization: Bearer ${access_token}" \
       --header 'x-ms-version: 2021-06-08' \
+      --header 'Content-Length: 0' \
       --output /dev/null \
       "${base_url}/${temporary_path}?recursive=true" >/dev/null 2>&1 || true
   fi
@@ -154,6 +177,11 @@ trap cleanup EXIT
 
 request_status() {
   curl --silent --show-error \
+    --retry 5 \
+    --retry-all-errors \
+    --retry-delay 2 \
+    --connect-timeout 15 \
+    --max-time 120 \
     --header "Authorization: Bearer ${access_token}" \
     --header 'x-ms-version: 2021-06-08' \
     --output /dev/null \
@@ -165,7 +193,10 @@ ensure_directory() {
   local path="$1"
   local status
 
-  status="$(request_status --request PUT "${base_url}/${path}?resource=directory")"
+  status="$(request_status \
+    --request PUT \
+    --header 'Content-Length: 0' \
+    "${base_url}/${path}?resource=directory")"
   case "${status}" in
     201) ;;
     409)
@@ -181,6 +212,7 @@ ensure_directory 'Files/qam-staging/_temporary'
 status="$(request_status \
   --request PUT \
   --header 'If-None-Match: *' \
+  --header 'Content-Length: 0' \
   "${base_url}/${temporary_path}?resource=directory")"
 [ "${status}" = '201' ] \
   || qam_fail "creating unique OneLake temporary directory returned HTTP ${status}"
@@ -197,6 +229,7 @@ upload_file() {
   status="$(request_status \
     --request PUT \
     --header 'If-None-Match: *' \
+    --header 'Content-Length: 0' \
     "${target_url}?resource=file")"
   [ "${status}" = "201" ] \
     || qam_fail "creating immutable OneLake file ${target_name} returned HTTP ${status}"
@@ -208,7 +241,10 @@ upload_file() {
       "${target_url}?action=append&position=0")"
     [ "${status}" = "202" ] || qam_fail "appending OneLake file ${target_name} returned HTTP ${status}"
   fi
-  status="$(request_status --request PATCH "${target_url}?action=flush&position=${byte_count}&close=true")"
+  status="$(request_status \
+    --request PATCH \
+    --header 'Content-Length: 0' \
+    "${target_url}?action=flush&position=${byte_count}&close=true")"
   [ "${status}" = "200" ] || qam_fail "flushing OneLake file ${target_name} returned HTTP ${status}"
 }
 
@@ -228,6 +264,11 @@ verify_remote_file() {
 
   expected_bytes="$(wc -c < "${source_file}" | tr -d '[:space:]')"
   if ! status="$(curl --silent --show-error \
+    --retry 5 \
+    --retry-all-errors \
+    --retry-delay 2 \
+    --connect-timeout 15 \
+    --max-time 120 \
     --header "Authorization: Bearer ${access_token}" \
     --header 'x-ms-version: 2021-06-08' \
     --max-filesize "${expected_bytes}" \
@@ -254,6 +295,7 @@ status="$(request_status \
   --request PUT \
   --header "x-ms-rename-source: ${rename_source}" \
   --header 'If-None-Match: *' \
+  --header 'Content-Length: 0' \
   "${base_url}/${staging_path}")"
 publish_result='created'
 case "${status}" in
@@ -266,6 +308,7 @@ case "${status}" in
     verify_remote_file "${staging_path}/edges.ndjson" "${edges_file}" "${edges_sha256}" final-edges
     delete_status="$(request_status \
       --request DELETE \
+      --header 'Content-Length: 0' \
       "${base_url}/${temporary_path}?recursive=true")"
     [ "${delete_status}" = '200' ] \
       || qam_fail "cleaning the redundant OneLake temporary directory returned HTTP ${delete_status}"

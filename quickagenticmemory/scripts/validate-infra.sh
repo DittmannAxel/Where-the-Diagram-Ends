@@ -348,8 +348,16 @@ publication_gql_line="$(grep -nF "\${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh
   && [ "${publication_generate_line}" -lt "${publication_update_line}" ] \
   && [ "${publication_update_line}" -lt "${publication_gql_line}" ] \
   || qam_fail "Fabric publication must stage OneLake, run the Notebook, apply the definition, then query the graph"
-grep -Fq -- "--expected-commit-sha \"\${commit_sha}\"" "${fabric_publication}" \
-  || qam_fail "Fabric publication must pass the immutable projection commit into the final GQL gate"
+# shellcheck disable=SC2016 # Match the publisher's literal manifest-derived variable names.
+for manifest_gate_argument in \
+  '--expected-commit-sha "${expected_commit_sha}"' \
+  '--expected-projection-id "${expected_projection_id}"' \
+  '--expected-repository "${expected_repository}"' \
+  '--expected-node-count "${expected_node_count}"' \
+  '--expected-edge-count "${expected_edge_count}"'; do
+  grep -Fq -- "${manifest_gate_argument}" "${fabric_publication}" \
+    || qam_fail "Fabric publication must pass every manifest-bound expectation into the final GQL gate: ${manifest_gate_argument}"
+done
 
 expect_cli_failure "industrial runtime and deployment identities are not separated" \
   "${industrial_orchestrator}" \
@@ -383,48 +391,164 @@ jq -e \
   --arg directory "${graph_definition_dir}" \
   '.definitionDirectory == $directory and
    .parts == ["dataSources.json", "graphDefinition.json", "graphType.json", "stylingConfiguration.json"] and
-   .nodeTablePath == "abfss://33333333-3333-4333-8333-333333333333@onelake.dfs.fabric.microsoft.com/44444444-4444-4444-8444-444444444444/Tables/QamNode" and
-   .edgeTablePath == "abfss://33333333-3333-4333-8333-333333333333@onelake.dfs.fabric.microsoft.com/44444444-4444-4444-8444-444444444444/Tables/QamEdge"' \
+   .lakehouseReference == "QamLakehouse" and
+   .nodeTablePath == "Tables/qamnode" and
+   .edgeTablePath == "Tables/qamedge"' \
   <<< "${graph_definition_receipt}" >/dev/null \
   || qam_fail "Graph definition generator returned an unexpected receipt"
-jq -e '
-  .dataSources == [
-    {name: "QamNode_Table", type: "DeltaTable", properties: {path: "abfss://33333333-3333-4333-8333-333333333333@onelake.dfs.fabric.microsoft.com/44444444-4444-4444-8444-444444444444/Tables/QamNode"}},
-    {name: "QamEdge_Table", type: "DeltaTable", properties: {path: "abfss://33333333-3333-4333-8333-333333333333@onelake.dfs.fabric.microsoft.com/44444444-4444-4444-8444-444444444444/Tables/QamEdge"}}
-  ]' "${graph_definition_dir}/dataSources.json" >/dev/null \
-  || qam_fail "Graph definition data sources left the exact OneLake Delta-table contract"
-jq -e '
-  (.nodeTables | length == 1) and
-  .nodeTables[0].nodeTypeAlias == "QamNode" and
-  .nodeTables[0].dataSourceName == "QamNode_Table" and
-  (.nodeTables[0].propertyMappings | length == 24) and
-  all(.nodeTables[0].propertyMappings[]; .propertyName == .sourceColumn) and
-  (.edgeTables | length == 1) and
-  .edgeTables[0].edgeTypeAlias == "QamEdge" and
-  .edgeTables[0].dataSourceName == "QamEdge_Table" and
-  .edgeTables[0].sourceNodeKeyColumns == ["from"] and
-  .edgeTables[0].destinationNodeKeyColumns == ["to"] and
-  (.edgeTables[0].propertyMappings | length == 8) and
-  all(.edgeTables[0].propertyMappings[]; .propertyName == .sourceColumn)
-' "${graph_definition_dir}/graphDefinition.json" >/dev/null \
-  || qam_fail "Graph definition mappings drifted from the canonical QamNode/QamEdge contract"
-jq -e '
-  (.nodeTypes | length == 1) and
-  .nodeTypes[0].alias == "QamNode" and
-  .nodeTypes[0].primaryKeyProperties == ["id"] and
-  (.nodeTypes[0].properties | length == 24) and
-  all(.nodeTypes[0].properties[]; .type == "STRING") and
-  (.edgeTypes | length == 1) and
-  .edgeTypes[0].alias == "QamEdge" and
-  .edgeTypes[0].sourceNodeType.alias == "QamNode" and
-  .edgeTypes[0].destinationNodeType.alias == "QamNode" and
-  (.edgeTypes[0].properties | length == 8) and
-  all(.edgeTypes[0].properties[]; .type == "STRING")
-' "${graph_definition_dir}/graphType.json" >/dev/null \
-  || qam_fail "Graph public type definition drifted from the canonical string-valued schema"
-jq -e '.modelLayout.positions.QamNode and .modelLayout.positions.QamEdge' \
-  "${graph_definition_dir}/stylingConfiguration.json" >/dev/null \
-  || qam_fail "Graph definition has no deterministic QamNode/QamEdge layout"
+
+validate_graph_alias_references() {
+  local definition_dir="$1"
+
+  jq -se '
+    .[0] as $sources |
+    .[1] as $definition |
+    .[2] as $types |
+    ($sources.dataSources | map(.name)) as $sourceNames |
+    ($types.nodeTypes | map(.alias)) as $nodeAliases |
+    ($types.edgeTypes | map(.alias)) as $edgeAliases |
+    all($definition.nodeTables[];
+      (.dataSourceName as $name | $sourceNames | index($name) != null) and
+      (.nodeTypeAlias as $alias | $nodeAliases | index($alias) != null)) and
+    all($definition.edgeTables[];
+      (.dataSourceName as $name | $sourceNames | index($name) != null) and
+      (.edgeTypeAlias as $alias | $edgeAliases | index($alias) != null)) and
+    all($types.edgeTypes[];
+      (.sourceNodeType.alias as $alias | $nodeAliases | index($alias) != null) and
+      (.destinationNodeType.alias as $alias | $nodeAliases | index($alias) != null))
+  ' \
+    "${definition_dir}/dataSources.json" \
+    "${definition_dir}/graphDefinition.json" \
+    "${definition_dir}/graphType.json" >/dev/null
+}
+
+validate_graph_definition_contract() {
+  local definition_dir="$1"
+  local expected_workspace_id="$2"
+  local expected_lakehouse_id="$3"
+
+  jq -e \
+    --arg workspaceId "${expected_workspace_id}" \
+    --arg lakehouseId "${expected_lakehouse_id}" '
+      .["$schema"] == "https://developer.microsoft.com/json-schemas/fabric/item/graphIndex/definition/dataSources/1.1.0/schema.json" and
+      .itemReferences == [{
+        name: "QamLakehouse",
+        item: {workspaceId: $workspaceId, itemId: $lakehouseId}
+      }] and
+      .dataSources == [
+        {name: "QamNode_Table", type: "DeltaTable", properties: {
+          referenceName: "QamLakehouse", path: "Tables/qamnode"
+        }},
+        {name: "QamEdge_Table", type: "DeltaTable", properties: {
+          referenceName: "QamLakehouse", path: "Tables/qamedge"
+        }}
+      ]
+    ' "${definition_dir}/dataSources.json" >/dev/null || return 1
+
+  jq -e '
+    .["$schema"] == "https://developer.microsoft.com/json-schemas/fabric/item/graphIndex/definition/graphDefinition/1.0.0/schema.json" and
+    (.nodeTables | length == 1) and
+    .nodeTables[0].nodeTypeAlias == "QamNode" and
+    .nodeTables[0].dataSourceName == "QamNode_Table" and
+    (.nodeTables[0].propertyMappings | length == 24) and
+    all(.nodeTables[0].propertyMappings[]; .propertyName == .sourceColumn) and
+    (.edgeTables | length == 1) and
+    .edgeTables[0].edgeTypeAlias == "QamEdge" and
+    .edgeTables[0].dataSourceName == "QamEdge_Table" and
+    .edgeTables[0].sourceNodeKeyColumns == ["from"] and
+    .edgeTables[0].destinationNodeKeyColumns == ["to"] and
+    (.edgeTables[0].propertyMappings | length == 8) and
+    all(.edgeTables[0].propertyMappings[]; .propertyName == .sourceColumn)
+  ' "${definition_dir}/graphDefinition.json" >/dev/null || return 1
+
+  jq -e '
+    .["$schema"] == "https://developer.microsoft.com/json-schemas/fabric/item/graphIndex/definition/graphType/1.0.0/schema.json" and
+    (.nodeTypes | length == 1) and
+    .nodeTypes[0].alias == "QamNode" and
+    .nodeTypes[0].labels == ["QamNode"] and
+    .nodeTypes[0].primaryKeyProperties == ["id"] and
+    (.nodeTypes[0].properties | length == 24) and
+    all(.nodeTypes[0].properties[]; .type == "STRING") and
+    (.edgeTypes | length == 1) and
+    .edgeTypes[0].alias == "QamEdge" and
+    .edgeTypes[0].labels == ["QamEdge"] and
+    .edgeTypes[0].sourceNodeType.alias == "QamNode" and
+    .edgeTypes[0].destinationNodeType.alias == "QamNode" and
+    (.edgeTypes[0].properties | length == 8) and
+    all(.edgeTypes[0].properties[]; .type == "STRING")
+  ' "${definition_dir}/graphType.json" >/dev/null || return 1
+
+  jq -e '
+    . == {
+      "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/graphIndex/definition/stylingConfiguration/1.0.0/schema.json",
+      modelLayout: {
+        positions: {QamNode: {x: 120, y: 120}},
+        styles: {QamNode: {size: 30}, QamEdge: {size: 20}},
+        pan: {x: 0, y: 0},
+        zoomLevel: 1
+      },
+      visualFormat: {}
+    }
+  ' "${definition_dir}/stylingConfiguration.json" >/dev/null || return 1
+
+  validate_graph_alias_references "${definition_dir}" || return 1
+}
+
+make_invalid_graph_definition_fixture() {
+  local target_dir="$1"
+  local part="$2"
+  local mutation="$3"
+
+  mkdir -p "${target_dir}"
+  cp "${graph_definition_dir}"/*.json "${target_dir}/"
+  jq "${mutation}" "${target_dir}/${part}" > "${target_dir}/${part}.mutated"
+  mv "${target_dir}/${part}.mutated" "${target_dir}/${part}"
+}
+
+validate_graph_definition_contract \
+  "${graph_definition_dir}" \
+  33333333-3333-4333-8333-333333333333 \
+  44444444-4444-4444-8444-444444444444 \
+  || qam_fail "generated Graph definition violates the current public schema or alias contract"
+
+graph_missing_reference_dir="${validation_dir}/graph-missing-reference-name"
+make_invalid_graph_definition_fixture \
+  "${graph_missing_reference_dir}" \
+  dataSources.json \
+  'del(.dataSources[0].properties.referenceName)'
+expect_cli_failure "Graph definition accepts a Delta table without referenceName" \
+  validate_graph_definition_contract \
+  "${graph_missing_reference_dir}" \
+  33333333-3333-4333-8333-333333333333 \
+  44444444-4444-4444-8444-444444444444
+
+graph_unknown_node_alias_dir="${validation_dir}/graph-unknown-node-alias"
+make_invalid_graph_definition_fixture \
+  "${graph_unknown_node_alias_dir}" \
+  graphDefinition.json \
+  '.nodeTables[0].nodeTypeAlias = "UnknownNode"'
+expect_cli_failure "Graph definition accepts an unknown node type alias" \
+  validate_graph_alias_references \
+  "${graph_unknown_node_alias_dir}"
+
+graph_unknown_edge_alias_dir="${validation_dir}/graph-unknown-edge-alias"
+make_invalid_graph_definition_fixture \
+  "${graph_unknown_edge_alias_dir}" \
+  graphDefinition.json \
+  '.edgeTables[0].edgeTypeAlias = "UnknownEdge"'
+expect_cli_failure "Graph definition accepts an unknown edge type alias" \
+  validate_graph_alias_references \
+  "${graph_unknown_edge_alias_dir}"
+
+graph_unknown_endpoint_alias_dir="${validation_dir}/graph-unknown-endpoint-alias"
+make_invalid_graph_definition_fixture \
+  "${graph_unknown_endpoint_alias_dir}" \
+  graphType.json \
+  '.edgeTypes[0].sourceNodeType.alias = "UnknownNode"'
+expect_cli_failure "Graph definition accepts an unknown edge endpoint alias" \
+  validate_graph_alias_references \
+  "${graph_unknown_endpoint_alias_dir}"
+
 expect_cli_failure "Graph definition generator overwrites reviewed parts" \
   "${QAM_SCRIPTS_DIR}/generate-fabric-graph-definition.sh" \
   --workspace-id 33333333-3333-4333-8333-333333333333 \
@@ -499,6 +623,30 @@ foundry_smoke_receipt="${validation_dir}/foundry-smoke-receipt.json"
         ' "${data_file}" >/dev/null || return 99
         printf '%s\n' '{}' > "${output_file}"
         ;;
+      'POST https://api.fabric.microsoft.com/v1/workspaces/44444444-4444-4444-8444-444444444444/notebooks/77777777-7777-4777-8777-777777777777/getDefinition?format=ipynb')
+        notebook_payload="$(
+          jq -cn '{
+            metadata: {kernel_info: {name: "synapse_pyspark"}},
+            cells: [
+              {
+                metadata: {tags: ["parameters"]},
+                source: [
+                  "expected_projection_id = \\\"\\\"\\n",
+                  "expected_commit_sha = \\\"\\\"\\n"
+                ]
+              },
+              {metadata: {}, source: []}
+            ]
+          }' | base64 | tr -d '\r\n'
+        )"
+        jq -cn \
+          --arg payload "${notebook_payload}" \
+          '{definition: {parts: [{
+            path: "notebook-content.ipynb",
+            payloadType: "InlineBase64",
+            payload: $payload
+          }]}}' > "${output_file}"
+        ;;
       'POST https://qamcontract.services.ai.azure.com/api/projects/qam-test-industrial/openai/v1/responses')
         jq -e '
           .model == "qam-model-test" and
@@ -546,8 +694,11 @@ jq -e '
 grep -Fxq 'POST https://api.fabric.microsoft.com/v1/workspaces/44444444-4444-4444-8444-444444444444/notebooks/77777777-7777-4777-8777-777777777777/updateDefinition?updateMetadata=false' \
   "${live_api_mock_log}" \
   || qam_fail "Fabric item reuse must reconcile only the checked-in Notebook definition"
-[ "$(grep -c '^POST https://api.fabric.microsoft.com/' "${live_api_mock_log}")" -eq 1 ] \
-  || qam_fail "local Fabric item reuse validation must not create any cloud item"
+grep -Fxq 'POST https://api.fabric.microsoft.com/v1/workspaces/44444444-4444-4444-8444-444444444444/notebooks/77777777-7777-4777-8777-777777777777/getDefinition?format=ipynb' \
+  "${live_api_mock_log}" \
+  || qam_fail "Fabric item reuse must verify the canonical Notebook parameter cell"
+[ "$(grep -c '^POST https://api.fabric.microsoft.com/' "${live_api_mock_log}")" -eq 2 ] \
+  || qam_fail "local Fabric item reuse validation must only reconcile and verify the checked-in Notebook"
 grep -Fxq 'POST https://qamcontract.services.ai.azure.com/api/projects/qam-test-industrial/openai/v1/responses' \
   "${live_api_mock_log}" \
   || qam_fail "Foundry smoke left the exact project-scoped Responses API endpoint"

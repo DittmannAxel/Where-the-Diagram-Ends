@@ -296,11 +296,12 @@ describe("remote adapter boundaries", () => {
     expect(new Set(fabricQueries)).toEqual(new Set([QAM_NODE_QUERY, QAM_EDGE_QUERY]));
     expect(fabricRequestUrls).toHaveLength(2);
     expect(fabricRequestUrls.every((value) => value.endsWith("/executeQuery?preview=true"))).toBe(true);
-    expect(QAM_EDGE_QUERY).toContain("source.id AS `from`");
-    expect(QAM_EDGE_QUERY).toContain("target.id AS `to`");
-    expect(QAM_EDGE_QUERY).toContain("e.projectionId AS `projectionId`");
-    expect(QAM_EDGE_QUERY).toContain("e.commitSha AS `commitSha`");
-    expect(QAM_NODE_QUERY).toContain("n.repositoryPath AS `repositoryPath`");
+    expect(QAM_EDGE_QUERY).toContain("source.`id` AS `from`");
+    expect(QAM_EDGE_QUERY).toContain("target.`id` AS `to`");
+    expect(QAM_EDGE_QUERY).toContain("e.`projectionId` AS `projectionId`");
+    expect(QAM_EDGE_QUERY).toContain("e.`commitSha` AS `commitSha`");
+    expect(QAM_NODE_QUERY).toContain("n.`path` AS `path`");
+    expect(QAM_NODE_QUERY).toContain("n.`repositoryPath` AS `repositoryPath`");
   });
 
   it("refreshes an expired Fabric snapshot once for concurrent callers", async () => {

@@ -1,6 +1,15 @@
 # Fabric notebook source
 
-# CELL ********************
+# METADATA ********************
+
+# META {
+# META   "kernel_info": {
+# META     "name": "synapse_pyspark"
+# META   },
+# META   "dependencies": {}
+# META }
+
+# PARAMETERS CELL ********************
 
 # Parameter cell: the deployment script preserves this FabricGitSource metadata and
 # the Job Scheduler supplies all five values for each immutable projection run.
@@ -11,10 +20,10 @@ expected_projection_id = "urn:qam:projection:<64-lowercase-hex>"
 expected_commit_sha = "<40-or-64-lowercase-hex>"
 
 # METADATA ********************
+
 # META {
 # META   "language": "python",
-# META   "language_group": "synapse_pyspark",
-# META   "tags": ["parameters"]
+# META   "language_group": "synapse_pyspark"
 # META }
 
 # CELL ********************
@@ -176,6 +185,7 @@ mssparkutils.notebook.exit(json.dumps({
 }, separators=(",", ":")))
 
 # METADATA ********************
+
 # META {
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"

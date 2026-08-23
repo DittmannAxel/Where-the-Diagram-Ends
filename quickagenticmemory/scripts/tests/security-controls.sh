@@ -32,6 +32,8 @@ validate_workflow="${QAM_REPOSITORY_ROOT}/.github/workflows/qam-validate.yml"
 [ "$(grep -c "      - '.dockerignore'" "${validate_workflow}")" -eq 2 ] \
   || qam_fail "QAM validation must run when the root Docker build-context policy changes"
 fixture_commit='1111111111111111111111111111111111111111'
+fixture_projection='urn:qam:projection:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+fixture_repository='https://github.com/example/repository'
 
 expect_failure() {
   local label="$1"
@@ -44,12 +46,20 @@ expect_failure() {
 "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
   --node-response-file "${fixtures_dir}/fabric-node-ok.json" \
   --edge-response-file "${fixtures_dir}/fabric-edge-ok.json" \
-  --expected-commit-sha "${fixture_commit}"
+  --expected-commit-sha "${fixture_commit}" \
+  --expected-projection-id "${fixture_projection}" \
+  --expected-repository "${fixture_repository}" \
+  --expected-node-count 2 \
+  --expected-edge-count 1
 
 "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
   --node-response-file "${fixtures_dir}/fabric-node-ok.json" \
   --edge-response-file "${fixtures_dir}/fabric-edge-empty.json" \
-  --expected-commit-sha "${fixture_commit}"
+  --expected-commit-sha "${fixture_commit}" \
+  --expected-projection-id "${fixture_projection}" \
+  --expected-repository "${fixture_repository}" \
+  --expected-node-count 2 \
+  --expected-edge-count 0
 
 expect_failure "Fabric GQL snapshot at an unexpected commit" \
   "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
@@ -62,6 +72,66 @@ expect_failure "non-canonical expected Fabric commit" \
   --node-response-file "${fixtures_dir}/fabric-node-ok.json" \
   --edge-response-file "${fixtures_dir}/fabric-edge-empty.json" \
   --expected-commit-sha AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+expect_failure "Fabric GQL snapshot at an unexpected projection" \
+  "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
+  --node-response-file "${fixtures_dir}/fabric-node-ok.json" \
+  --edge-response-file "${fixtures_dir}/fabric-edge-ok.json" \
+  --expected-projection-id urn:qam:projection:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+expect_failure "Fabric GQL snapshot from an unexpected repository" \
+  "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
+  --node-response-file "${fixtures_dir}/fabric-node-ok.json" \
+  --edge-response-file "${fixtures_dir}/fabric-edge-ok.json" \
+  --expected-repository https://github.com/example/different
+
+expect_failure "Fabric GQL snapshot with an unexpected node count" \
+  "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
+  --node-response-file "${fixtures_dir}/fabric-node-ok.json" \
+  --edge-response-file "${fixtures_dir}/fabric-edge-ok.json" \
+  --expected-node-count 1
+
+expect_failure "Fabric GQL snapshot with an unexpected edge count" \
+  "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
+  --node-response-file "${fixtures_dir}/fabric-node-ok.json" \
+  --edge-response-file "${fixtures_dir}/fabric-edge-ok.json" \
+  --expected-edge-count 0
+
+mixed_projection_file="$(mktemp)"
+jq '.result.data[1].projectionId = "urn:qam:projection:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"' \
+  "${fixtures_dir}/fabric-node-ok.json" > "${mixed_projection_file}"
+expect_failure "mixed Fabric projection rows" \
+  "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
+  --node-response-file "${mixed_projection_file}" \
+  --edge-response-file "${fixtures_dir}/fabric-edge-ok.json"
+rm -f "${mixed_projection_file}"
+
+dangling_edge_file="$(mktemp)"
+jq '.result.data[0].to = "urn:qam:concept:missing"' \
+  "${fixtures_dir}/fabric-edge-ok.json" > "${dangling_edge_file}"
+expect_failure "Fabric edge with an unknown endpoint" \
+  "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
+  --node-response-file "${fixtures_dir}/fabric-node-ok.json" \
+  --edge-response-file "${dangling_edge_file}"
+rm -f "${dangling_edge_file}"
+
+node_limit_file="$(mktemp)"
+jq '.result.data = [range(0; 10000) as $index | .result.data[0] + {id: ("urn:qam:concept:limit-" + ($index | tostring))}]' \
+  "${fixtures_dir}/fabric-node-ok.json" > "${node_limit_file}"
+expect_failure "Fabric node result exactly at the bounded query limit" \
+  "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
+  --node-response-file "${node_limit_file}" \
+  --edge-response-file "${fixtures_dir}/fabric-edge-empty.json"
+rm -f "${node_limit_file}"
+
+edge_limit_file="$(mktemp)"
+jq '.result.data = [range(0; 50000) as $index | .result.data[0] + {id: ("urn:qam:edge:limit-" + ($index | tostring))}]' \
+  "${fixtures_dir}/fabric-edge-ok.json" > "${edge_limit_file}"
+expect_failure "Fabric edge result exactly at the bounded query limit" \
+  "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
+  --node-response-file "${fixtures_dir}/fabric-node-ok.json" \
+  --edge-response-file "${edge_limit_file}"
+rm -f "${edge_limit_file}"
 
 expect_failure "Fabric GQL 04xxx status" \
   "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
@@ -232,6 +302,10 @@ curl() {
   fi
 
   case "${request}:${url}" in
+    'GET:https://api.fabric.microsoft.com/v1/workspaces/11111111-1111-4111-8111-111111111111?preferWorkspaceSpecificEndpoints=True')
+      printf 'WORKSPACE_DFS_DISCOVERY url=%s\n' "${url}" >> "${QAM_ONELAKE_MOCK_LOG}"
+      printf '%s\n' '{"oneLakeEndpoints":{"dfsEndpoint":"https://11111111111141118111111111111111.onelake.dfs.fabric.microsoft.com"}}'
+      ;;
     PATCH:*'nodes.ndjson?action=append'*)
       printf 'APPEND nodes\n' >> "${QAM_ONELAKE_MOCK_LOG}"
       printf '202'
@@ -290,6 +364,9 @@ expect_failure "partial OneLake temporary upload" \
 if grep -q '^RENAME ' "${onelake_mock_log}"; then
   qam_fail "OneLake publisher exposed a final path after a partial temporary upload"
 fi
+grep -Fxq 'WORKSPACE_DFS_DISCOVERY url=https://api.fabric.microsoft.com/v1/workspaces/11111111-1111-4111-8111-111111111111?preferWorkspaceSpecificEndpoints=True' \
+  "${onelake_mock_log}" \
+  || qam_fail "OneLake publisher did not request the workspace-specific DFS endpoint"
 grep -q '^DELETE temporary ' "${onelake_mock_log}" \
   || qam_fail "OneLake publisher did not clean up a partial temporary upload"
 

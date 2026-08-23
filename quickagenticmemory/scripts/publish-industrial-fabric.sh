@@ -27,7 +27,7 @@ usage() {
     '' \
     'Publishes one clean, commit-pinned projection to immutable OneLake staging,' \
     'loads its Delta tables, applies the canonical Graph definition, and requires' \
-    'bounded live GQL to return the same Git commit.'
+    'bounded live GQL to return the exact repository, projection, commit, and counts.'
 }
 
 while [ "$#" -gt 0 ]; do
@@ -57,6 +57,22 @@ for file in nodes.ndjson edges.ndjson manifest.json; do
 done
 qam_require_command jq
 
+manifest_file="${projection_dir}/manifest.json"
+jq -e '
+  .schemaVersion == "qam-graph/1.0" and
+  (.source.repository | type == "string" and length > 0) and
+  (.source.projectionId | type == "string" and test("^urn:qam:projection:[0-9a-f]{64}$")) and
+  (.source.commitSha | type == "string" and test("^([0-9a-f]{40}|[0-9a-f]{64})$")) and
+  (.counts.nodes | type == "number" and floor == . and . > 0 and . < 10000) and
+  (.counts.edges | type == "number" and floor == . and . >= 0 and . < 50000)
+' "${manifest_file}" >/dev/null \
+  || qam_fail "projection manifest does not satisfy the bounded immutable publication contract"
+expected_repository="$(jq -r '.source.repository' "${manifest_file}")"
+expected_projection_id="$(jq -r '.source.projectionId' "${manifest_file}")"
+expected_commit_sha="$(jq -r '.source.commitSha' "${manifest_file}")"
+expected_node_count="$(jq -r '.counts.nodes' "${manifest_file}")"
+expected_edge_count="$(jq -r '.counts.edges' "${manifest_file}")"
+
 if [ -z "${definition_dir}" ]; then
   definition_dir="$(mktemp -d)"
   trap 'rm -rf "${definition_dir}"' EXIT
@@ -74,6 +90,10 @@ jq -e '.stagingPath and .projectionId and .commitSha' <<< "${publish_receipt}" >
 staging_path="$(jq -r '.stagingPath' <<< "${publish_receipt}")"
 projection_id="$(jq -r '.projectionId' <<< "${publish_receipt}")"
 commit_sha="$(jq -r '.commitSha' <<< "${publish_receipt}")"
+[ "${projection_id}" = "${expected_projection_id}" ] \
+  || qam_fail "OneLake publication projection ID does not match manifest"
+[ "${commit_sha}" = "${expected_commit_sha}" ] \
+  || qam_fail "OneLake publication commit does not match manifest"
 
 qam_info "running the checked-in Fabric projection Notebook"
 if ! notebook_receipt="$("${QAM_SCRIPTS_DIR}/run-fabric-projection-notebook.sh" \
@@ -85,6 +105,18 @@ if ! notebook_receipt="$("${QAM_SCRIPTS_DIR}/run-fabric-projection-notebook.sh" 
   --commit-sha "${commit_sha}")"; then
   qam_fail "Fabric projection Notebook failed"
 fi
+jq -e \
+  --arg projectionId "${expected_projection_id}" \
+  --arg commitSha "${expected_commit_sha}" \
+  --argjson nodeCount "${expected_node_count}" \
+  --argjson edgeCount "${expected_edge_count}" '
+    .status == "success" and
+    .projectionId == $projectionId and
+    .commitSha == $commitSha and
+    .nodeCount == $nodeCount and
+    .edgeCount == $edgeCount
+  ' <<< "${notebook_receipt}" >/dev/null \
+  || qam_fail "Fabric projection Notebook receipt does not match the manifest"
 
 qam_info "generating and applying the canonical public Graph Model definition"
 if ! definition_receipt="$("${QAM_SCRIPTS_DIR}/generate-fabric-graph-definition.sh" \
@@ -105,7 +137,11 @@ for attempt in $(seq 1 20); do
   if "${QAM_SCRIPTS_DIR}/smoke-test-fabric-graph.sh" \
     --workspace-id "${workspace_id}" \
     --graph-model-id "${graph_model_id}" \
-    --expected-commit-sha "${commit_sha}"; then
+    --expected-commit-sha "${expected_commit_sha}" \
+    --expected-projection-id "${expected_projection_id}" \
+    --expected-repository "${expected_repository}" \
+    --expected-node-count "${expected_node_count}" \
+    --expected-edge-count "${expected_edge_count}"; then
     graph_verified='true'
     break
   fi
@@ -118,5 +154,18 @@ jq -cn \
   --argjson publication "${publish_receipt}" \
   --argjson notebook "${notebook_receipt}" \
   --argjson definition "${definition_receipt}" \
+  --arg repository "${expected_repository}" \
+  --arg projectionId "${expected_projection_id}" \
+  --arg commitSha "${expected_commit_sha}" \
+  --argjson nodeCount "${expected_node_count}" \
+  --argjson edgeCount "${expected_edge_count}" \
   '{publication: $publication, notebook: $notebook,
-    graphDefinition: {parts: $definition.parts}, graphQuery: {verified: true}}'
+    graphDefinition: {parts: $definition.parts},
+    graphQuery: {
+      verified: true,
+      repository: $repository,
+      projectionId: $projectionId,
+      commitSha: $commitSha,
+      nodeCount: $nodeCount,
+      edgeCount: $edgeCount
+    }}'

@@ -111,12 +111,12 @@ status="$(curl \
   sed -n '1,40p' "${response_file}" >&2
   qam_fail "starting Fabric Notebook job returned HTTP ${status}"
 }
-operation_url="$(awk 'BEGIN {IGNORECASE=1} /^Location:/ {$1=""; sub(/^ /, ""); gsub("\\r", ""); print}' "${headers_file}" | tail -1)"
+operation_url="$(awk 'tolower($1) == "location:" {$1=""; sub(/^ /, ""); gsub("\\r", ""); print}' "${headers_file}" | tail -1)"
 [ -n "${operation_url}" ] || qam_fail "Fabric Notebook job returned no Location header"
 qam_validate_fabric_notebook_job_url "${operation_url}" "${workspace_id}" "${notebook_id}"
 
 for _ in $(seq 1 90); do
-  retry_after="$(awk 'BEGIN {IGNORECASE=1} /^Retry-After:/ {gsub("\\r", "", $2); print $2}' "${headers_file}" | tail -1)"
+  retry_after="$(awk 'tolower($1) == "retry-after:" {gsub("\\r", "", $2); print $2}' "${headers_file}" | tail -1)"
   if ! printf '%s' "${retry_after:-10}" | grep -Eq '^[0-9]+$'; then retry_after=10; fi
   if [ "${retry_after:-10}" -gt 60 ]; then retry_after=60; fi
   sleep "${retry_after:-10}"
@@ -135,18 +135,36 @@ for _ in $(seq 1 90); do
   job_status="$(jq -r '.status // empty' "${response_file}")"
   case "${job_status}" in
     Completed)
+      job_id="${operation_url##*/}"
+      qam_validate_uuid "${job_id}" "Fabric Notebook job instance ID"
+      details_url="https://api.fabric.microsoft.com/v1/workspaces/${workspace_id}/notebooks/${notebook_id}/jobs/execute/instances/${job_id}?beta=true"
+      : > "${headers_file}"
+      : > "${response_file}"
+      status="$(curl \
+        --silent \
+        --show-error \
+        --header "Authorization: Bearer ${access_token}" \
+        --header 'Accept: application/json' \
+        --dump-header "${headers_file}" \
+        --output "${response_file}" \
+        --write-out '%{http_code}' \
+        "${details_url}")"
+      [ "${status}" = '200' ] \
+        || qam_fail "reading the completed Fabric Notebook exit value returned HTTP ${status}"
       jq -e \
+        --arg job_id "${job_id}" \
         --arg projection "${projection_id}" \
         --arg commit "${commit_sha}" \
-        '.exitValue | fromjson |
+        '.id == $job_id and .status == "Completed" and
+        ((.exitValue // .properties.exitValue) | fromjson |
           .status == "success" and
           .projectionId == $projection and
           .commitSha == $commit and
           (.nodeCount | type == "number") and .nodeCount > 0 and .nodeCount == (.nodeCount | floor) and
-          (.edgeCount | type == "number") and .edgeCount >= 0 and .edgeCount == (.edgeCount | floor)' \
+          (.edgeCount | type == "number") and .edgeCount >= 0 and .edgeCount == (.edgeCount | floor))' \
         "${response_file}" >/dev/null \
         || qam_fail "Fabric Notebook completed without the expected QAM success contract"
-      jq -c '.exitValue | fromjson' "${response_file}"
+      jq -c '(.exitValue // .properties.exitValue) | fromjson' "${response_file}"
       exit 0
       ;;
     Failed | Cancelled | Deduped)

@@ -12,15 +12,31 @@
       { "name": "normalizedValue" }, { "name": "sourceIdsJson" }, { "name": "authorsJson" },
       { "name": "usageCountsJson" }, { "name": "lastModified" }
     ],
-    "data": [{
-      "id": "urn:qam:concept:test", "kind": "Concept", "title": "Test", "type": "concept",
-      "path": "concepts/test.md", "repositoryPath": "quickagenticmemory/knowledge/concepts/test.md",
-      "conceptId": "test", "tagsJson": "[]", "aliasesJson": "[]",
-      "projectionId": "urn:qam:projection:test", "commitSha": "1111111111111111111111111111111111111111",
-      "repository": "https://github.com/example/repository", "projectionGeneratedAt": "2026-01-01T00:00:00Z",
-      "okfVersion": "0.1.0", "summary": null, "resource": null, "status": null,
-      "contentHash": null, "sourceUrl": null, "normalizedValue": null, "sourceIdsJson": null,
-      "authorsJson": null, "usageCountsJson": null, "lastModified": null
-    }]
+    "data": [
+      {
+        "id": "urn:qam:concept:a", "kind": "Concept", "title": "Concept A", "type": "component",
+        "path": "concepts/a.md", "repositoryPath": "quickagenticmemory/knowledge/concepts/a.md",
+        "conceptId": "a", "tagsJson": "[]", "aliasesJson": "[]",
+        "projectionId": "urn:qam:projection:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "commitSha": "1111111111111111111111111111111111111111",
+        "repository": "https://github.com/example/repository", "projectionGeneratedAt": "2026-01-01T00:00:00Z",
+        "okfVersion": "0.2", "summary": null, "resource": null, "status": "stable",
+        "contentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "sourceUrl": null, "normalizedValue": null, "sourceIdsJson": null,
+        "authorsJson": null, "usageCountsJson": null, "lastModified": null
+      },
+      {
+        "id": "urn:qam:concept:b", "kind": "Concept", "title": "Concept B", "type": "component",
+        "path": "concepts/b.md", "repositoryPath": "quickagenticmemory/knowledge/concepts/b.md",
+        "conceptId": "b", "tagsJson": "[]", "aliasesJson": "[]",
+        "projectionId": "urn:qam:projection:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "commitSha": "1111111111111111111111111111111111111111",
+        "repository": "https://github.com/example/repository", "projectionGeneratedAt": "2026-01-01T00:00:00Z",
+        "okfVersion": "0.2", "summary": null, "resource": null, "status": "stable",
+        "contentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "sourceUrl": null, "normalizedValue": null, "sourceIdsJson": null,
+        "authorsJson": null, "usageCountsJson": null, "lastModified": null
+      }
+    ]
   }
 }

@@ -296,6 +296,7 @@ test("QAM resolves aliases, traverses gold paths, filters status, and pins every
   assert.match(html, /prefers-reduced-motion/u);
   assert.match(html, /@media print/u);
   assert.doesNotMatch(html, /<link\s/iu);
+  assert.doesNotMatch(html, /[ \t]+$/mu);
 
   const verifiedHtml = renderStaticHtml({
     ...report,

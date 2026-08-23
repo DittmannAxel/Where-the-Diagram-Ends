@@ -45,17 +45,27 @@ else
   mkdir -p "${output_dir}"
 fi
 
-node_path="abfss://${workspace_id}@onelake.dfs.fabric.microsoft.com/${lakehouse_id}/Tables/QamNode"
-edge_path="abfss://${workspace_id}@onelake.dfs.fabric.microsoft.com/${lakehouse_id}/Tables/QamEdge"
+lakehouse_reference='QamLakehouse'
+node_path='Tables/qamnode'
+edge_path='Tables/qamedge'
 
 jq -n \
+  --arg workspaceId "${workspace_id}" \
+  --arg lakehouseId "${lakehouse_id}" \
+  --arg referenceName "${lakehouse_reference}" \
   --arg nodePath "${node_path}" \
   --arg edgePath "${edge_path}" \
   '{
     "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/graphIndex/definition/dataSources/1.1.0/schema.json",
+    itemReferences: [{
+      name: $referenceName,
+      item: {workspaceId: $workspaceId, itemId: $lakehouseId}
+    }],
     dataSources: [
-      {name: "QamNode_Table", type: "DeltaTable", properties: {path: $nodePath}},
-      {name: "QamEdge_Table", type: "DeltaTable", properties: {path: $edgePath}}
+      {name: "QamNode_Table", type: "DeltaTable",
+        properties: {referenceName: $referenceName, path: $nodePath}},
+      {name: "QamEdge_Table", type: "DeltaTable",
+        properties: {referenceName: $referenceName, path: $edgePath}}
     ]
   }' > "${output_dir}/dataSources.json"
 
@@ -103,17 +113,20 @@ jq -n \
 jq -n '{
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/graphIndex/definition/stylingConfiguration/1.0.0/schema.json",
   modelLayout: {
-    positions: {QamNode: {x: 120, y: 120}, QamEdge: {x: 420, y: 120}},
+    positions: {QamNode: {x: 120, y: 120}},
     styles: {QamNode: {size: 30}, QamEdge: {size: 20}},
     pan: {x: 0, y: 0},
     zoomLevel: 1
-  }
+  },
+  visualFormat: {}
 }' > "${output_dir}/stylingConfiguration.json"
 
 jq -cn \
   --arg definitionDirectory "${output_dir}" \
+  --arg lakehouseReference "${lakehouse_reference}" \
   --arg nodeTablePath "${node_path}" \
   --arg edgeTablePath "${edge_path}" \
   '{definitionDirectory: $definitionDirectory,
     parts: ["dataSources.json", "graphDefinition.json", "graphType.json", "stylingConfiguration.json"],
+    lakehouseReference: $lakehouseReference,
     nodeTablePath: $nodeTablePath, edgeTablePath: $edgeTablePath}'

@@ -1,0 +1,1672 @@
+[
+  {
+    "id": "urn:qam:edge:510156e597731cad302880d7a3bd24d5997ef48ffdcc10ec91bef2192a7b6903",
+    "from": "urn:qam:concept:01ff408850e7195b34d8c85a0a050a2d318504e2cb5338a2c09ab34714f4569c",
+    "to": "urn:qam:term:75b749ddc4ad2cd37ff658c9b677de48a1bff55bd56af49ce10713a7ddcf6127",
+    "type": "ALIASED_AS",
+    "label": "EOL notice 2026-04",
+    "sourcePath": "service-bulletins/sb-2026-04.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:86742b38cd4ed7ae45179267fb2c59888761c12b7033e46681af99d6783bef38",
+    "from": "urn:qam:concept:01ff408850e7195b34d8c85a0a050a2d318504e2cb5338a2c09ab34714f4569c",
+    "to": "urn:qam:term:d55496a8a2df132c4793ce3852276e9b97284d1e348469fe59387f6ad61cb93e",
+    "type": "ALIASED_AS",
+    "label": "current IOL-M8 bulletin",
+    "sourcePath": "service-bulletins/sb-2026-04.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:b628380ba6f015bb2c2ffac94642a0ab9579f681cdd54f80c4fc0257835c01e0",
+    "from": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "to": "urn:qam:term:1928dd1419d588bb517acc39410e9b09cf81fa2133f0b8597b34dd569b9f879a",
+    "type": "ALIASED_AS",
+    "label": "XK8-IO",
+    "sourcePath": "components/iol-m8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:1b12cafe0a2e89289c8ba644e4914d46a40391c90b2282ed02f80ecce71860d9",
+    "from": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "to": "urn:qam:term:193a3132425f0aa6d6e552c93e2c1b7a95c26b67656532629647394532883a35",
+    "type": "ALIASED_AS",
+    "label": "AL-8P",
+    "sourcePath": "components/iol-m8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:c7b597175b5408c8eebfd1964dc389b40a12c50b7c1aa2921e31b9295b3c4739",
+    "from": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "to": "urn:qam:term:494f7ece1a40aaf623acf1c0fa127fe1c5b153e64d1afbc31901d49a0ab2bd39",
+    "type": "ALIASED_AS",
+    "label": "8-port IO-Link Master",
+    "sourcePath": "components/iol-m8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:9c5977fb038aa73d93d190cc8f74db747bf84818fd7d481655d38b411344494c",
+    "from": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "to": "urn:qam:term:8a035b9620783620c72f16af43c33dcb8c9ab3872215db8bd6af16c260b1886d",
+    "type": "ALIASED_AS",
+    "label": "IOL M8",
+    "sourcePath": "components/iol-m8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:3809e962305f5c8c49b1cc9c073d9445484bcd8877b18ed6fd2f8bdd6f8a9ada",
+    "from": "urn:qam:concept:16c58a9cff7ebcb4d3e16041f7b013a602a0d045277b1ea0d254f4ab8e3bd767",
+    "to": "urn:qam:term:730076a053d31512a4cf2386ec5ddb68c0006b7d38c0ac9a35464684cd68a2d3",
+    "type": "ALIASED_AS",
+    "label": "V2 parameter set",
+    "sourcePath": "parameters/param-set-09.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:87ef7235c8bf4607b58146c21702fb171da7be2fd26102797a6fa0dee18d2396",
+    "from": "urn:qam:concept:16c58a9cff7ebcb4d3e16041f7b013a602a0d045277b1ea0d254f4ab8e3bd767",
+    "to": "urn:qam:term:7dfd56c347b7e478a95defc9d3e244cbf85097aef4bedd40c08dc68151ed00f4",
+    "type": "ALIASED_AS",
+    "label": "PAL V2 master parameters",
+    "sourcePath": "parameters/param-set-09.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:5461ff988d432b8d5732aabf4563e569b0329d466144122166eee0572a1013a2",
+    "from": "urn:qam:concept:1bd1ddad93f57be1643651e73eecd0ff65e046e616671e2867cf06ed16b7566f",
+    "to": "urn:qam:term:67c61e670907c45d1f6065fec46611d2a1feca786909cfe0320202b4db2adc3c",
+    "type": "ALIASED_AS",
+    "label": "PAL V1 stainless test",
+    "sourcePath": "acceptance-tests/fat-099.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:fdfd22c46f3374aa5ff29841fcc65f730dc2130d61dde9970b948d04a6f2f0cc",
+    "from": "urn:qam:concept:1bd1ddad93f57be1643651e73eecd0ff65e046e616671e2867cf06ed16b7566f",
+    "to": "urn:qam:term:83792e86f81572258d4ac59ed0527c247306ad14b3f7e05069c464e4ccb7974a",
+    "type": "ALIASED_AS",
+    "label": "M8S seal FAT",
+    "sourcePath": "acceptance-tests/fat-099.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:f2cbb993a228120e0443e8b480bd14775a80c1cbdd354bf78e7dde65dc7504d2",
+    "from": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "to": "urn:qam:term:5f6151f7ac878cd163294d16b3a8f47b46a502d6b833da548ead2a2d77d16c92",
+    "type": "ALIASED_AS",
+    "label": "PAL-V2",
+    "sourcePath": "machines/pal-80-v2.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:bb1bf227b5a38afb6a5167533e1736333e07672b9f85afb783bf2c60c62a5d00",
+    "from": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "to": "urn:qam:term:8e8f0394ed0aee3c769672c855349e5211e7d79e31525bc6837aa192052ee60f",
+    "type": "ALIASED_AS",
+    "label": "PAL 80 V2",
+    "sourcePath": "machines/pal-80-v2.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:d5a2d7646f733869e8b0e821618e8eb2215028046eb6f00e61cd860bd3a7e319",
+    "from": "urn:qam:concept:2e94aa9be842c869145f9e15865fcb1f4195349febc8e8d6ff76d2cca135b4cc",
+    "to": "urn:qam:term:38bde5c6bbce04db45df490cbe38ad51f7e49d96710cb8367d48edf11709a36c",
+    "type": "ALIASED_AS",
+    "label": "PKG IO diagnostics",
+    "sourcePath": "plc/fb-io-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:10991ecaf16d611335b0b4dd19c755dcf1bdb116721c30bb1d546855948ad89b",
+    "from": "urn:qam:concept:2e94aa9be842c869145f9e15865fcb1f4195349febc8e8d6ff76d2cca135b4cc",
+    "to": "urn:qam:term:f790b088d3ebe9ddc01b954118dbbd7af8e03889abce9c78bff988b9a6f333a6",
+    "type": "ALIASED_AS",
+    "label": "V500 diagnostic FB",
+    "sourcePath": "plc/fb-io-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:4857ac87a3ae69858c6da91899af219c0f96a0467eea647babac0a9f8b60ade4",
+    "from": "urn:qam:concept:30afaf00e68e58cea7358ef57fcac5dab6d629dd413fbb85c11a16bbc447ce39",
+    "to": "urn:qam:term:06f7a6c052e33ec9c28444ba151f79e66d62345331c7233675495e733a86df1f",
+    "type": "ALIASED_AS",
+    "label": "IOL-M8 replacement change",
+    "sourcePath": "change-requests/cr-1042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:360395044784fc8d7c3aeba8d475ad78016040fae9a0d35ec3720ddc7dedeb40",
+    "from": "urn:qam:concept:30afaf00e68e58cea7358ef57fcac5dab6d629dd413fbb85c11a16bbc447ce39",
+    "to": "urn:qam:term:5d1a59412cd4cc801d5cef3e6c123a3983664ccf8b20d1f5b2c9f7f0c10e4595",
+    "type": "ALIASED_AS",
+    "label": "master obsolescence change",
+    "sourcePath": "change-requests/cr-1042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:c5e8e463145927a80831cf0b1bd72114fafa588f9406f172b735b73f811ece82",
+    "from": "urn:qam:concept:320625bfa5b000f4b8b8703c61d5b6c9a4215a68390ebc86585b4d9443453923",
+    "to": "urn:qam:term:13510cfdf8a021231fea6fdfc4c31e6cf84abd0ba274d6b85ddcde08b833bffc",
+    "type": "ALIASED_AS",
+    "label": "PKG-V300",
+    "sourcePath": "machines/pkg-200-v300.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:6bbf2282bf665cbc94b979f10bd65d8144446539810e1e245792d44b0b1c7e47",
+    "from": "urn:qam:concept:320625bfa5b000f4b8b8703c61d5b6c9a4215a68390ebc86585b4d9443453923",
+    "to": "urn:qam:term:d77bab21b7895587a7e2b99e0df51bfffd81a5299041241f8ab61ed76b1bb060",
+    "type": "ALIASED_AS",
+    "label": "PKG 200 V300",
+    "sourcePath": "machines/pkg-200-v300.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:f7182ae7a9e3a8ca574bb04dd8df85c04735ee402b9e62a48d2889fcf85654d3",
+    "from": "urn:qam:concept:3cd1080824ce519277d95b831bb29260af4792ce23e2fb42c60acf95cace7bd0",
+    "to": "urn:qam:term:9b43facb87863cda3e24d3d48a0190b9262c72ed7f5ceff417df439ab71603f0",
+    "type": "ALIASED_AS",
+    "label": "M8S parameter set",
+    "sourcePath": "parameters/param-set-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:83c00973c7285053ebf551d2b790ead0a289f8eaceea566b713145a6d061b5d8",
+    "from": "urn:qam:concept:3cd1080824ce519277d95b831bb29260af4792ce23e2fb42c60acf95cace7bd0",
+    "to": "urn:qam:term:f3199f3e09731d0bcf21f14dd7ec2dd9b6ec63a09d47ebdeec892fb9f11157bc",
+    "type": "ALIASED_AS",
+    "label": "PAL V1 stainless parameters",
+    "sourcePath": "parameters/param-set-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:7cc1fd01b6b5a2e74f917dd62dd8b2b6a9a8ded7004dea4d75915cf82449d824",
+    "from": "urn:qam:concept:4420de5a4a8ac84e25c67646111e7609bda131d8c3986503fe5e74479e794e39",
+    "to": "urn:qam:term:a7feaceed43baff0e361d87768a9116a13945545845a9b8040314da40d158308",
+    "type": "ALIASED_AS",
+    "label": "V500 I/O checkout",
+    "sourcePath": "acceptance-tests/fat-042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:26eefb7f33ce24d164c2d15742a1e60cddccd2f71e3d42393e18b5f6e49c825b",
+    "from": "urn:qam:concept:4420de5a4a8ac84e25c67646111e7609bda131d8c3986503fe5e74479e794e39",
+    "to": "urn:qam:term:aefe76aa8484270ece99302d1d7bb5c91c596ecd714af91246c2a0be4b4eb477",
+    "type": "ALIASED_AS",
+    "label": "PKG V500 diagnostic FAT",
+    "sourcePath": "acceptance-tests/fat-042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:39793c299ad2577a924ab1f42e07914762dce11d0ff036cc2ad8af4099cf4aeb",
+    "from": "urn:qam:concept:44df4761a4c3eaffbd9d74d1a66fa61ef3416aed15b30dbae27d08cf29e79613",
+    "to": "urn:qam:term:0c4f36097cef409ac8aaee92cb848b32ac5b165e205a7c6e1e5d34f70ce28c7c",
+    "type": "ALIASED_AS",
+    "label": "replacement candidate R8",
+    "sourcePath": "components/nxl-r8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:6ee13b9e578ebdb8b8fa3b8c04b9e63924a95a4f251bfd78ac0b6af851a46bb6",
+    "from": "urn:qam:concept:44df4761a4c3eaffbd9d74d1a66fa61ef3416aed15b30dbae27d08cf29e79613",
+    "to": "urn:qam:term:2c8b72aec57bfa92a0680b42760ac469ffa697a0890b60ec38dee7ce4ad5177a",
+    "type": "ALIASED_AS",
+    "label": "NextLink R8",
+    "sourcePath": "components/nxl-r8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:b3654a49894c2ecb744917ae8ab8a3f22656a1d064d2dec760efdd2cbf254bc4",
+    "from": "urn:qam:concept:52d26a8a6cd9cb659f8a9be020059d0f2db78792c09e039b90e9509300127fcf",
+    "to": "urn:qam:term:49def30525391035e7f6eecf3f67fa70fe1889d289231dcbf0468da0d7dd8552",
+    "type": "ALIASED_AS",
+    "label": "PAL V1 stainless diagnostic FB",
+    "sourcePath": "plc/fb-stainless-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:e6a67d11ffcfeabb240fb77dacdf607866388824b9a8b7ae5388c921348ba162",
+    "from": "urn:qam:concept:52d26a8a6cd9cb659f8a9be020059d0f2db78792c09e039b90e9509300127fcf",
+    "to": "urn:qam:term:ae0f935beae3d20ef46ac87c89cc9b7e0dd655f3cc9539ac13e1f64b3619fa6d",
+    "type": "ALIASED_AS",
+    "label": "M8S diagnostics",
+    "sourcePath": "plc/fb-stainless-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:a370aa63f7b4c65edcc90de244bf861209b28051fa6eacfd0570f568e19fedf9",
+    "from": "urn:qam:concept:8336cc40dc1b71b249a518892cdee913c110f1bc45e280515b848067ead5d982",
+    "to": "urn:qam:term:237cc868477dcff3b982aa70bfbb10654174a9fe1a80e6d242b8e0963b0b2e11",
+    "type": "ALIASED_AS",
+    "label": "V2 gripper I/O checkout",
+    "sourcePath": "acceptance-tests/fat-057.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:76041c4a5d9da028e65f2d6c7653271cb236ce18c659f5a3cbfda101809a0367",
+    "from": "urn:qam:concept:8336cc40dc1b71b249a518892cdee913c110f1bc45e280515b848067ead5d982",
+    "to": "urn:qam:term:fa18c644a3a563379f66f0248883305c134310a5eddff026730cbc1f6e400ce3",
+    "type": "ALIASED_AS",
+    "label": "PAL V2 diagnostic FAT",
+    "sourcePath": "acceptance-tests/fat-057.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:a755abd2295315e5df9593a20922b8f0a2d769335ae7d51a52fffadc55c7b1f4",
+    "from": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "to": "urn:qam:term:80ec1037650b06dd13de0fcfb75cd1a804f7db7041e21dd8650895e3edf5f5ee",
+    "type": "ALIASED_AS",
+    "label": "PKG-V500",
+    "sourcePath": "machines/pkg-200-v500.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:0dadceaa5f5b92ec5d17045c80888c2c7eb89cc3f7f6e25fb5c89455b4948751",
+    "from": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "to": "urn:qam:term:a363809f53ce20eced1d8bb0ac68f8cdbb26b63431b80e529a35576c83965e63",
+    "type": "ALIASED_AS",
+    "label": "PKG 200 V500",
+    "sourcePath": "machines/pkg-200-v500.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:a3d27abeba463a556275feca1efc692597b299702de628a1416a8815682fc360",
+    "from": "urn:qam:concept:8c91b830d2c2e2bb502fb98fd8077432022120b057c446aa8dd6539e0b8ce754",
+    "to": "urn:qam:term:211fa81c13f40d482b059fd5a5e50e68fcdce9c3fafafacc1f4a4110d5ab9078",
+    "type": "ALIASED_AS",
+    "label": "IOL M8S",
+    "sourcePath": "components/iol-m8s.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:49bb947b4cab6f5ea0309fa7d0be4331c0ec80cd99e30b56ef2b6e5fe4829a21",
+    "from": "urn:qam:concept:8c91b830d2c2e2bb502fb98fd8077432022120b057c446aa8dd6539e0b8ce754",
+    "to": "urn:qam:term:b926a7a77ea49a98fe94ded3e7202599ea312e4f56e48f2fc5d22f8aba2c75c2",
+    "type": "ALIASED_AS",
+    "label": "8-port stainless IO-Link master",
+    "sourcePath": "components/iol-m8s.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:b0da6e0304f60a9e0634e6c7134ab5220760f6e76cf5cfcdd4d0b3270d02d718",
+    "from": "urn:qam:concept:8c91b830d2c2e2bb502fb98fd8077432022120b057c446aa8dd6539e0b8ce754",
+    "to": "urn:qam:term:f080cb9818292bce03b5c66ace96f6638a2a9a1a149f6e8b02790348e476a80e",
+    "type": "ALIASED_AS",
+    "label": "XK8-IOS",
+    "sourcePath": "components/iol-m8s.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:cb98f11c081aa6bdb510b0d2d34106f772c77c581887d2c0c13887995dd064b9",
+    "from": "urn:qam:concept:95e6ac9ab8e260c9506350f0717a642c17fa9c84d1696173f7430942408c5720",
+    "to": "urn:qam:term:379734b39d5dbf527cce284383bc7698d024fc37a5cf33c8c5c6a62fb58607dd",
+    "type": "ALIASED_AS",
+    "label": "V500 site I/O test",
+    "sourcePath": "acceptance-tests/sat-021.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:ee66e935818b16dca99be0da1d680295586750b7356d5729c15b3fe4973b8754",
+    "from": "urn:qam:concept:95e6ac9ab8e260c9506350f0717a642c17fa9c84d1696173f7430942408c5720",
+    "to": "urn:qam:term:41280d64982d2d7e41cd7531208772c922ce029c4c4643499041ecd61d989113",
+    "type": "ALIASED_AS",
+    "label": "PKG V500 recovery SAT",
+    "sourcePath": "acceptance-tests/sat-021.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:ecf55933bdb57bae0eec855260aa0e244be8425b7de400fc7a4a6d240993d07f",
+    "from": "urn:qam:concept:a9ec67b2e4936c96a11447471cd2ffe29671b4fa080b4590ad07916ca1750415",
+    "to": "urn:qam:term:3a986c559eee608bed7570042fcf0159b0bc87da2f6925706305855dd8ab4505",
+    "type": "ALIASED_AS",
+    "label": "V500 sensor map",
+    "sourcePath": "io-mappings/io-map-17.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:7b5fdf49891b1056e34a0ea90d3dc8124b5dff1dbb850c17ba647ab051ed4269",
+    "from": "urn:qam:concept:a9ec67b2e4936c96a11447471cd2ffe29671b4fa080b4590ad07916ca1750415",
+    "to": "urn:qam:term:ad519196fa7062389b4737543f409442febdfbc1c01d1e95223871f5210c8745",
+    "type": "ALIASED_AS",
+    "label": "PKG V500 I/O map",
+    "sourcePath": "io-mappings/io-map-17.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:6b3cb44939a9a0abe9c9ee4c5148403f6c829c52842bb7c6d46aa008c59a3b19",
+    "from": "urn:qam:concept:aa304905f9211482f2cc3f5757770cbd19f8809460bccf64bbc963d56f8bc23f",
+    "to": "urn:qam:term:fab062efffff28fe8660580016287b8f78a0f126647d9ba394aab84bc4ec9949",
+    "type": "ALIASED_AS",
+    "label": "PKG 200 family",
+    "sourcePath": "machines/pkg-200.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:8034dcca8b2c8a4a9f4588e029cd7716483efd5e418991ae96b9f1f2274898f5",
+    "from": "urn:qam:concept:ade795affbabb248d44afd5d9a717a734cc2876c5a0e5e08dbab01fd25eeaaa4",
+    "to": "urn:qam:term:9b8ad2f201f938e5bee13ca27aadd9fa5f3626e07c406b14d1b87cec0bd848cb",
+    "type": "ALIASED_AS",
+    "label": "PAL 80 family",
+    "sourcePath": "machines/pal-80.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:9d56a960b575161b6a5c2eb4094b0bde9d24bfecd2ddab8490b64f5cddfeb738",
+    "from": "urn:qam:concept:b5cd7a9ed19bec659dc94f804033838f61057acf149442509568659a4064d369",
+    "to": "urn:qam:term:2b17d612ba060183e1b751f834d369415e449b8a01e681190be38bd82602daa3",
+    "type": "ALIASED_AS",
+    "label": "V2 site I/O test",
+    "sourcePath": "acceptance-tests/sat-011.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:e331e52d5101eff87f9ee750fc51dcbc97af8a6f00e657c86a8d6481910f244f",
+    "from": "urn:qam:concept:b5cd7a9ed19bec659dc94f804033838f61057acf149442509568659a4064d369",
+    "to": "urn:qam:term:36011d906378a1720e04e31dde68533a9b7b41e40af1f16169e5385414afb364",
+    "type": "ALIASED_AS",
+    "label": "PAL V2 recovery SAT",
+    "sourcePath": "acceptance-tests/sat-011.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:d48a830783e9d7de9c28e911f1c71338c4ec6a1d0ffb6eb501c66defafd241b9",
+    "from": "urn:qam:concept:b6fca1fbfb4a11c5a04192d26d882a5a0df55cdde6693642b5b526317de5bfae",
+    "to": "urn:qam:term:d0998eb758235f0aec946fc1f29bf8b8977ed94fb3d696a251318c61162da6c3",
+    "type": "ALIASED_AS",
+    "label": "M8S seal inspection bulletin",
+    "sourcePath": "service-bulletins/sb-2026-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:817b1059f4a1aef3798d059eb8dd57137c04b9a866001236551f6e6d917292d8",
+    "from": "urn:qam:concept:b6fca1fbfb4a11c5a04192d26d882a5a0df55cdde6693642b5b526317de5bfae",
+    "to": "urn:qam:term:ecd7f50659db6374b4fa5940a6540503c1369e938f2eeaeef2504dfcf0d7d394",
+    "type": "ALIASED_AS",
+    "label": "stainless master notice",
+    "sourcePath": "service-bulletins/sb-2026-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:e507e71bc4738019859f0a3d1bee11ee19e085b3da58350028efc72a1799af02",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:term:031bd91a643d9ebfae35b605609664e767f8108678389a0154c9f75a5721edd2",
+    "type": "ALIASED_AS",
+    "label": "PAL-V1",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:b1bd4008b15a73d88b22583fe2ae9ada49402c709d8ffecafca5d19db94e08a6",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:term:821299f127de2ee383358663a280831a421c8cde068a85857f4d6cb20fb5140b",
+    "type": "ALIASED_AS",
+    "label": "PAL stainless variant",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:731c43a6752e87f1f384ad492c9484c42b1daa2cc38b7cea6d17d12e092aa9b1",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:term:a55a44f159aec4438c6ac805215d9a8747e41be866de0b3b1b0de54380db29a5",
+    "type": "ALIASED_AS",
+    "label": "PAL 80 V1",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:ed70f196cd8d0b1eb043edffb24c0f59bb06dd0483a2c40836c41b7931f43c28",
+    "from": "urn:qam:concept:c5c4fd7ff3969da89a9791eb008771211c09407dea307e080fce8353449ec70a",
+    "to": "urn:qam:term:133e7689653d7f6251acbe4f889c3078e8cc3d6c76bd11679de9fbd8e511ec32",
+    "type": "ALIASED_AS",
+    "label": "V500 parameter set",
+    "sourcePath": "parameters/param-set-17.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:dd5a70da290bd277b05141a48471bea2ec082645c0383359c7f835897aee3e61",
+    "from": "urn:qam:concept:c5c4fd7ff3969da89a9791eb008771211c09407dea307e080fce8353449ec70a",
+    "to": "urn:qam:term:d176bc9ab1ff915774b298229d9141cadf8c1bd45bda643790e59fea9bcb9696",
+    "type": "ALIASED_AS",
+    "label": "PKG V500 master parameters",
+    "sourcePath": "parameters/param-set-17.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:3583b226c10049786dbfda49b344569882ad3762062ff00397555a4f27b319cd",
+    "from": "urn:qam:concept:ce23fea957fcd5d81fd5903f0284b7d9b81b069530d68532385c3c5ac5aeb0ba",
+    "to": "urn:qam:term:51761021dcf0ea22197ba3fb5fc2260db7767f208c61c381636df7b1460df407",
+    "type": "ALIASED_AS",
+    "label": "PAL V1 stainless I/O map",
+    "sourcePath": "io-mappings/io-map-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:9df04914ae647d63ca492b67d47e865d298b97da817a9ad1c6a325c3fdc07f6b",
+    "from": "urn:qam:concept:ce23fea957fcd5d81fd5903f0284b7d9b81b069530d68532385c3c5ac5aeb0ba",
+    "to": "urn:qam:term:b5c2417b788c9cc8ed19ba2c758f5f0d9cdc9640c57be90f72e6e47bd1b1cc98",
+    "type": "ALIASED_AS",
+    "label": "M8S process map",
+    "sourcePath": "io-mappings/io-map-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:c4f5f52f05bf32a4c96a7a7e9d522dd69f7ed9fb1b78969ae560b7d7a4407f03",
+    "from": "urn:qam:concept:edfa57d82b5649357badcbaa83660e4a0ca9f5053ad48bae7bac8f1923a6a0ba",
+    "to": "urn:qam:term:14b55d98b0c664ea4f6a5022420001292e1810882fb0913dbe18c88861abc433",
+    "type": "ALIASED_AS",
+    "label": "PAL IO diagnostics",
+    "sourcePath": "plc/fb-pallet-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:480e381866894b38431144914fe76fa5620554fce1d4962f8d4a706cfbc99e8b",
+    "from": "urn:qam:concept:edfa57d82b5649357badcbaa83660e4a0ca9f5053ad48bae7bac8f1923a6a0ba",
+    "to": "urn:qam:term:64fd0d1afe90a6d3cf9a3807939d5e70f5926d62baa5afa2a36ed46d8eb5c8f8",
+    "type": "ALIASED_AS",
+    "label": "V2 pallet diagnostic FB",
+    "sourcePath": "plc/fb-pallet-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:087d7133e0294cf9bf326d1e69d11a31b5fe6e46bb4609809775798d66e98fb8",
+    "from": "urn:qam:concept:f18d567898909fea2691d7ac32af289c8c4e184be128c6af591acc03c739e2d8",
+    "to": "urn:qam:term:23e53825d625b5dee2a862fa2791701a574ffd261b594971786037cf14b6f615",
+    "type": "ALIASED_AS",
+    "label": "V2 gripper sensor map",
+    "sourcePath": "io-mappings/io-map-22.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:699fb713c799972f9f5c4ce66c09c22faf040616db02cce2196fbf5e5efba065",
+    "from": "urn:qam:concept:f18d567898909fea2691d7ac32af289c8c4e184be128c6af591acc03c739e2d8",
+    "to": "urn:qam:term:3e9ffa936f55d388ca1f1139776ee7c6a2157482a632af2b2dd812581931d79b",
+    "type": "ALIASED_AS",
+    "label": "PAL V2 I/O map",
+    "sourcePath": "io-mappings/io-map-22.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:4782ff019d9336799f295cae789dfc158bba99c9f8241b0e491cf89caee5f11a",
+    "from": "urn:qam:concept:fb9a1ce2913cc425264e374c90817131ed7334f7e55b8dfc8b52263680475c97",
+    "to": "urn:qam:term:8972159fb10be65f3021806e4298821956e9d1bc5ecb980651164a6d5b52c29f",
+    "type": "ALIASED_AS",
+    "label": "preliminary M8-R6 advice",
+    "sourcePath": "service-bulletins/sb-2024-11.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:6ec3ea45a5f886e3f5a0332a12772eee721a070bff859cdb46fb9de6b92f78e2",
+    "from": "urn:qam:concept:fb9a1ce2913cc425264e374c90817131ed7334f7e55b8dfc8b52263680475c97",
+    "to": "urn:qam:term:dcbc9e7cb0b0bbd497b1a239c64261bc0715520bb8e31e6f9577ffa47ce926eb",
+    "type": "ALIASED_AS",
+    "label": "old IOL-M8 bulletin",
+    "sourcePath": "service-bulletins/sb-2024-11.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:8125abd39f3d3633bcbe72c1381e33719eb47f72dcba95d0b5415634991de05d",
+    "from": "urn:qam:concept:01ff408850e7195b34d8c85a0a050a2d318504e2cb5338a2c09ab34714f4569c",
+    "to": "urn:qam:tag:17fb37a9e74ad686aadf58adc12d3e16911a74b9468f634beacd234d0085359f",
+    "type": "HAS_TAG",
+    "label": "service-bulletin",
+    "sourcePath": "service-bulletins/sb-2026-04.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:aab616a555de0eeaf4d2dfff15d3bff3ea514b3fd2d753915170c75616d7c728",
+    "from": "urn:qam:concept:01ff408850e7195b34d8c85a0a050a2d318504e2cb5338a2c09ab34714f4569c",
+    "to": "urn:qam:tag:5d7557a319848b815d298edc9fc44eeebddb9e4aeb7a2c194f4f61a77989fe6f",
+    "type": "HAS_TAG",
+    "label": "component-obsolescence",
+    "sourcePath": "service-bulletins/sb-2026-04.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:cb8cd71fa41ba9b9a82addf558e52e49dfd69c55fb39fee17455dea4f3cf3d0b",
+    "from": "urn:qam:concept:01ff408850e7195b34d8c85a0a050a2d318504e2cb5338a2c09ab34714f4569c",
+    "to": "urn:qam:tag:97b0560280ed60a5a1eaa1bc45492543c8a986ad5a25b468c427eb83c3e88191",
+    "type": "HAS_TAG",
+    "label": "current",
+    "sourcePath": "service-bulletins/sb-2026-04.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:664ffe0c18e4bbf82822dc79ca6327138edab5372b98f208f98306657f3b3b29",
+    "from": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "to": "urn:qam:tag:5d7557a319848b815d298edc9fc44eeebddb9e4aeb7a2c194f4f61a77989fe6f",
+    "type": "HAS_TAG",
+    "label": "component-obsolescence",
+    "sourcePath": "components/iol-m8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:b23f8c6dad0226e801955a607ce86becf51ec24b4dd4c4e31e7e24eeb7e3fc5e",
+    "from": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "to": "urn:qam:tag:70b387372b9b5da5ac4f97bf42adc2c47019a730d55a6fbdbac6762fed8c1fe8",
+    "type": "HAS_TAG",
+    "label": "non-safety",
+    "sourcePath": "components/iol-m8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:6461361b396e8e4e14bafc0a8ce33ddaa606dab259f5a7c7d51f52e475ab6340",
+    "from": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "to": "urn:qam:tag:98646067c72be944cf7081dccb2d823baecc279b54e5abc7ca3ff925baae2ff6",
+    "type": "HAS_TAG",
+    "label": "io-link",
+    "sourcePath": "components/iol-m8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:4616b3916089f4819748203552a07a5955ba5d50b133bea41290f9b682851c40",
+    "from": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "to": "urn:qam:tag:a9491f4c1bf7b0cffbadcba2db8f028e4b3f2867cb59e1f3a0bc1968f3c51242",
+    "type": "HAS_TAG",
+    "label": "subject",
+    "sourcePath": "components/iol-m8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:2e9298af89b9bb3f5cc3aff1cdd8f86a17ae7929e2fc040078927a9d84656c35",
+    "from": "urn:qam:concept:16c58a9cff7ebcb4d3e16041f7b013a602a0d045277b1ea0d254f4ab8e3bd767",
+    "to": "urn:qam:tag:02d7da1bae3fd0767a5544e2fea76eaf5fa5ae73697edd181388c2acc7e1c87b",
+    "type": "HAS_TAG",
+    "label": "parameter-set",
+    "sourcePath": "parameters/param-set-09.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:38798319543bd0d18eb498505d2c7222c1eba347e9b123b890cecd95ee096b03",
+    "from": "urn:qam:concept:16c58a9cff7ebcb4d3e16041f7b013a602a0d045277b1ea0d254f4ab8e3bd767",
+    "to": "urn:qam:tag:42bee013a9dff464e1cd6e337e66ddb3a46094e0b81b8c69d25eb86df0b9ed11",
+    "type": "HAS_TAG",
+    "label": "palletizing",
+    "sourcePath": "parameters/param-set-09.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:d4a0c62d981e3db2c5bf26a1c8efbd073390363a6c0fef62cbd442fcdb3f1aa6",
+    "from": "urn:qam:concept:1bd1ddad93f57be1643651e73eecd0ff65e046e616671e2867cf06ed16b7566f",
+    "to": "urn:qam:tag:5f732c6d66465e6f067990f3d7794dc7edf3c1471041b099363c547645c05a04",
+    "type": "HAS_TAG",
+    "label": "stainless-enclosure",
+    "sourcePath": "acceptance-tests/fat-099.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:83d9ef6a37877dbf98de41f42b2b6a42c715581cb76da9f1690c349eb27c73af",
+    "from": "urn:qam:concept:1bd1ddad93f57be1643651e73eecd0ff65e046e616671e2867cf06ed16b7566f",
+    "to": "urn:qam:tag:be07f5139a61ebb919cc31bc0a4c69e6990f98e5b1e73047657115abca90f0ee",
+    "type": "HAS_TAG",
+    "label": "fat",
+    "sourcePath": "acceptance-tests/fat-099.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:75d45591903433ec6276a1aa81cd4ea9c8ef2a252f0fc274e27de50723824608",
+    "from": "urn:qam:concept:1bd1ddad93f57be1643651e73eecd0ff65e046e616671e2867cf06ed16b7566f",
+    "to": "urn:qam:tag:cb2270987ebf533a89d0371c644409ae35787d124d249ac901eef8acb095bb55",
+    "type": "HAS_TAG",
+    "label": "test-specification",
+    "sourcePath": "acceptance-tests/fat-099.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:0e47b66dc49a1344e05568cb99ffb6d32efb1f83caabe1f260bbc0a286b2d346",
+    "from": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "to": "urn:qam:tag:373e0712c83cffe15ff427b60e788b549f82496fe5fd5391f7921832b04c6b20",
+    "type": "HAS_TAG",
+    "label": "delivered",
+    "sourcePath": "machines/pal-80-v2.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:bb50c4c404afcfcecf5398627107f37b18708f89826d6303fdc1c8f45debb771",
+    "from": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "to": "urn:qam:tag:42bee013a9dff464e1cd6e337e66ddb3a46094e0b81b8c69d25eb86df0b9ed11",
+    "type": "HAS_TAG",
+    "label": "palletizing",
+    "sourcePath": "machines/pal-80-v2.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:26faed0b5c225a9b6951b6031f4118b152ddc7f124619437ec262d6b4bda897b",
+    "from": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "to": "urn:qam:tag:be9c62fe63911866c02e6bc673b5db164246bb0746a8775bd29f80a5b13f4245",
+    "type": "HAS_TAG",
+    "label": "machine-variant",
+    "sourcePath": "machines/pal-80-v2.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:6c8ba495f5ec6904a023d0ac888720fba52c1b7810211a2e27a31d9b6ea76357",
+    "from": "urn:qam:concept:2e94aa9be842c869145f9e15865fcb1f4195349febc8e8d6ff76d2cca135b4cc",
+    "to": "urn:qam:tag:2350ba1cc0771eb556a63e86d2010d7efcf7df296ebb06e40f54b6113fcd26b9",
+    "type": "HAS_TAG",
+    "label": "structured-text",
+    "sourcePath": "plc/fb-io-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:c251c469a01cf440cd16bce2bfcb074902082fd155b2b3d5bbabd6535ec3ceaa",
+    "from": "urn:qam:concept:2e94aa9be842c869145f9e15865fcb1f4195349febc8e8d6ff76d2cca135b4cc",
+    "to": "urn:qam:tag:8fa78148b702fb4492246c6ccdf5b194f1a4de68b791cae14800c730456f9e67",
+    "type": "HAS_TAG",
+    "label": "diagnostics",
+    "sourcePath": "plc/fb-io-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:e335762c306c07790bb6d1713621187271bed5ac42c8fe4706e24cd3d6767ea0",
+    "from": "urn:qam:concept:2e94aa9be842c869145f9e15865fcb1f4195349febc8e8d6ff76d2cca135b4cc",
+    "to": "urn:qam:tag:eec1534dcbd984de8cafe9df20c2247355356d2d558c8892bec64a666835ff8f",
+    "type": "HAS_TAG",
+    "label": "plc",
+    "sourcePath": "plc/fb-io-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:fe19debee0c032cc8aa439fb9fc2280e92f6689ff77afb6458c4f2d36c13e953",
+    "from": "urn:qam:concept:30afaf00e68e58cea7358ef57fcac5dab6d629dd413fbb85c11a16bbc447ce39",
+    "to": "urn:qam:tag:5d7557a319848b815d298edc9fc44eeebddb9e4aeb7a2c194f4f61a77989fe6f",
+    "type": "HAS_TAG",
+    "label": "component-obsolescence",
+    "sourcePath": "change-requests/cr-1042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:5d4f074dc35ea33e423fe8fdaee241f3d4d4189a02500a6d0e2d35e2cef1a635",
+    "from": "urn:qam:concept:30afaf00e68e58cea7358ef57fcac5dab6d629dd413fbb85c11a16bbc447ce39",
+    "to": "urn:qam:tag:f6ff88e05a732ec9f30c652ea816039307d0536d17c67889457421c258e12ddb",
+    "type": "HAS_TAG",
+    "label": "change-control",
+    "sourcePath": "change-requests/cr-1042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:c23716e87a034d3ee86d0bbb9ab7ae8d5b873a149b99ecfe7978d596bc3cbab7",
+    "from": "urn:qam:concept:320625bfa5b000f4b8b8703c61d5b6c9a4215a68390ebc86585b4d9443453923",
+    "to": "urn:qam:tag:373e0712c83cffe15ff427b60e788b549f82496fe5fd5391f7921832b04c6b20",
+    "type": "HAS_TAG",
+    "label": "delivered",
+    "sourcePath": "machines/pkg-200-v300.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:44bc69e7e218d1314dfc692ec27b84b6a1c6ad4b5aa05e991808e05b88ac35f1",
+    "from": "urn:qam:concept:320625bfa5b000f4b8b8703c61d5b6c9a4215a68390ebc86585b4d9443453923",
+    "to": "urn:qam:tag:71669691cb0b0f1bf662939c0db0782fb1a71b103bba2564051bb58bf0e303e6",
+    "type": "HAS_TAG",
+    "label": "packaging",
+    "sourcePath": "machines/pkg-200-v300.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:d5c19903a4c9cf35fa1af5713e4c7e07b1310defae2fe10c93c89910f33e77e5",
+    "from": "urn:qam:concept:320625bfa5b000f4b8b8703c61d5b6c9a4215a68390ebc86585b4d9443453923",
+    "to": "urn:qam:tag:be9c62fe63911866c02e6bc673b5db164246bb0746a8775bd29f80a5b13f4245",
+    "type": "HAS_TAG",
+    "label": "machine-variant",
+    "sourcePath": "machines/pkg-200-v300.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:a8d1b301767b5c521fec88e358d19cf2991492d91c03c823f04227d1ef8c1549",
+    "from": "urn:qam:concept:3cd1080824ce519277d95b831bb29260af4792ce23e2fb42c60acf95cace7bd0",
+    "to": "urn:qam:tag:02d7da1bae3fd0767a5544e2fea76eaf5fa5ae73697edd181388c2acc7e1c87b",
+    "type": "HAS_TAG",
+    "label": "parameter-set",
+    "sourcePath": "parameters/param-set-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:40d6f83c731aa5d10f4e7b4e001051b9e70acd628d111fc8d22f498f8b9ff250",
+    "from": "urn:qam:concept:3cd1080824ce519277d95b831bb29260af4792ce23e2fb42c60acf95cace7bd0",
+    "to": "urn:qam:tag:5f732c6d66465e6f067990f3d7794dc7edf3c1471041b099363c547645c05a04",
+    "type": "HAS_TAG",
+    "label": "stainless-enclosure",
+    "sourcePath": "parameters/param-set-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:007f687244501fa5941982404a80c072ab9d576cec132e1254ad983baaa59ade",
+    "from": "urn:qam:concept:4420de5a4a8ac84e25c67646111e7609bda131d8c3986503fe5e74479e794e39",
+    "to": "urn:qam:tag:71669691cb0b0f1bf662939c0db0782fb1a71b103bba2564051bb58bf0e303e6",
+    "type": "HAS_TAG",
+    "label": "packaging",
+    "sourcePath": "acceptance-tests/fat-042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:8f7c5233cd7ba592b6b167b5891a1cd02e1b653505f72371d96af1916e03c856",
+    "from": "urn:qam:concept:4420de5a4a8ac84e25c67646111e7609bda131d8c3986503fe5e74479e794e39",
+    "to": "urn:qam:tag:be07f5139a61ebb919cc31bc0a4c69e6990f98e5b1e73047657115abca90f0ee",
+    "type": "HAS_TAG",
+    "label": "fat",
+    "sourcePath": "acceptance-tests/fat-042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:bc41cce6f61fd9a62da1eb2fa7e665a7ea21de31ef967861bbd96dbcd7a8e2d1",
+    "from": "urn:qam:concept:4420de5a4a8ac84e25c67646111e7609bda131d8c3986503fe5e74479e794e39",
+    "to": "urn:qam:tag:cb2270987ebf533a89d0371c644409ae35787d124d249ac901eef8acb095bb55",
+    "type": "HAS_TAG",
+    "label": "test-specification",
+    "sourcePath": "acceptance-tests/fat-042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:fd0a88d19007dc30bb622aca37b62f6c4c2b8254213d3cfaa3ea69e7238db0a7",
+    "from": "urn:qam:concept:44df4761a4c3eaffbd9d74d1a66fa61ef3416aed15b30dbae27d08cf29e79613",
+    "to": "urn:qam:tag:95713e9cbdd1dfcb2d4080c2537f418d43ca0da25f0d7d6631f4f7c97b89dc47",
+    "type": "HAS_TAG",
+    "label": "replacement",
+    "sourcePath": "components/nxl-r8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:c3cef96835cfb91384ae9f40ec1fe645dc2da7c9d24bec1bdb2751dc5583cc34",
+    "from": "urn:qam:concept:44df4761a4c3eaffbd9d74d1a66fa61ef3416aed15b30dbae27d08cf29e79613",
+    "to": "urn:qam:tag:98646067c72be944cf7081dccb2d823baecc279b54e5abc7ca3ff925baae2ff6",
+    "type": "HAS_TAG",
+    "label": "io-link",
+    "sourcePath": "components/nxl-r8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:7c848d18a121f53798e431d6384790fe3b81999d7127f96cad9e70971ef0f0f8",
+    "from": "urn:qam:concept:44df4761a4c3eaffbd9d74d1a66fa61ef3416aed15b30dbae27d08cf29e79613",
+    "to": "urn:qam:tag:dda18a0e21ae47c53b4309434cbc02ae8bf764fa83a6defbb719431242722aa7",
+    "type": "HAS_TAG",
+    "label": "candidate",
+    "sourcePath": "components/nxl-r8.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:89b1acae86f8beef39b721b6f9a5fdddf113e4ed777d516c79da2f323a07baad",
+    "from": "urn:qam:concept:52d26a8a6cd9cb659f8a9be020059d0f2db78792c09e039b90e9509300127fcf",
+    "to": "urn:qam:tag:5f732c6d66465e6f067990f3d7794dc7edf3c1471041b099363c547645c05a04",
+    "type": "HAS_TAG",
+    "label": "stainless-enclosure",
+    "sourcePath": "plc/fb-stainless-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:c4d86acf266fb63b882a9a4a8cd876517c3ea6af4a64626f26db4094607d61ea",
+    "from": "urn:qam:concept:52d26a8a6cd9cb659f8a9be020059d0f2db78792c09e039b90e9509300127fcf",
+    "to": "urn:qam:tag:8fa78148b702fb4492246c6ccdf5b194f1a4de68b791cae14800c730456f9e67",
+    "type": "HAS_TAG",
+    "label": "diagnostics",
+    "sourcePath": "plc/fb-stainless-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:43602fcecb954872d3b0ea80bec3740e9d5de3d7d22580dddbe2935f05694135",
+    "from": "urn:qam:concept:52d26a8a6cd9cb659f8a9be020059d0f2db78792c09e039b90e9509300127fcf",
+    "to": "urn:qam:tag:eec1534dcbd984de8cafe9df20c2247355356d2d558c8892bec64a666835ff8f",
+    "type": "HAS_TAG",
+    "label": "plc",
+    "sourcePath": "plc/fb-stainless-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:030ee2cc5e60e792d245506d419633721392994d11f331c99d5fbbeab2a58f97",
+    "from": "urn:qam:concept:8336cc40dc1b71b249a518892cdee913c110f1bc45e280515b848067ead5d982",
+    "to": "urn:qam:tag:42bee013a9dff464e1cd6e337e66ddb3a46094e0b81b8c69d25eb86df0b9ed11",
+    "type": "HAS_TAG",
+    "label": "palletizing",
+    "sourcePath": "acceptance-tests/fat-057.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:a56593e38ea6460fdcb5a8302327789b6d26aad213ffd03c4752e378677c00f1",
+    "from": "urn:qam:concept:8336cc40dc1b71b249a518892cdee913c110f1bc45e280515b848067ead5d982",
+    "to": "urn:qam:tag:be07f5139a61ebb919cc31bc0a4c69e6990f98e5b1e73047657115abca90f0ee",
+    "type": "HAS_TAG",
+    "label": "fat",
+    "sourcePath": "acceptance-tests/fat-057.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:b3a05cd0d61943ffd7ed071b2f9c1019f238a0bd9b8f15e941d1566b6b250d9c",
+    "from": "urn:qam:concept:8336cc40dc1b71b249a518892cdee913c110f1bc45e280515b848067ead5d982",
+    "to": "urn:qam:tag:cb2270987ebf533a89d0371c644409ae35787d124d249ac901eef8acb095bb55",
+    "type": "HAS_TAG",
+    "label": "test-specification",
+    "sourcePath": "acceptance-tests/fat-057.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:57d95da6b99bf90ff9b179efc964e0e2dd9bc0a5460ca38875cff0c835af7b9c",
+    "from": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "to": "urn:qam:tag:373e0712c83cffe15ff427b60e788b549f82496fe5fd5391f7921832b04c6b20",
+    "type": "HAS_TAG",
+    "label": "delivered",
+    "sourcePath": "machines/pkg-200-v500.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:da2bcda0aa205dee79d51114f133e984ae74578eb73f50095b8b54933e7fdae7",
+    "from": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "to": "urn:qam:tag:71669691cb0b0f1bf662939c0db0782fb1a71b103bba2564051bb58bf0e303e6",
+    "type": "HAS_TAG",
+    "label": "packaging",
+    "sourcePath": "machines/pkg-200-v500.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:32ee3f3477bb0f7c27245dd976f8cc4ccb6ca248563679b5b351b96730a37a25",
+    "from": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "to": "urn:qam:tag:be9c62fe63911866c02e6bc673b5db164246bb0746a8775bd29f80a5b13f4245",
+    "type": "HAS_TAG",
+    "label": "machine-variant",
+    "sourcePath": "machines/pkg-200-v500.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:a7b9caa0a283a44b90d8c131ed27f3e5aa02d1f656edf0f8040dea3671e98f94",
+    "from": "urn:qam:concept:8c91b830d2c2e2bb502fb98fd8077432022120b057c446aa8dd6539e0b8ce754",
+    "to": "urn:qam:tag:5f732c6d66465e6f067990f3d7794dc7edf3c1471041b099363c547645c05a04",
+    "type": "HAS_TAG",
+    "label": "stainless-enclosure",
+    "sourcePath": "components/iol-m8s.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:004252513c171d9b31d092142a4e0817092678d00376d398ebb407701dd5c23a",
+    "from": "urn:qam:concept:8c91b830d2c2e2bb502fb98fd8077432022120b057c446aa8dd6539e0b8ce754",
+    "to": "urn:qam:tag:70b387372b9b5da5ac4f97bf42adc2c47019a730d55a6fbdbac6762fed8c1fe8",
+    "type": "HAS_TAG",
+    "label": "non-safety",
+    "sourcePath": "components/iol-m8s.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:845cc9546b84bb34d18cf80e1252e6f0b1eaa24224cd956963efd50728a27a21",
+    "from": "urn:qam:concept:8c91b830d2c2e2bb502fb98fd8077432022120b057c446aa8dd6539e0b8ce754",
+    "to": "urn:qam:tag:98646067c72be944cf7081dccb2d823baecc279b54e5abc7ca3ff925baae2ff6",
+    "type": "HAS_TAG",
+    "label": "io-link",
+    "sourcePath": "components/iol-m8s.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:2ce15e8ccd95555483670c9720e3983e0db26c191434a4a19864d05d1a296d02",
+    "from": "urn:qam:concept:95e6ac9ab8e260c9506350f0717a642c17fa9c84d1696173f7430942408c5720",
+    "to": "urn:qam:tag:339efeab70b4cc6e2755ec57d2290484ef2363f955c16df3900ad44382227429",
+    "type": "HAS_TAG",
+    "label": "sat",
+    "sourcePath": "acceptance-tests/sat-021.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:ce45b250c25c6941eb68d5ec01aab036ebf4386b3a3904d21fd7cacf922079b0",
+    "from": "urn:qam:concept:95e6ac9ab8e260c9506350f0717a642c17fa9c84d1696173f7430942408c5720",
+    "to": "urn:qam:tag:71669691cb0b0f1bf662939c0db0782fb1a71b103bba2564051bb58bf0e303e6",
+    "type": "HAS_TAG",
+    "label": "packaging",
+    "sourcePath": "acceptance-tests/sat-021.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:a091c031e1d832c7c9856379072958cba49dd30d110d889ce39f50de7285534e",
+    "from": "urn:qam:concept:95e6ac9ab8e260c9506350f0717a642c17fa9c84d1696173f7430942408c5720",
+    "to": "urn:qam:tag:cb2270987ebf533a89d0371c644409ae35787d124d249ac901eef8acb095bb55",
+    "type": "HAS_TAG",
+    "label": "test-specification",
+    "sourcePath": "acceptance-tests/sat-021.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:10ec88c2bfac6fc71142eb9d799c8c69fe9d959475984c53e548c3fbc3c05bb6",
+    "from": "urn:qam:concept:a9ec67b2e4936c96a11447471cd2ffe29671b4fa080b4590ad07916ca1750415",
+    "to": "urn:qam:tag:71669691cb0b0f1bf662939c0db0782fb1a71b103bba2564051bb58bf0e303e6",
+    "type": "HAS_TAG",
+    "label": "packaging",
+    "sourcePath": "io-mappings/io-map-17.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:851627e1d0babf32e10d3b5f90890a4687e15055ee64957b173932222e134724",
+    "from": "urn:qam:concept:a9ec67b2e4936c96a11447471cd2ffe29671b4fa080b4590ad07916ca1750415",
+    "to": "urn:qam:tag:98646067c72be944cf7081dccb2d823baecc279b54e5abc7ca3ff925baae2ff6",
+    "type": "HAS_TAG",
+    "label": "io-link",
+    "sourcePath": "io-mappings/io-map-17.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:bae0276779cd9439980130e032f66699be277f6146972f5cc5c5ee40f7e277be",
+    "from": "urn:qam:concept:a9ec67b2e4936c96a11447471cd2ffe29671b4fa080b4590ad07916ca1750415",
+    "to": "urn:qam:tag:ed65b43e0091906920cfc4d79f73671923c7905a9d20919e0f3a4ae39c8b6400",
+    "type": "HAS_TAG",
+    "label": "io-mapping",
+    "sourcePath": "io-mappings/io-map-17.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:7d78d1adcde445e6ef65475a855412c635e0167fb1ddbb1ca6864d5926126255",
+    "from": "urn:qam:concept:aa304905f9211482f2cc3f5757770cbd19f8809460bccf64bbc963d56f8bc23f",
+    "to": "urn:qam:tag:10c298abf10e082fc90cad0c311c4aa460e6426574b429eaa594c0d563442323",
+    "type": "HAS_TAG",
+    "label": "machine-family",
+    "sourcePath": "machines/pkg-200.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:efebac714afe349743f4a30244b4aa064938e5b089c471d3048fafdc17cee9c2",
+    "from": "urn:qam:concept:aa304905f9211482f2cc3f5757770cbd19f8809460bccf64bbc963d56f8bc23f",
+    "to": "urn:qam:tag:71669691cb0b0f1bf662939c0db0782fb1a71b103bba2564051bb58bf0e303e6",
+    "type": "HAS_TAG",
+    "label": "packaging",
+    "sourcePath": "machines/pkg-200.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:0bbf91e6baf2fd7927b745d0f454a2e16688baa6989296682fb678111915d93b",
+    "from": "urn:qam:concept:ade795affbabb248d44afd5d9a717a734cc2876c5a0e5e08dbab01fd25eeaaa4",
+    "to": "urn:qam:tag:10c298abf10e082fc90cad0c311c4aa460e6426574b429eaa594c0d563442323",
+    "type": "HAS_TAG",
+    "label": "machine-family",
+    "sourcePath": "machines/pal-80.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:5db9ff89390a1256b77706d91f5a6f8a17d6ac8f4b249477da3d5d67deccd197",
+    "from": "urn:qam:concept:ade795affbabb248d44afd5d9a717a734cc2876c5a0e5e08dbab01fd25eeaaa4",
+    "to": "urn:qam:tag:42bee013a9dff464e1cd6e337e66ddb3a46094e0b81b8c69d25eb86df0b9ed11",
+    "type": "HAS_TAG",
+    "label": "palletizing",
+    "sourcePath": "machines/pal-80.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:c18733ae8572915ab55470bb52d67a0c92d3d6f6dde9a47d122c41939ae571a6",
+    "from": "urn:qam:concept:b5cd7a9ed19bec659dc94f804033838f61057acf149442509568659a4064d369",
+    "to": "urn:qam:tag:339efeab70b4cc6e2755ec57d2290484ef2363f955c16df3900ad44382227429",
+    "type": "HAS_TAG",
+    "label": "sat",
+    "sourcePath": "acceptance-tests/sat-011.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:e14f3fe2eefff5a88c1e88ae836481bfe112631c612b4ca6e4363dd38481e2cd",
+    "from": "urn:qam:concept:b5cd7a9ed19bec659dc94f804033838f61057acf149442509568659a4064d369",
+    "to": "urn:qam:tag:42bee013a9dff464e1cd6e337e66ddb3a46094e0b81b8c69d25eb86df0b9ed11",
+    "type": "HAS_TAG",
+    "label": "palletizing",
+    "sourcePath": "acceptance-tests/sat-011.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:9a6083bf5cf0728727dbad8b17d6f0205e0c88aa663fac427f7f59d6b41f75d6",
+    "from": "urn:qam:concept:b5cd7a9ed19bec659dc94f804033838f61057acf149442509568659a4064d369",
+    "to": "urn:qam:tag:cb2270987ebf533a89d0371c644409ae35787d124d249ac901eef8acb095bb55",
+    "type": "HAS_TAG",
+    "label": "test-specification",
+    "sourcePath": "acceptance-tests/sat-011.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:4a830d9dfa3cd3e03e8ba9443bedc97d7313b60d478e6062e1731f21d85f6f5d",
+    "from": "urn:qam:concept:b6fca1fbfb4a11c5a04192d26d882a5a0df55cdde6693642b5b526317de5bfae",
+    "to": "urn:qam:tag:17fb37a9e74ad686aadf58adc12d3e16911a74b9468f634beacd234d0085359f",
+    "type": "HAS_TAG",
+    "label": "service-bulletin",
+    "sourcePath": "service-bulletins/sb-2026-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:d8f093299def95852b4f4f898bc3c126eb0c6a04201ce2efa5d88a6bae0fbcaa",
+    "from": "urn:qam:concept:b6fca1fbfb4a11c5a04192d26d882a5a0df55cdde6693642b5b526317de5bfae",
+    "to": "urn:qam:tag:5f732c6d66465e6f067990f3d7794dc7edf3c1471041b099363c547645c05a04",
+    "type": "HAS_TAG",
+    "label": "stainless-enclosure",
+    "sourcePath": "service-bulletins/sb-2026-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:0a304a71eac379cd2b607444c06abb15fae0f912748786b714991625ff649d1f",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:tag:373e0712c83cffe15ff427b60e788b549f82496fe5fd5391f7921832b04c6b20",
+    "type": "HAS_TAG",
+    "label": "delivered",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:c35acd3a523690d403a5a42b1fab53aedd061ff8b2a611aee902b996f12f8e7e",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:tag:42bee013a9dff464e1cd6e337e66ddb3a46094e0b81b8c69d25eb86df0b9ed11",
+    "type": "HAS_TAG",
+    "label": "palletizing",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:96c8ebb9c4ec16402bde4828eeb5f39b3079b97af2befc277e3fcf2ccb231a71",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:tag:5f732c6d66465e6f067990f3d7794dc7edf3c1471041b099363c547645c05a04",
+    "type": "HAS_TAG",
+    "label": "stainless-enclosure",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:f24cdf890ffe275b05c59acf8314341f38b1ecf48864a9c000a09a45bec8d3d1",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:tag:be9c62fe63911866c02e6bc673b5db164246bb0746a8775bd29f80a5b13f4245",
+    "type": "HAS_TAG",
+    "label": "machine-variant",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:5dff4af1a9315b57268369c73fbb086ef89f98820b503f2f294e57c8161fa515",
+    "from": "urn:qam:concept:c5c4fd7ff3969da89a9791eb008771211c09407dea307e080fce8353449ec70a",
+    "to": "urn:qam:tag:02d7da1bae3fd0767a5544e2fea76eaf5fa5ae73697edd181388c2acc7e1c87b",
+    "type": "HAS_TAG",
+    "label": "parameter-set",
+    "sourcePath": "parameters/param-set-17.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:9b9652c7fb3bb32ac4d04b1fcb9ad82fa5790203df490dac5442d73b91dc74e9",
+    "from": "urn:qam:concept:c5c4fd7ff3969da89a9791eb008771211c09407dea307e080fce8353449ec70a",
+    "to": "urn:qam:tag:71669691cb0b0f1bf662939c0db0782fb1a71b103bba2564051bb58bf0e303e6",
+    "type": "HAS_TAG",
+    "label": "packaging",
+    "sourcePath": "parameters/param-set-17.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:cd8612b431f7455697fe1887c47369d94df04e29376082fd719ac3e3e340e9fa",
+    "from": "urn:qam:concept:ce23fea957fcd5d81fd5903f0284b7d9b81b069530d68532385c3c5ac5aeb0ba",
+    "to": "urn:qam:tag:5f732c6d66465e6f067990f3d7794dc7edf3c1471041b099363c547645c05a04",
+    "type": "HAS_TAG",
+    "label": "stainless-enclosure",
+    "sourcePath": "io-mappings/io-map-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:1a046538f3d1acb153c1b321419ac88eb1ffb6027b13653c919e651a31ce0423",
+    "from": "urn:qam:concept:ce23fea957fcd5d81fd5903f0284b7d9b81b069530d68532385c3c5ac5aeb0ba",
+    "to": "urn:qam:tag:98646067c72be944cf7081dccb2d823baecc279b54e5abc7ca3ff925baae2ff6",
+    "type": "HAS_TAG",
+    "label": "io-link",
+    "sourcePath": "io-mappings/io-map-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:bb724a5c6cd7a89f7f0a87e27acccbf5626ef7f78c52591381784247999cd727",
+    "from": "urn:qam:concept:ce23fea957fcd5d81fd5903f0284b7d9b81b069530d68532385c3c5ac5aeb0ba",
+    "to": "urn:qam:tag:ed65b43e0091906920cfc4d79f73671923c7905a9d20919e0f3a4ae39c8b6400",
+    "type": "HAS_TAG",
+    "label": "io-mapping",
+    "sourcePath": "io-mappings/io-map-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:b368b3d3b5483be77dd8bccb29aa56ce5134a8a73ba9e0314ea895a6ffe42f60",
+    "from": "urn:qam:concept:edfa57d82b5649357badcbaa83660e4a0ca9f5053ad48bae7bac8f1923a6a0ba",
+    "to": "urn:qam:tag:42bee013a9dff464e1cd6e337e66ddb3a46094e0b81b8c69d25eb86df0b9ed11",
+    "type": "HAS_TAG",
+    "label": "palletizing",
+    "sourcePath": "plc/fb-pallet-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:92a82f9f185356641b35e401eceba2da164db589e8eab384c90319fdc5f13728",
+    "from": "urn:qam:concept:edfa57d82b5649357badcbaa83660e4a0ca9f5053ad48bae7bac8f1923a6a0ba",
+    "to": "urn:qam:tag:8fa78148b702fb4492246c6ccdf5b194f1a4de68b791cae14800c730456f9e67",
+    "type": "HAS_TAG",
+    "label": "diagnostics",
+    "sourcePath": "plc/fb-pallet-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:5cef7688bc35b7b9bd1e86c330b8abc296312bd7d85129d859eb6e581c671e2c",
+    "from": "urn:qam:concept:edfa57d82b5649357badcbaa83660e4a0ca9f5053ad48bae7bac8f1923a6a0ba",
+    "to": "urn:qam:tag:eec1534dcbd984de8cafe9df20c2247355356d2d558c8892bec64a666835ff8f",
+    "type": "HAS_TAG",
+    "label": "plc",
+    "sourcePath": "plc/fb-pallet-diag.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:cb0b31546fb3d6590ac676471f13a6a8d989a0e0982d87a5a67397d7bb1318d2",
+    "from": "urn:qam:concept:f18d567898909fea2691d7ac32af289c8c4e184be128c6af591acc03c739e2d8",
+    "to": "urn:qam:tag:42bee013a9dff464e1cd6e337e66ddb3a46094e0b81b8c69d25eb86df0b9ed11",
+    "type": "HAS_TAG",
+    "label": "palletizing",
+    "sourcePath": "io-mappings/io-map-22.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:d76824abeeb4b0c26ff8e267c692b6a915e1efafce69570ecc3d76611c7b0203",
+    "from": "urn:qam:concept:f18d567898909fea2691d7ac32af289c8c4e184be128c6af591acc03c739e2d8",
+    "to": "urn:qam:tag:98646067c72be944cf7081dccb2d823baecc279b54e5abc7ca3ff925baae2ff6",
+    "type": "HAS_TAG",
+    "label": "io-link",
+    "sourcePath": "io-mappings/io-map-22.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:75d2d8245df46c0dc21f49d864c2962f0a5bee59a642a0f8271768f1d3027420",
+    "from": "urn:qam:concept:f18d567898909fea2691d7ac32af289c8c4e184be128c6af591acc03c739e2d8",
+    "to": "urn:qam:tag:ed65b43e0091906920cfc4d79f73671923c7905a9d20919e0f3a4ae39c8b6400",
+    "type": "HAS_TAG",
+    "label": "io-mapping",
+    "sourcePath": "io-mappings/io-map-22.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:7b51fd610675a668570b6fc0af0868e18fa61d9f39eb3c472d303c92fc05db96",
+    "from": "urn:qam:concept:fb9a1ce2913cc425264e374c90817131ed7334f7e55b8dfc8b52263680475c97",
+    "to": "urn:qam:tag:17fb37a9e74ad686aadf58adc12d3e16911a74b9468f634beacd234d0085359f",
+    "type": "HAS_TAG",
+    "label": "service-bulletin",
+    "sourcePath": "service-bulletins/sb-2024-11.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:5a9a041fbba6eac268e87018619884e5a3dea08b7340d9caf90a477a1b59bc33",
+    "from": "urn:qam:concept:fb9a1ce2913cc425264e374c90817131ed7334f7e55b8dfc8b52263680475c97",
+    "to": "urn:qam:tag:444bd9c51d51643ccd939e7eb50c847bde7bfdfe271f2fca928e7dbfc73377f0",
+    "type": "HAS_TAG",
+    "label": "superseded",
+    "sourcePath": "service-bulletins/sb-2024-11.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:31fcf3cd52c7eb7fbec3ff7996a3383e4643a9c1b1d074e91789a37ddb215327",
+    "from": "urn:qam:concept:fb9a1ce2913cc425264e374c90817131ed7334f7e55b8dfc8b52263680475c97",
+    "to": "urn:qam:tag:5d7557a319848b815d298edc9fc44eeebddb9e4aeb7a2c194f4f61a77989fe6f",
+    "type": "HAS_TAG",
+    "label": "component-obsolescence",
+    "sourcePath": "service-bulletins/sb-2024-11.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:d0e910e2402694be6659a6d0d722acfe7d1f7d2e4faa67194bfedbeacee912f5",
+    "from": "urn:qam:concept:01ff408850e7195b34d8c85a0a050a2d318504e2cb5338a2c09ab34714f4569c",
+    "to": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "type": "LINKS_TO",
+    "label": "IOL-M8",
+    "sourcePath": "service-bulletins/sb-2026-04.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:49d4765e234e2ae6ae2675ae95efb5ae326c36654a458b95911d3581ea030b13",
+    "from": "urn:qam:concept:01ff408850e7195b34d8c85a0a050a2d318504e2cb5338a2c09ab34714f4569c",
+    "to": "urn:qam:concept:30afaf00e68e58cea7358ef57fcac5dab6d629dd413fbb85c11a16bbc447ce39",
+    "type": "LINKS_TO",
+    "label": "CR-1042",
+    "sourcePath": "service-bulletins/sb-2026-04.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:c807ec8329d70f81f10cae91cbb969733183fed1ab03a0c6c361c57329851eee",
+    "from": "urn:qam:concept:01ff408850e7195b34d8c85a0a050a2d318504e2cb5338a2c09ab34714f4569c",
+    "to": "urn:qam:concept:44df4761a4c3eaffbd9d74d1a66fa61ef3416aed15b30dbae27d08cf29e79613",
+    "type": "LINKS_TO",
+    "label": "NXL-R8",
+    "sourcePath": "service-bulletins/sb-2026-04.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:06badbd71bdf90e2aee5f8a80a0d89a96b2dcc4ff8f768a267f7c24004203023",
+    "from": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "to": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "type": "LINKS_TO",
+    "label": "IOL-M8",
+    "sourcePath": "machines/pal-80-v2.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:ce0ec56cfa27bc7814da3560526ae0730dddd90dadf7694098194c0c1424fade",
+    "from": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "to": "urn:qam:concept:16c58a9cff7ebcb4d3e16041f7b013a602a0d045277b1ea0d254f4ab8e3bd767",
+    "type": "LINKS_TO",
+    "label": "PARAM-SET-09",
+    "sourcePath": "machines/pal-80-v2.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:bceb231504e9f19a8cf0ae12a3f611a2df3fbf611d8366a76cc8e5df7b05e43a",
+    "from": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "to": "urn:qam:concept:8336cc40dc1b71b249a518892cdee913c110f1bc45e280515b848067ead5d982",
+    "type": "LINKS_TO",
+    "label": "FAT-057",
+    "sourcePath": "machines/pal-80-v2.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:f35af4c5329920517171d191229d4c9e7009a2020220457b10841c089331aca1",
+    "from": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "to": "urn:qam:concept:ade795affbabb248d44afd5d9a717a734cc2876c5a0e5e08dbab01fd25eeaaa4",
+    "type": "LINKS_TO",
+    "label": "PAL-80 family",
+    "sourcePath": "machines/pal-80-v2.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:1351f58a0f15b24180d8600c878123780d0e8d912a09f6692a81157c5efd9f09",
+    "from": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "to": "urn:qam:concept:b5cd7a9ed19bec659dc94f804033838f61057acf149442509568659a4064d369",
+    "type": "LINKS_TO",
+    "label": "SAT-011",
+    "sourcePath": "machines/pal-80-v2.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:59bf4926de003d18e612a57500bb3748b05280f8084825c998eee067d4b84b02",
+    "from": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "to": "urn:qam:concept:edfa57d82b5649357badcbaa83660e4a0ca9f5053ad48bae7bac8f1923a6a0ba",
+    "type": "LINKS_TO",
+    "label": "FB_PALLET_DIAG",
+    "sourcePath": "machines/pal-80-v2.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:d9a83444613801db754d8dc1fbabf81396f86fa0a9709df0afb56b2b801d24d1",
+    "from": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "to": "urn:qam:concept:f18d567898909fea2691d7ac32af289c8c4e184be128c6af591acc03c739e2d8",
+    "type": "LINKS_TO",
+    "label": "IO-MAP-22",
+    "sourcePath": "machines/pal-80-v2.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:3319a3fee76f6d5d0c85df30b4cc3ee7378daa9217b2b288fc9f7e6bf9eaa9ea",
+    "from": "urn:qam:concept:30afaf00e68e58cea7358ef57fcac5dab6d629dd413fbb85c11a16bbc447ce39",
+    "to": "urn:qam:concept:01ff408850e7195b34d8c85a0a050a2d318504e2cb5338a2c09ab34714f4569c",
+    "type": "LINKS_TO",
+    "label": "SB-2026-04",
+    "sourcePath": "change-requests/cr-1042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:3ffa27249216f6ed044639696e0eabbb653cb8639d7811725649d052c8252c4a",
+    "from": "urn:qam:concept:30afaf00e68e58cea7358ef57fcac5dab6d629dd413fbb85c11a16bbc447ce39",
+    "to": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "type": "LINKS_TO",
+    "label": "IOL-M8",
+    "sourcePath": "change-requests/cr-1042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:a75543edcd32803c312c356d0a425574dd431ef6203ca7f79d25ac8e8ea63cb0",
+    "from": "urn:qam:concept:30afaf00e68e58cea7358ef57fcac5dab6d629dd413fbb85c11a16bbc447ce39",
+    "to": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "type": "LINKS_TO",
+    "label": "PAL-80/V2",
+    "sourcePath": "change-requests/cr-1042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:9bae31f28a4329ec583eddcc8fece5ebd120e470292df49267b747261781a678",
+    "from": "urn:qam:concept:30afaf00e68e58cea7358ef57fcac5dab6d629dd413fbb85c11a16bbc447ce39",
+    "to": "urn:qam:concept:44df4761a4c3eaffbd9d74d1a66fa61ef3416aed15b30dbae27d08cf29e79613",
+    "type": "LINKS_TO",
+    "label": "NXL-R8",
+    "sourcePath": "change-requests/cr-1042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:0394eab77a87d15a2948a4d51179192d6526101957cbf67baba3433f72b9b041",
+    "from": "urn:qam:concept:30afaf00e68e58cea7358ef57fcac5dab6d629dd413fbb85c11a16bbc447ce39",
+    "to": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "type": "LINKS_TO",
+    "label": "PKG-200/V500",
+    "sourcePath": "change-requests/cr-1042.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:1a26a0b444d743b760f31455e9d1c273a6bf53f841b0d7563ae438ae0a2f8db2",
+    "from": "urn:qam:concept:320625bfa5b000f4b8b8703c61d5b6c9a4215a68390ebc86585b4d9443453923",
+    "to": "urn:qam:concept:aa304905f9211482f2cc3f5757770cbd19f8809460bccf64bbc963d56f8bc23f",
+    "type": "LINKS_TO",
+    "label": "PKG-200 family",
+    "sourcePath": "machines/pkg-200-v300.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:9228c62c59c09b07d99598c5c2cedc46456eeb62000c3ac5f4a8aa37818295b8",
+    "from": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "to": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "type": "LINKS_TO",
+    "label": "IOL-M8",
+    "sourcePath": "machines/pkg-200-v500.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:817cf61106a780e3d5c5204156c9998dbe4c9a4c2d5be0ce7669c7b4b1e19340",
+    "from": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "to": "urn:qam:concept:2e94aa9be842c869145f9e15865fcb1f4195349febc8e8d6ff76d2cca135b4cc",
+    "type": "LINKS_TO",
+    "label": "FB_IO_DIAG",
+    "sourcePath": "machines/pkg-200-v500.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:35ae1b784ad1ed0405c9f1944c32f097a536dfeae97883fbe751941829585c16",
+    "from": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "to": "urn:qam:concept:4420de5a4a8ac84e25c67646111e7609bda131d8c3986503fe5e74479e794e39",
+    "type": "LINKS_TO",
+    "label": "FAT-042",
+    "sourcePath": "machines/pkg-200-v500.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:766cedb881576980c1b509601d4272749bee8b1691f79a6a2d0b3240bf0e31a0",
+    "from": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "to": "urn:qam:concept:95e6ac9ab8e260c9506350f0717a642c17fa9c84d1696173f7430942408c5720",
+    "type": "LINKS_TO",
+    "label": "SAT-021",
+    "sourcePath": "machines/pkg-200-v500.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:b16e6f6b43a7592a092cb131e142dadc9cc08190a9a2b2a8478381ba9a3e6dc4",
+    "from": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "to": "urn:qam:concept:a9ec67b2e4936c96a11447471cd2ffe29671b4fa080b4590ad07916ca1750415",
+    "type": "LINKS_TO",
+    "label": "IO-MAP-17",
+    "sourcePath": "machines/pkg-200-v500.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:ae8914c061aaa860fb692ec35ae8985a503d2f87de8a2dd18b79a382a6f1b554",
+    "from": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "to": "urn:qam:concept:aa304905f9211482f2cc3f5757770cbd19f8809460bccf64bbc963d56f8bc23f",
+    "type": "LINKS_TO",
+    "label": "PKG-200 family",
+    "sourcePath": "machines/pkg-200-v500.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:9e9968a93188dd52f1a4ddaa5ecb43978e442544c957888a673f83dafd44a565",
+    "from": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "to": "urn:qam:concept:c5c4fd7ff3969da89a9791eb008771211c09407dea307e080fce8353449ec70a",
+    "type": "LINKS_TO",
+    "label": "PARAM-SET-17",
+    "sourcePath": "machines/pkg-200-v500.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:4b359c498125bd37c43478516df1102d787f683f9335a72ba80baca46eb1f36a",
+    "from": "urn:qam:concept:aa304905f9211482f2cc3f5757770cbd19f8809460bccf64bbc963d56f8bc23f",
+    "to": "urn:qam:concept:320625bfa5b000f4b8b8703c61d5b6c9a4215a68390ebc86585b4d9443453923",
+    "type": "LINKS_TO",
+    "label": "PKG-200/V300",
+    "sourcePath": "machines/pkg-200.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:2250cb310ad87fe08414381f37ed98e6ea99dff0136a5309599771c4c8a8f7d1",
+    "from": "urn:qam:concept:aa304905f9211482f2cc3f5757770cbd19f8809460bccf64bbc963d56f8bc23f",
+    "to": "urn:qam:concept:89a5971469fe8a1a74d2b612bc27b8a62813ab7be66d594d243d56211eba8814",
+    "type": "LINKS_TO",
+    "label": "PKG-200/V500",
+    "sourcePath": "machines/pkg-200.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:f119c38391dac19ad1c8fcc7c1ead1098645ade16496735ea26f0e84b2d89a6b",
+    "from": "urn:qam:concept:ade795affbabb248d44afd5d9a717a734cc2876c5a0e5e08dbab01fd25eeaaa4",
+    "to": "urn:qam:concept:1e9cdb41dea9d53b2cc0238e3f25d4a8a4fa317a9b9f1d1e80db3de993ec94b3",
+    "type": "LINKS_TO",
+    "label": "PAL-80/V2",
+    "sourcePath": "machines/pal-80.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:1d51398f17086e3d0b457a3c6d0e6561f23c544c062b265052ded5558b9e1cbd",
+    "from": "urn:qam:concept:ade795affbabb248d44afd5d9a717a734cc2876c5a0e5e08dbab01fd25eeaaa4",
+    "to": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "type": "LINKS_TO",
+    "label": "PAL-80/V1",
+    "sourcePath": "machines/pal-80.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:f28641ff6ed7a88d0b627857797d84ae5e910a59be07eb886827ea4d28dab72e",
+    "from": "urn:qam:concept:b6fca1fbfb4a11c5a04192d26d882a5a0df55cdde6693642b5b526317de5bfae",
+    "to": "urn:qam:concept:8c91b830d2c2e2bb502fb98fd8077432022120b057c446aa8dd6539e0b8ce754",
+    "type": "LINKS_TO",
+    "label": "IOL-M8S",
+    "sourcePath": "service-bulletins/sb-2026-s08.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:a9cfa9c6355d98d905fded00afaa04a6a0ccf849f4912e8013f1999da6b0feb7",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:concept:1bd1ddad93f57be1643651e73eecd0ff65e046e616671e2867cf06ed16b7566f",
+    "type": "LINKS_TO",
+    "label": "FAT-099",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:942ee8d3888f97a2ffa14fbdc829617a7bafd19df0f3ccca7733b9c6724d102e",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:concept:3cd1080824ce519277d95b831bb29260af4792ce23e2fb42c60acf95cace7bd0",
+    "type": "LINKS_TO",
+    "label": "PARAM-SET-S08",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:fb4f85a90a4e6e47698fc63e6c96d5735302e03da06ec26a5fe0711b8e5db2f7",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:concept:52d26a8a6cd9cb659f8a9be020059d0f2db78792c09e039b90e9509300127fcf",
+    "type": "LINKS_TO",
+    "label": "FB_STAINLESS_DIAG",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:a5a05c86c332794e7b7786bdd394e3398ed9a450019276b02c123f315e30d1a5",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:concept:8c91b830d2c2e2bb502fb98fd8077432022120b057c446aa8dd6539e0b8ce754",
+    "type": "LINKS_TO",
+    "label": "IOL-M8S",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:6f8ce0f0b653cb508d02df888c82b1db1939f8609d8277190229046028c20a93",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:concept:ade795affbabb248d44afd5d9a717a734cc2876c5a0e5e08dbab01fd25eeaaa4",
+    "type": "LINKS_TO",
+    "label": "PAL-80 family",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:908a29931bcda690f524a3fcc3845adcce86dd7c244b3bf3f1171c008f203c0f",
+    "from": "urn:qam:concept:b9266355b3618b9c3246df1261ec1f893e95200ce09542b459a9e732407f69d1",
+    "to": "urn:qam:concept:ce23fea957fcd5d81fd5903f0284b7d9b81b069530d68532385c3c5ac5aeb0ba",
+    "type": "LINKS_TO",
+    "label": "IO-MAP-S08",
+    "sourcePath": "machines/pal-80-v1.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  },
+  {
+    "id": "urn:qam:edge:9af20edd55af86e7825e8005dbdf6b110ec84bf93aa24a633886c3fab87118c4",
+    "from": "urn:qam:concept:fb9a1ce2913cc425264e374c90817131ed7334f7e55b8dfc8b52263680475c97",
+    "to": "urn:qam:concept:09a88edf7e6da5d0edce4371f7c86dc66ee1c5688b25689012f7f72d03fed897",
+    "type": "LINKS_TO",
+    "label": "IOL-M8",
+    "sourcePath": "service-bulletins/sb-2024-11.md",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184"
+  }
+]

@@ -51,6 +51,8 @@ done
 [ -s "${notebook_source}" ] || qam_fail "Notebook source is missing or empty: ${notebook_source}"
 grep -Fq '# Fabric notebook source' "${notebook_source}" \
   || qam_fail "Notebook source is not FabricGitSource"
+grep -Fq '# PARAMETERS CELL ********************' "${notebook_source}" \
+  || qam_fail "Notebook source has no canonical Fabric parameter-cell marker"
 
 qam_require_azure_login
 qam_require_command base64
@@ -96,6 +98,8 @@ fabric_request() {
   )
   if [ -n "${body_file}" ]; then
     request_args+=(--header 'Content-Type: application/json' --data-binary "@${body_file}")
+  elif [ "${method}" = 'POST' ]; then
+    request_args+=(--header 'Content-Length: 0')
   fi
   : > "${headers_file}"
   : > "${response_file}"
@@ -306,6 +310,58 @@ reconcile_notebook_definition() {
   esac
 }
 
+verify_notebook_parameter_cell() {
+  local notebook_id="$1"
+  local status
+  local operation_url
+  local operation_id
+  local notebook_payload
+
+  qam_info "verifying Fabric recognized the checked-in Notebook parameter cell"
+  fabric_request POST \
+    "${fabric_api}/workspaces/${workspace_id}/notebooks/${notebook_id}/getDefinition?format=ipynb"
+  status="${FABRIC_HTTP_STATUS}"
+  case "${status}" in
+    200) ;;
+    202)
+      operation_id="$(awk 'tolower($1) == "x-ms-operation-id:" {gsub("\\r", "", $2); print $2}' "${headers_file}" | tail -1)"
+      if [ -n "${operation_id}" ]; then
+        qam_validate_uuid "${operation_id}" "Fabric operation ID"
+        operation_url="${fabric_api}/operations/${operation_id}"
+      else
+        operation_url="$(awk 'tolower($1) == "location:" {$1=""; sub(/^ /, ""); gsub("\\r", ""); print}' "${headers_file}" | tail -1)"
+        [ -n "${operation_url}" ] || qam_fail "Fabric Notebook definition returned no operation identifier"
+      fi
+      poll_operation "${operation_url}"
+      fabric_request GET "${operation_url}/result"
+      [ "${FABRIC_HTTP_STATUS}" = '200' ] \
+        || qam_fail "reading Fabric Notebook definition result returned HTTP ${FABRIC_HTTP_STATUS}"
+      ;;
+    *)
+      sed -n '1,40p' "${response_file}" >&2
+      qam_fail "reading Fabric Notebook definition returned HTTP ${status}"
+      ;;
+  esac
+
+  notebook_payload="$(jq -r '
+    [.definition.parts[] |
+      select(.path == "notebook-content.ipynb" and .payloadType == "InlineBase64") |
+      .payload] |
+    if length == 1 then .[0] else empty end
+  ' "${response_file}")"
+  [ -n "${notebook_payload}" ] \
+    || qam_fail "Fabric Notebook definition did not contain exactly one inline IPYNB payload"
+  printf '%s' "${notebook_payload}" | base64 --decode | jq -e '
+    .metadata.kernel_info.name == "synapse_pyspark" and
+    (.cells | type == "array" and length >= 2) and
+    (.cells[0].metadata.tags == ["parameters"]) and
+    ([.cells[] | select((.metadata.tags // []) | index("parameters"))] | length == 1) and
+    ((.cells[0].source | join("")) |
+      contains("expected_projection_id") and contains("expected_commit_sha"))
+  ' >/dev/null \
+    || qam_fail "Fabric did not recognize exactly one canonical QAM Notebook parameter cell"
+}
+
 list_all "${fabric_api}/capacities"
 capacities="${FABRIC_LIST_RESULT}"
 capacity_count="$(jq --arg name "${capacity_name}" '[.[] | select(.displayName == $name)] | length' <<< "${capacities}")"
@@ -360,6 +416,7 @@ ensure_collection_item \
   notebook
 notebook_id="${FABRIC_ITEM_ID}"
 reconcile_notebook_definition "${notebook_id}"
+verify_notebook_parameter_cell "${notebook_id}"
 
 jq -cn \
   --arg capacityId "${capacity_id}" \
