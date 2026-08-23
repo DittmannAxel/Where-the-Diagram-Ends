@@ -68,7 +68,12 @@ export function discoverGitMetadata(
   if (headSha === undefined || headSha.length === 0) {
     throw new Error("Unable to determine the Git worktree's HEAD commit SHA.");
   }
-  const requestedSha = overrides.gitSha ?? process.env.GITHUB_SHA;
+  const githubWorkspace = process.env.GITHUB_WORKSPACE;
+  const isGithubWorkspace =
+    githubWorkspace !== undefined &&
+    pathContains(realpathSync(resolve(githubWorkspace)), repositoryRoot);
+  const requestedSha =
+    overrides.gitSha ?? (isGithubWorkspace ? process.env.GITHUB_SHA : undefined);
   if (requestedSha !== undefined && requestedSha !== headSha) {
     throw new Error(`Requested Git SHA '${requestedSha}' does not match the clean worktree HEAD '${headSha}'.`);
   }
@@ -83,12 +88,8 @@ export function discoverGitMetadata(
   }
   const generatedAt = commitTimestamp;
 
-  const githubWorkspace = process.env.GITHUB_WORKSPACE;
   const githubRepository =
-    githubWorkspace !== undefined &&
-    pathContains(realpathSync(resolve(githubWorkspace)), repositoryRoot)
-      ? process.env.GITHUB_REPOSITORY
-      : undefined;
+    isGithubWorkspace ? process.env.GITHUB_REPOSITORY : undefined;
   const githubServerUrl = process.env.GITHUB_SERVER_URL ?? "https://github.com";
   const origin = git(repositoryRoot, ["remote", "get-url", "origin"]);
   const environmentRepository =

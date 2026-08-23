@@ -12,6 +12,34 @@ afterEach(async () => {
 });
 
 describe("Git projection metadata", () => {
+  it("ignores GitHub metadata inherited by an unrelated checkout", async () => {
+    const fixture = await createGitBundle({ "concept.md": "---\ntype: Concept\n---\nBody\n" });
+    vi.stubEnv("GITHUB_WORKSPACE", process.cwd());
+    vi.stubEnv("GITHUB_SHA", "0000000000000000000000000000000000000000");
+
+    expect(discoverGitMetadata(fixture.bundle).gitSha).toBe(fixture.gitSha);
+  });
+
+  it("rejects a GitHub SHA that disagrees inside the Actions workspace", async () => {
+    const fixture = await createGitBundle({ "concept.md": "---\ntype: Concept\n---\nBody\n" });
+    vi.stubEnv("GITHUB_WORKSPACE", fixture.repository);
+    vi.stubEnv("GITHUB_SHA", "0000000000000000000000000000000000000000");
+
+    expect(() => discoverGitMetadata(fixture.bundle)).toThrow(
+      "does not match the clean worktree HEAD",
+    );
+  });
+
+  it("rejects an explicit SHA mismatch outside the Actions workspace", async () => {
+    const fixture = await createGitBundle({ "concept.md": "---\ntype: Concept\n---\nBody\n" });
+
+    expect(() =>
+      discoverGitMetadata(fixture.bundle, {
+        gitSha: "0000000000000000000000000000000000000000",
+      }),
+    ).toThrow("does not match the clean worktree HEAD");
+  });
+
   it("removes credentials from HTTP repository URLs", async () => {
     const fixture = await createGitBundle({ "concept.md": "---\ntype: Concept\n---\nBody\n" });
     const metadata = discoverGitMetadata(fixture.bundle, {
@@ -57,6 +85,7 @@ describe("Git projection metadata", () => {
     vi.stubEnv("GITHUB_WORKSPACE", fixture.repository);
     vi.stubEnv("GITHUB_REPOSITORY", "example/repository");
     vi.stubEnv("GITHUB_SERVER_URL", "https://github.com");
+    vi.stubEnv("GITHUB_SHA", fixture.gitSha);
 
     expect(discoverGitMetadata(fixture.bundle).repository).toBe(
       "https://github.com/example/repository",
@@ -68,6 +97,7 @@ describe("Git projection metadata", () => {
     vi.stubEnv("GITHUB_WORKSPACE", fixture.repository);
     vi.stubEnv("GITHUB_REPOSITORY", "attacker/substitute");
     vi.stubEnv("GITHUB_SERVER_URL", "https://github.com");
+    vi.stubEnv("GITHUB_SHA", fixture.gitSha);
 
     expect(() => discoverGitMetadata(fixture.bundle)).toThrow(
       "Git origin does not match GITHUB_REPOSITORY",
