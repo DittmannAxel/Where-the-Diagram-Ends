@@ -1,0 +1,121 @@
+{
+  "schema_version": "qam-industrial-cloud-receipt/1.0",
+  "evidence_kind": "redacted_cloud_status_summary",
+  "publication_scope": "public",
+  "scenario": "industrial-component-obsolescence",
+  "observed_at_utc": "2026-08-23T12:45:50Z",
+  "region": "Sweden Central",
+  "source_snapshot": {
+    "commit_sha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "projection_id": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "node_count": 107,
+    "edge_count": 167
+  },
+  "checks": {
+    "foundation_deployment": {
+      "status": "passed",
+      "observed_state": "deployed_without_container_app"
+    },
+    "platform_deployment": {
+      "status": "passed",
+      "observed_state": "deployed"
+    },
+    "fabric_capacity": {
+      "status": "passed",
+      "sku": "F2",
+      "observed_state": "Active"
+    },
+    "fabric_publication_orchestrator": {
+      "status": "passed",
+      "steps": [
+        "immutable_onelake_publication",
+        "projection_notebook",
+        "canonical_graph_definition",
+        "graph_refresh",
+        "pinned_gql_gate"
+      ]
+    },
+    "fabric_projection_notebook": {
+      "status": "passed",
+      "observed_state": "Succeeded",
+      "node_count": 107,
+      "edge_count": 167
+    },
+    "fabric_graph_refresh": {
+      "status": "passed",
+      "observed_state": "Completed"
+    },
+    "fabric_gql_smoke": {
+      "status": "passed",
+      "node_query": "passed",
+      "edge_query": "passed",
+      "verified_fields": [
+        "repository",
+        "projection_id",
+        "commit_sha",
+        "node_count",
+        "edge_count",
+        "edge_endpoints"
+      ],
+      "bounded_result": true
+    },
+    "fabric_mcp_adapter": {
+      "status": "passed",
+      "observed_output": "QAM_FABRIC_ADAPTER_OK",
+      "validated_contract": "qam-graph/1.0",
+      "node_count": 107,
+      "edge_count": 167
+    },
+    "foundry_inference": {
+      "status": "passed",
+      "expected_output": "QAM_FOUNDRY_OK",
+      "observed_output": "QAM_FOUNDRY_OK"
+    },
+    "foundry_agent_application": {
+      "status": "blocked",
+      "observed_state": "not_created",
+      "blocked_by": "entra_app_registration_and_easy_auth"
+    },
+    "container_app_mcp": {
+      "status": "blocked",
+      "observed_state": "not_created",
+      "blocked_by": "entra_app_registration_and_easy_auth"
+    },
+    "github_oidc": {
+      "status": "passed",
+      "authentication": "federated_oidc",
+      "scope": "protected_environment",
+      "persisted_client_secret": false
+    },
+    "entra_app_registration_and_easy_auth": {
+      "status": "blocked",
+      "observed_state": "not_completed",
+      "blocker": "The operator has Global Reader only. Discovery is available, but application registration, service principal, federated credential, and EasyAuth writes are not authorized.",
+      "next_action": "A tenant administrator grants an appropriate time-bound Entra application-write role or performs the Entra application and EasyAuth reconciliation."
+    }
+  },
+  "redaction": {
+    "status": "applied",
+    "raw_cloud_payloads_included": false,
+    "omitted_fields": [
+      "tenant_id",
+      "subscription_id",
+      "workspace_id",
+      "resource_id",
+      "resource_name",
+      "principal_id",
+      "application_id",
+      "deployment_id",
+      "job_id",
+      "operator_identity",
+      "local_path",
+      "token",
+      "secret"
+    ]
+  },
+  "limitations": [
+    "This public receipt is a redacted status summary, not a raw Azure, Fabric, Microsoft Graph, GitHub, or Foundry API response.",
+    "Cloud tenant and resource identity cannot be reconstructed from this file.",
+    "The open Entra and EasyAuth blocker prevents a claim of end-to-end authenticated MCP access."
+  ]
+}

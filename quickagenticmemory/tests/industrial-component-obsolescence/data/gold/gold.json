@@ -1,0 +1,249 @@
+{
+  "schema_version": "qam-industrial-gold/1.0",
+  "dataset_version": "industrial-component-obsolescence/1.0",
+  "cases": [
+    {
+      "question_id": "Q-001-full-impact",
+      "required_concept_uids": [
+        "urn:qam:industrial:machine-variant:pkg-200-v500",
+        "urn:qam:industrial:machine-variant:pal-80-v2",
+        "urn:qam:industrial:io-map:io-map-17",
+        "urn:qam:industrial:io-map:io-map-22",
+        "urn:qam:industrial:plc:fb-io-diag",
+        "urn:qam:industrial:plc:fb-pallet-diag",
+        "urn:qam:industrial:parameter-set:param-set-17",
+        "urn:qam:industrial:parameter-set:param-set-09",
+        "urn:qam:industrial:test:fat-042",
+        "urn:qam:industrial:test:sat-021",
+        "urn:qam:industrial:test:fat-057",
+        "urn:qam:industrial:test:sat-011"
+      ],
+      "excluded_concept_uids": [
+        "urn:qam:industrial:component:iol-m8s",
+        "urn:qam:industrial:machine-variant:pkg-200-v300",
+        "urn:qam:industrial:machine-variant:pal-80-v1",
+        "urn:qam:industrial:io-map:io-map-s08",
+        "urn:qam:industrial:plc:fb-stainless-diag",
+        "urn:qam:industrial:parameter-set:param-set-s08",
+        "urn:qam:industrial:test:fat-099",
+        "urn:qam:industrial:service-bulletin:sb-2024-11"
+      ],
+      "required_statuses": {
+        "urn:qam:industrial:machine-variant:pkg-200-v500": "stable",
+        "urn:qam:industrial:machine-variant:pal-80-v2": "stable",
+        "urn:qam:industrial:io-map:io-map-17": "stable",
+        "urn:qam:industrial:io-map:io-map-22": "stable",
+        "urn:qam:industrial:plc:fb-io-diag": "stable",
+        "urn:qam:industrial:plc:fb-pallet-diag": "stable",
+        "urn:qam:industrial:parameter-set:param-set-17": "stable",
+        "urn:qam:industrial:parameter-set:param-set-09": "stable",
+        "urn:qam:industrial:test:fat-042": "stable",
+        "urn:qam:industrial:test:sat-021": "stable",
+        "urn:qam:industrial:test:fat-057": "stable",
+        "urn:qam:industrial:test:sat-011": "stable"
+      },
+      "required_paths": [
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500", "urn:qam:industrial:io-map:io-map-17"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2", "urn:qam:industrial:io-map:io-map-22"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500", "urn:qam:industrial:plc:fb-io-diag"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2", "urn:qam:industrial:plc:fb-pallet-diag"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500", "urn:qam:industrial:parameter-set:param-set-17"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2", "urn:qam:industrial:parameter-set:param-set-09"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500", "urn:qam:industrial:test:fat-042"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500", "urn:qam:industrial:test:sat-021"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2", "urn:qam:industrial:test:fat-057"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2", "urn:qam:industrial:test:sat-011"]
+      ]
+    },
+    {
+      "question_id": "Q-002-article-alias",
+      "required_concept_uids": [
+        "urn:qam:industrial:machine-variant:pkg-200-v500",
+        "urn:qam:industrial:machine-variant:pal-80-v2"
+      ],
+      "excluded_concept_uids": [
+        "urn:qam:industrial:component:iol-m8s",
+        "urn:qam:industrial:machine-variant:pal-80-v1",
+        "urn:qam:industrial:machine-variant:pkg-200-v300"
+      ],
+      "required_statuses": {
+        "urn:qam:industrial:machine-variant:pkg-200-v500": "stable",
+        "urn:qam:industrial:machine-variant:pal-80-v2": "stable"
+      },
+      "required_paths": [
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2"]
+      ]
+    },
+    {
+      "question_id": "Q-003-engineering-alias",
+      "required_concept_uids": [
+        "urn:qam:industrial:machine-variant:pkg-200-v500",
+        "urn:qam:industrial:machine-variant:pal-80-v2"
+      ],
+      "excluded_concept_uids": [
+        "urn:qam:industrial:component:iol-m8s",
+        "urn:qam:industrial:machine-variant:pal-80-v1"
+      ],
+      "required_statuses": {
+        "urn:qam:industrial:machine-variant:pkg-200-v500": "stable",
+        "urn:qam:industrial:machine-variant:pal-80-v2": "stable"
+      },
+      "required_paths": [
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2"]
+      ]
+    },
+    {
+      "question_id": "Q-004-current-guidance",
+      "required_concept_uids": [
+        "urn:qam:industrial:service-bulletin:sb-2026-04",
+        "urn:qam:industrial:change-request:cr-1042"
+      ],
+      "excluded_concept_uids": [
+        "urn:qam:industrial:service-bulletin:sb-2024-11",
+        "urn:qam:industrial:service-bulletin:sb-2026-s08"
+      ],
+      "required_statuses": {
+        "urn:qam:industrial:service-bulletin:sb-2026-04": "stable",
+        "urn:qam:industrial:change-request:cr-1042": "stable"
+      },
+      "required_paths": [
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:service-bulletin:sb-2026-04"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:change-request:cr-1042"]
+      ]
+    },
+    {
+      "question_id": "Q-005-pkg-chain",
+      "required_concept_uids": [
+        "urn:qam:industrial:machine-variant:pkg-200-v500",
+        "urn:qam:industrial:io-map:io-map-17",
+        "urn:qam:industrial:plc:fb-io-diag",
+        "urn:qam:industrial:parameter-set:param-set-17",
+        "urn:qam:industrial:test:fat-042",
+        "urn:qam:industrial:test:sat-021"
+      ],
+      "excluded_concept_uids": [
+        "urn:qam:industrial:machine-variant:pal-80-v2",
+        "urn:qam:industrial:io-map:io-map-22",
+        "urn:qam:industrial:plc:fb-pallet-diag",
+        "urn:qam:industrial:parameter-set:param-set-09",
+        "urn:qam:industrial:test:fat-057",
+        "urn:qam:industrial:test:sat-011",
+        "urn:qam:industrial:test:fat-099"
+      ],
+      "required_statuses": {
+        "urn:qam:industrial:machine-variant:pkg-200-v500": "stable",
+        "urn:qam:industrial:io-map:io-map-17": "stable",
+        "urn:qam:industrial:plc:fb-io-diag": "stable",
+        "urn:qam:industrial:parameter-set:param-set-17": "stable",
+        "urn:qam:industrial:test:fat-042": "stable",
+        "urn:qam:industrial:test:sat-021": "stable"
+      },
+      "required_paths": [
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500", "urn:qam:industrial:io-map:io-map-17"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500", "urn:qam:industrial:plc:fb-io-diag"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500", "urn:qam:industrial:parameter-set:param-set-17"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500", "urn:qam:industrial:test:fat-042"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500", "urn:qam:industrial:test:sat-021"]
+      ]
+    },
+    {
+      "question_id": "Q-006-pal-chain",
+      "required_concept_uids": [
+        "urn:qam:industrial:machine-variant:pal-80-v2",
+        "urn:qam:industrial:io-map:io-map-22",
+        "urn:qam:industrial:plc:fb-pallet-diag",
+        "urn:qam:industrial:parameter-set:param-set-09",
+        "urn:qam:industrial:test:fat-057",
+        "urn:qam:industrial:test:sat-011"
+      ],
+      "excluded_concept_uids": [
+        "urn:qam:industrial:machine-variant:pkg-200-v500",
+        "urn:qam:industrial:io-map:io-map-17",
+        "urn:qam:industrial:plc:fb-io-diag",
+        "urn:qam:industrial:parameter-set:param-set-17",
+        "urn:qam:industrial:test:fat-042",
+        "urn:qam:industrial:test:sat-021",
+        "urn:qam:industrial:test:fat-099"
+      ],
+      "required_statuses": {
+        "urn:qam:industrial:machine-variant:pal-80-v2": "stable",
+        "urn:qam:industrial:io-map:io-map-22": "stable",
+        "urn:qam:industrial:plc:fb-pallet-diag": "stable",
+        "urn:qam:industrial:parameter-set:param-set-09": "stable",
+        "urn:qam:industrial:test:fat-057": "stable",
+        "urn:qam:industrial:test:sat-011": "stable"
+      },
+      "required_paths": [
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2", "urn:qam:industrial:io-map:io-map-22"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2", "urn:qam:industrial:plc:fb-pallet-diag"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2", "urn:qam:industrial:parameter-set:param-set-09"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2", "urn:qam:industrial:test:fat-057"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2", "urn:qam:industrial:test:sat-011"]
+      ]
+    },
+    {
+      "question_id": "Q-007-m8s-distractor",
+      "required_concept_uids": [
+        "urn:qam:industrial:machine-variant:pal-80-v1",
+        "urn:qam:industrial:io-map:io-map-s08",
+        "urn:qam:industrial:plc:fb-stainless-diag",
+        "urn:qam:industrial:parameter-set:param-set-s08",
+        "urn:qam:industrial:test:fat-099",
+        "urn:qam:industrial:service-bulletin:sb-2026-s08"
+      ],
+      "excluded_concept_uids": [
+        "urn:qam:industrial:component:iol-m8",
+        "urn:qam:industrial:machine-variant:pkg-200-v500",
+        "urn:qam:industrial:machine-variant:pal-80-v2",
+        "urn:qam:industrial:service-bulletin:sb-2026-04"
+      ],
+      "required_statuses": {
+        "urn:qam:industrial:machine-variant:pal-80-v1": "stable",
+        "urn:qam:industrial:io-map:io-map-s08": "stable",
+        "urn:qam:industrial:plc:fb-stainless-diag": "stable",
+        "urn:qam:industrial:parameter-set:param-set-s08": "stable",
+        "urn:qam:industrial:test:fat-099": "stable",
+        "urn:qam:industrial:service-bulletin:sb-2026-s08": "stable"
+      },
+      "required_paths": [
+        ["urn:qam:industrial:component:iol-m8s", "urn:qam:industrial:machine-variant:pal-80-v1"],
+        ["urn:qam:industrial:component:iol-m8s", "urn:qam:industrial:machine-variant:pal-80-v1", "urn:qam:industrial:io-map:io-map-s08"],
+        ["urn:qam:industrial:component:iol-m8s", "urn:qam:industrial:machine-variant:pal-80-v1", "urn:qam:industrial:plc:fb-stainless-diag"],
+        ["urn:qam:industrial:component:iol-m8s", "urn:qam:industrial:machine-variant:pal-80-v1", "urn:qam:industrial:parameter-set:param-set-s08"],
+        ["urn:qam:industrial:component:iol-m8s", "urn:qam:industrial:machine-variant:pal-80-v1", "urn:qam:industrial:test:fat-099"],
+        ["urn:qam:industrial:component:iol-m8s", "urn:qam:industrial:service-bulletin:sb-2026-s08"]
+      ]
+    },
+    {
+      "question_id": "Q-008-acceptance-tests",
+      "required_concept_uids": [
+        "urn:qam:industrial:test:fat-042",
+        "urn:qam:industrial:test:sat-021",
+        "urn:qam:industrial:test:fat-057",
+        "urn:qam:industrial:test:sat-011"
+      ],
+      "excluded_concept_uids": [
+        "urn:qam:industrial:test:fat-099",
+        "urn:qam:industrial:component:iol-m8s"
+      ],
+      "required_statuses": {
+        "urn:qam:industrial:test:fat-042": "stable",
+        "urn:qam:industrial:test:sat-021": "stable",
+        "urn:qam:industrial:test:fat-057": "stable",
+        "urn:qam:industrial:test:sat-011": "stable"
+      },
+      "required_paths": [
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500", "urn:qam:industrial:test:fat-042"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pkg-200-v500", "urn:qam:industrial:test:sat-021"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2", "urn:qam:industrial:test:fat-057"],
+        ["urn:qam:industrial:component:iol-m8", "urn:qam:industrial:machine-variant:pal-80-v2", "urn:qam:industrial:test:sat-011"]
+      ]
+    }
+  ]
+}
