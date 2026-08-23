@@ -101,7 +101,8 @@ case "${1:-}:${2:-}:${3:-}" in
     ;;
   acr:build:*)
     [ "${@: -1}" = "${QAM_CLOUD_BUILD_SOURCE_URL:?}#${QAM_CLOUD_BUILD_SOURCE_SHA:?}" ] || exit 82
-    printf '%s\n' '{"runId":"dt-test","status":"Queued"}'
+    printf '%s\n' 'WARNING: Sending context to registry: qamtest123...' >&2
+    printf '%s\n' 'WARNING: Queued a build with ID: dt-test' >&2
     ;;
   acr:task:show-run)
     [ "${run_id}" = 'dt-test' ] || exit 83

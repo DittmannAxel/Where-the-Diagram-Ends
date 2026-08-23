@@ -29,6 +29,7 @@ temporary_assignment_removed='false'
 build_run_id=''
 build_terminal_verified='false'
 remote_manifest_error=''
+submission_error=''
 
 usage() {
   printf '%s\n' \
@@ -245,6 +246,9 @@ on_exit() {
   if [ -n "${remote_manifest_error}" ] && [ -f "${remote_manifest_error}" ]; then
     rm -f "${remote_manifest_error}"
   fi
+  if [ -n "${submission_error}" ] && [ -f "${submission_error}" ]; then
+    rm -f "${submission_error}"
+  fi
   if [ "${temporary_assignment_cleanup_required}" = 'true' ]; then
     if ! settle_build_before_writer_cleanup; then
       qam_info "submitted ACR run could not be proven terminal within the cancellation bound"
@@ -420,7 +424,8 @@ fi
 
 source_context="${source_git_url}#${source_ref}"
 qam_info "queuing an ACR remote build from the exact public Git commit"
-submission_json="$(az acr build \
+submission_error="$(mktemp)"
+if ! submission_json="$(az acr build \
   --registry "${registry_name}" \
   --image "${repository}:${image_tag}" \
   --file "${dockerfile_path}" \
@@ -430,9 +435,23 @@ submission_json="$(az acr build \
   --no-logs \
   --no-wait \
   --output json \
-  "${source_context}")"
-build_run_id="$(jq -er '.runId | select(type == "string" and length > 0)' <<< "${submission_json}")" \
-  || qam_fail "ACR build submission omitted its run ID"
+  "${source_context}" 2>"${submission_error}")"; then
+  sed -n '1,20p' "${submission_error}" >&2
+  qam_fail "ACR cloud-build submission failed"
+fi
+sed -n '1,20p' "${submission_error}" >&2
+build_run_id="$(jq -er '.runId | select(type == "string" and length > 0)' \
+  <<< "${submission_json}" 2>/dev/null || true)"
+if [ -z "${build_run_id}" ]; then
+  queued_run_ids="$(sed -nE \
+    's/^WARNING: Queued a build with ID: ([A-Za-z0-9][A-Za-z0-9._-]{0,127})\.?$/\1/p' \
+    "${submission_error}" | sort -u)"
+  [ "$(printf '%s\n' "${queued_run_ids}" | sed '/^$/d' | wc -l | tr -d ' ')" = '1' ] \
+    || qam_fail "ACR build submission omitted one unambiguous run ID"
+  build_run_id="${queued_run_ids}"
+fi
+rm -f "${submission_error}"
+submission_error=''
 printf '%s' "${build_run_id}" | grep -Eq '^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$' \
   || qam_fail "ACR build returned an invalid run ID"
 
