@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "qam-industrial-cloud-config/1.0",
+  "source": {
+    "repository": "OWNER/REPOSITORY",
+    "gitUrl": "https://github.com/OWNER/REPOSITORY.git",
+    "commitSha": "<40-lowercase-public-git-sha>"
+  },
+  "azure": {
+    "subscription": "<subscription-name-or-id>",
+    "resourceGroup": "<existing-isolated-resource-group>",
+    "location": "swedencentral",
+    "workload": "qam",
+    "environment": "test"
+  },
+  "principals": {
+    "fabricAdminMember": "<signed-in-fabric-admin-upn>",
+    "operatorPrincipalId": "<signed-in-user-object-id>",
+    "deploymentPrincipalId": "<github-oidc-service-principal-object-id>",
+    "invokerPrincipalId": "<signed-in-user-object-id>",
+    "invokerPrincipalType": "User",
+    "temporaryAcrWriter": {
+      "principalId": "<signed-in-user-object-id>",
+      "principalType": "User"
+    }
+  },
+  "platform": {
+    "fabricSku": "F8",
+    "workspaceName": "QAM test Industrial Evidence",
+    "lakehouseName": "qam_test_industrial",
+    "graphModelName": "QAM test Industrial Knowledge Graph",
+    "notebookName": "qam_test_load_projection",
+    "chatModelName": "<available-tool-capable-model-name>",
+    "chatModelVersion": "<available-model-version>",
+    "chatModelCapacity": 50
+  },
+  "foundry": {
+    "mcpApiDisplayName": "Quick Agentic Memory MCP",
+    "mcpApiClientId": "",
+    "agentName": "qam-knowledge-agent",
+    "applicationName": "qam-knowledge-application",
+    "deploymentName": "qam-managed-deployment",
+    "connectionName": "qam-mcp-project-identity",
+    "cleanupSupersededAccess": true
+  },
+  "image": {
+    "repository": "qam-mcp",
+    "expectedExistingDigest": ""
+  },
+  "acceptance": {
+    "documents": 28,
+    "nodes": 107,
+    "edges": 167,
+    "conceptTerm": "IOL-M8",
+    "contentMarker": "XK8-IO"
+  }
+}

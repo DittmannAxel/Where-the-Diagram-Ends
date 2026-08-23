@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "qam-graph/1.0",
+  "okfVersion": "0.2",
+  "projector": {
+    "name": "@quick-agentic-memory/core",
+    "version": "0.1.0"
+  },
+  "source": {
+    "repository": "https://github.com/DittmannAxel/Where-the-Diagram-Ends",
+    "projectionId": "urn:qam:projection:0e8d800a4a62053c51a529d3c60f49d49129fa246ba6d49075a33567f6e40b0f",
+    "commitSha": "e0dd9b1fa0948075d640d440e913d24695d5b184",
+    "generatedAt": "2026-08-23T13:51:54+02:00"
+  },
+  "bundle": {
+    "pathInRepository": "quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge",
+    "contentDigest": "2c0caa83e30cc99272c028f76fa288f9685cb9f3feadefd81c4711736c791ba8",
+    "files": [
+      {
+        "path": "acceptance-tests/fat-042.md",
+        "sha256": "d0be11201e0302ad6bec6f6707f722c29b1f6e451f33cd14b9b8cb15d154892c"
+      },
+      {
+        "path": "acceptance-tests/fat-057.md",
+        "sha256": "bf003df2cdf0380f8e581d9e9cddd6b3b3fb550a83c77580975f4630da3d0358"
+      },
+      {
+        "path": "acceptance-tests/fat-099.md",
+        "sha256": "969f87d30e400ae0222e6118a334fe670d8f7940004d64c31401b0f8d8a248ca"
+      },
+      {
+        "path": "acceptance-tests/sat-011.md",
+        "sha256": "607e124437d7b77230bbab7ee766f03a57dfc6f99e287b63936eaf2c8c8f1195"
+      },
+      {
+        "path": "acceptance-tests/sat-021.md",
+        "sha256": "19c6fa92887e746ce68adf9e3253cef11a7116f0dfcfafd2c4fbf8a82855a38b"
+      },
+      {
+        "path": "change-requests/cr-1042.md",
+        "sha256": "216fce3f81463762cc8b55d26de6925bf2456ea57325d63480ff34c11305f2ca"
+      },
+      {
+        "path": "components/iol-m8.md",
+        "sha256": "4fb1fb5dd3bcbc13dce1cd8364e73ce00910b37741668a2fc4232d6e5abcd614"
+      },
+      {
+        "path": "components/iol-m8s.md",
+        "sha256": "91b7faa4e6e8b951acd0578ff44fa9846f518b7075b9e96ee04749d8abd242c8"
+      },
+      {
+        "path": "components/nxl-r8.md",
+        "sha256": "94c8553fbb6b1775d7094fe7c94eae8d4d7c8e0fb9ceff2eba76a891aa0c24cc"
+      },
+      {
+        "path": "index.md",
+        "sha256": "f2f86f48046a26d07d38ad71fa03f4462d4067e3f8d87163734fba672ce6c4de"
+      },
+      {
+        "path": "io-mappings/io-map-17.md",
+        "sha256": "6ab8beb2e1c907f6ccc645346f7770bec99f8407b6ff3e700c68bdb1fec1b4c1"
+      },
+      {
+        "path": "io-mappings/io-map-22.md",
+        "sha256": "f397f267c5f208851886f9ae1638c175d7e0f3359b2d8be2fcdd75e2f8a79405"
+      },
+      {
+        "path": "io-mappings/io-map-s08.md",
+        "sha256": "bd1232419ad5d63b959143e6a45a66c35ab532817ca64bfc29c802256b127ee3"
+      },
+      {
+        "path": "machines/pal-80-v1.md",
+        "sha256": "5e4cd022f4c89c857518b28dcf1fe9e8c2220c2704e2a1492c8a918eaaaafd51"
+      },
+      {
+        "path": "machines/pal-80-v2.md",
+        "sha256": "7b51e4e46af26a61ae978791cbb80950ad58023dcf865415203eb28611a44e10"
+      },
+      {
+        "path": "machines/pal-80.md",
+        "sha256": "c0606a2497bcbcaae072f7394d46f46ec822c883771f986f8da9ca32a63eb261"
+      },
+      {
+        "path": "machines/pkg-200-v300.md",
+        "sha256": "2eef5ade1e78e5ff4c56b74934d0bdb5e061d42bfaecb9d1c079e0a36c34ba31"
+      },
+      {
+        "path": "machines/pkg-200-v500.md",
+        "sha256": "08d350c547fdac70310800aebcfc0276851ff5b860fb2a76e88f1a32c0837f1c"
+      },
+      {
+        "path": "machines/pkg-200.md",
+        "sha256": "25225bc5cc0409e63f97c76b2e3c64d07c061f661a8b82d3476d94a7a06dbad8"
+      },
+      {
+        "path": "parameters/param-set-09.md",
+        "sha256": "7917a45e416ed199f149eeadaddc1cd5a0f5047f01d2127d96f0796af9c1e14b"
+      },
+      {
+        "path": "parameters/param-set-17.md",
+        "sha256": "cc51fc544c42790aadf2ec104f96038865ade34586f331a2b5dad3a4c87e1baf"
+      },
+      {
+        "path": "parameters/param-set-s08.md",
+        "sha256": "a3fc77f4ab388ab33c82d3ed540f2933a44338ca27818113807edb493f8e1c61"
+      },
+      {
+        "path": "plc/fb-io-diag.md",
+        "sha256": "2262c7fcb9e9aa1dc07a1eea15113a45d234fcee76717d7fcb0fd03a6d84209b"
+      },
+      {
+        "path": "plc/fb-pallet-diag.md",
+        "sha256": "5bc3d2076a1dbb8308132c5d27afc01a0b61af383e41927a2e68a1445890703f"
+      },
+      {
+        "path": "plc/fb-stainless-diag.md",
+        "sha256": "80f41267ab274d91ed83fa57b37f82afbcc7444d0f8369552995e03249ae16de"
+      },
+      {
+        "path": "service-bulletins/sb-2024-11.md",
+        "sha256": "e1810415eca7b756101e604cfbfc10c1e617390091db0162bb627158fa71e4eb"
+      },
+      {
+        "path": "service-bulletins/sb-2026-04.md",
+        "sha256": "5e0ed0154097f0359704a00fdddd3a75b006711076c87591c6caa8bffbb16812"
+      },
+      {
+        "path": "service-bulletins/sb-2026-s08.md",
+        "sha256": "956fafa8964c87a52f079d36b23f719ab98b5edfbd6cbf8911e9e2986313acd1"
+      }
+    ]
+  },
+  "counts": {
+    "documents": 28,
+    "concepts": 27,
+    "nodes": 107,
+    "edges": 167
+  }
+}

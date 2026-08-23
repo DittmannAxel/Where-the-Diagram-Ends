@@ -1,0 +1,25 @@
+{
+  "name": "<unique-quick-agentic-memory-app-name>",
+  "description": "Read-only Quick Agentic Memory content adapter",
+  "homepageUrl": "https://github.com/<owner>/<repository>",
+  "webhooks": {
+    "active": false,
+    "url": ""
+  },
+  "repositoryPermissions": {
+    "contents": "read"
+  },
+  "organizationPermissions": {},
+  "accountPermissions": {},
+  "subscribeToEvents": [],
+  "installationTarget": "Only on this account",
+  "repositorySelection": "Only select repositories",
+  "selectedRepositories": [
+    "<repository>"
+  ],
+  "notes": [
+    "This is a reviewable settings checklist, not an API payload.",
+    "Create the app in the GitHub administrator UI; no callback or webhook is required.",
+    "Generate one PEM key, store it directly in Azure Key Vault, and do not commit it."
+  ]
+}
