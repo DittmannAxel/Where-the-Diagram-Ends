@@ -1,19 +1,31 @@
 # Quick Agentic Memory architecture
 
-Quick Agentic Memory turns reviewed Markdown into commit-pinned, agent-readable memory without making the derived graph authoritative. GitHub remains the durable record; Microsoft Fabric Graph is a disposable navigation index; Microsoft Foundry reaches both through a narrow MCP gateway.
+Quick Agentic Memory adds a version-controlled, commit-pinned knowledge dimension to existing enterprise data without moving or replacing the systems that own that data. GitHub is the durable record and native review surface for the added knowledge; Microsoft Fabric Graph is a disposable navigation index; Microsoft Foundry reaches both through a narrow MCP gateway.
 
 This proof of concept uses these names deliberately:
 
 | Component | Responsibility |
 | --- | --- |
-| Wiki Curator | Future proposal workflow inspired by persistent, compounding wikis. It must open a reviewable change; it never writes to the protected branch directly. |
+| Wiki Curator | Future GitHub proposal service behind the already gated MCP proposal transport. It may create a branch, commit, and pull request against an exact base commit; it never approves its own change, writes to the protected branch, or edits the graph directly. |
 | Markdown Validator | Parses and validates the human-readable `.md` files, lightweight metadata, and explicit links used by the reference implementation. |
 | Fabric Graph Projector | Deterministically maps concepts, links, tags, aliases, and sources into nodes and edges. The graph is a generated projection, not a second knowledge record. |
 | Wiki MCP Gateway | Gives agents bounded graph-navigation and commit-pinned content tools. |
 
 ## Inspiration and independent scope
 
-[Andrej Karpathy's persistent, compounding wiki sketch](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) is a design influence: useful knowledge should accumulate in a durable, inspectable form instead of disappearing inside a chat. This PoC independently explores that principle with reviewed Markdown, commit-pinned provenance, a disposable graph index, and constrained retrieval. It does not copy code from the gist.
+[Andrej Karpathy's persistent, compounding wiki sketch](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) is a design influence: useful knowledge should accumulate in a durable, inspectable form instead of disappearing inside a chat. This PoC independently explores that principle with version-controlled Markdown, commit-pinned provenance, a disposable graph index, and constrained retrieval. It does not copy code from the gist.
+
+## GitHub-native knowledge governance
+
+QAM deliberately separates the read plane from the authoring and approval plane. It does not need a custom workflow engine for wiki maintenance because GitHub already provides the right primitives:
+
+1. A proposed Markdown change starts from an exact base commit on a separate branch.
+2. A pull request exposes the diff, rationale, sources, and link changes for human review.
+3. The checked-in [`QAM validate`](../../.github/workflows/qam-validate.yml) workflow runs on relevant pull requests and validates the knowledge set, infrastructure, code, tests, secrets, local demo, Foundry integration, and deployable image.
+4. Repository [rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets), required reviews, and [CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) can make those checks and approvals mandatory before merge.
+5. The projector accepts the resulting merged commit as a new immutable input and rebuilds the Fabric index from it.
+
+The current published Foundry application remains strictly read-only. The MCP package implements a disabled-by-default `propose_wiki_update` transport to an external endpoint, but this repository does not yet implement the GitHub service that creates the branch, commit, and pull request. It also cannot create repository rulesets, CODEOWNERS, or reviewer policy as part of an Azure deployment; those controls are GitHub administrator configuration. QAM therefore demonstrates a governed, commit-pinned read path and a defined native approval boundary, not yet a complete agent-driven authoring lifecycle.
 
 ## Canonical graph contract
 
@@ -126,7 +138,7 @@ This assessment applies the relevant [Azure Well-Architected Framework](https://
 - GitHub's enterprise controls are treated as an existing prerequisite, not re-provisioned here.
 - The graph is never a replacement for repository review, history, branch protection, secret scanning, or code-owner policy.
 - The supplied automation stages validated files, updates the existing GraphModel definition, and executes the bounded on-demand refresh gate. An authorized operator still owns the required Fabric permissions and the explicit live publication action.
-- Wiki curation and pull-request creation remain a future, separately authorized write path.
+- The optional MCP proposal transport is implemented but disabled by default. The GitHub branch/commit/pull-request service and repository-specific rulesets, CODEOWNERS, and reviewer policy remain a future, separately authorized authoring path.
 - Application Insights is provisioned and ready for Entra-authenticated ingestion, but this PoC currently relies on Container Apps console/platform telemetry; application-level OpenTelemetry instrumentation is not yet wired.
 
 Deployment parameters and operational commands are documented in [the infrastructure guide](../infra/README.md).

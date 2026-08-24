@@ -12,11 +12,15 @@ This is my small workbench for turning architectural ideas into executable proof
 
 ### Enterprise knowledge should compound
 
-As AI agents begin to support real engineering decisions, enterprises need to rethink how they organize knowledge—not only how they search it. The important question is: **what durable, reviewable knowledge asset becomes better after every source, correction, and question?** A useful answer should strengthen institutional memory instead of disappearing into another chat history.
+> **Your existing enterprise data is the gold. The next competitive advantage is a governed knowledge dimension that connects it across systems and makes its context usable by people and agents.**
 
-[Andrej Karpathy's sketch of a persistent, compounding wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) points in that direction: an agent-maintained, interlinked body of ordinary `.md` files can accumulate synthesis and cross-references instead of reconstructing them from raw documents for every question. Quick Agentic Memory adapts the durable, interlinked knowledge pattern for a governed manufacturing read proof. Its current agent interface is strictly read-only; agent-assisted curation remains future work. It is an independent implementation, not a copy of the gist's code or exact architecture.
+As AI agents begin to support real engineering decisions, enterprises need more than another way to search what they already own. The important question is: **how can the value distributed across existing systems gain durable identities, relationships, explanations, and provenance without being copied into another master data store?**
 
-This does not mean moving PLC projects, drawings, PLM records, MES transactions, or every other operational record into Markdown. Those systems remain authoritative in their domains. The `.md` files become a durable knowledge layer for the identities, decisions, explanations, relationships, and source references that connect them.
+PLC projects, drawings, PLM records, MES transactions, and engineering systems remain authoritative for their operational and engineering data. Human-readable `.md` files add a durable knowledge dimension for the decisions, explanations, relationships, and source references that cross those system boundaries. The wiki enriches the landscape; it does not take ownership of the underlying data.
+
+This is an Azure extension story, not a data migration story. Azure runs and protects the MCP gateway, Microsoft Fabric provides the derived relationship graph, and Microsoft Foundry gives the agent bounded tools to navigate it and reread the exact knowledge file at the same commit. Those services make the additional dimension usable without replacing the systems that hold the enterprise data.
+
+[Andrej Karpathy's sketch of a persistent, compounding wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) points in that direction: an agent-maintained, interlinked body of ordinary `.md` files can accumulate synthesis and cross-references instead of reconstructing them from raw documents for every question. Quick Agentic Memory adapts the durable, interlinked knowledge pattern for a governed manufacturing read proof. It is an independent implementation, not a copy of the gist's code or exact architecture.
 
 ### Why manufacturing exposes the gap
 
@@ -28,17 +32,30 @@ The synthetic public scenario makes the difference visible with `IOL-M8`: two de
 
 ### One knowledge record, not competing stores
 
-Quick Agentic Memory does not ask anyone to maintain the same knowledge in GitHub and Fabric. There is one authored knowledge record and one generated navigation index:
+Quick Agentic Memory does not ask anyone to move enterprise data into GitHub or maintain the same wiki knowledge in GitHub and Fabric. Each layer has one responsibility:
 
 | Layer | Purpose | Authority |
 | --- | --- | --- |
-| Reviewed `.md` files in GitHub | Human-readable meaning, context, relationships, review, and version history | Authoritative knowledge record |
+| PLC, PLM, MES, drawings, and engineering systems | Operational records, engineering artifacts, transactions, and domain data | Authoritative in their respective domains |
+| Version-controlled `.md` files in GitHub | Cross-system meaning, context, decisions, relationships, source references, proposed-change review, and version history | Authoritative for the added knowledge dimension |
 | Microsoft Fabric Graph | Fast identity resolution and bounded relationship traversal generated from one Git commit | Derived, rebuildable index |
 | MCP gateway and Foundry Agent Application | Governed navigation followed by an exact-commit source read | Read-only consumers; they do not own the knowledge |
 
-Fabric stores projected identifiers, relationships, hashes, and commit provenance—not a second editable copy of the Markdown document bodies. The agent uses the graph to find a route, then returns to GitHub and hash-checks the original `.md` file at the same commit. **Markdown holds the knowledge; the graph only holds the routes through it.**
+Fabric stores projected identifiers, relationships, hashes, and commit provenance—not the underlying enterprise records and not a second editable copy of the Markdown document bodies. The agent uses the graph to find a route, then returns to GitHub and hash-checks the original `.md` file at the same commit. **The operational systems hold the data; Markdown adds the cross-system knowledge; the graph holds only the routes through it.**
 
 At small scale, Git and linked `.md` files may be enough. Add a graph only when stable identity, bounded multi-hop navigation, governed agent access, or scale justifies a generated index. The architectural pattern is deliberately general: human-readable `.md` files use lightweight metadata and explicit links, while the projector is an adapter that can evolve independently of the knowledge record.
+
+### Govern maintenance in GitHub
+
+QAM should not invent a second approval system. GitHub is the native authoring and governance surface for the knowledge files:
+
+1. A human—or, in a future curation path, an agent—prepares a change on a branch against an exact base commit.
+2. A pull request makes the Markdown diff, rationale, sources, and link changes reviewable.
+3. The checked-in [**QAM validate** workflow](../.github/workflows/qam-validate.yml) tests relevant pull requests, including knowledge validation, builds, tests, secret checks, and the local proof path.
+4. Repository rulesets or branch protection can require that check, approving reviews, code-owner approval, resolved conversations, and an up-to-date branch before merge.
+5. Only the merged commit becomes input to a new deterministic Fabric projection; neither a curator nor a reviewer edits the graph directly.
+
+The current published Foundry Agent Application exposes only the seven read-only tools. The MCP gateway contains an optional, disabled-by-default proposal transport, but this repository does not yet ship the service that creates the GitHub branch, commit, and pull request. CODEOWNERS, required reviewers, and repository rules are also administrator-owned GitHub settings and must be configured separately. In other words, this PoC demonstrates a governed, commit-pinned read path and the correct native approval boundary—not yet a complete agent-driven authoring lifecycle.
 
 ## Public evidence
 
@@ -48,7 +65,7 @@ The redacted cloud proof shows the tested chain from one public Git commit throu
 
 Quick Agentic Memory makes linked `.md` files in GitHub navigable and exposes them to agents through a constrained MCP interface:
 
-- GitHub contains the reviewed, versioned knowledge record.
+- GitHub contains the version-controlled knowledge record intended for pull-request review.
 - A validator checks the lightweight metadata, structure, and explicit links required for projection.
 - The Fabric Graph Projector creates a deterministic, commit-pinned snapshot that must satisfy the canonical `qam-graph/1.0` executable contract.
 - Microsoft Fabric Graph stores the rebuildable navigation index, not the Markdown document bodies.
