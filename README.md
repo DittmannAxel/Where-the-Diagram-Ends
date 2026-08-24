@@ -28,4 +28,4 @@ npm run verify
 npm run demo
 ```
 
-The local path creates no Azure resources and needs no Docker daemon. For the complete Azure/Fabric/Foundry deployment, follow [How to deploy and test the cloud proof](./quickagenticmemory/README.md#how-to-deploy-and-test-the-complete-azure-proof) and the [step-by-step cloud runbook](./quickagenticmemory/docs/CLOUD_REPRODUCTION.md).
+The local path creates no Azure resources and needs no Docker daemon. See the guided [demo walkthrough](./quickagenticmemory/README.md#demo-walkthrough-what-you-will-see) to present the manufacturing comparison and its recorded cloud evidence. For the complete Azure/Fabric/Foundry deployment, follow [How to deploy and test the cloud proof](./quickagenticmemory/README.md#how-to-deploy-and-test-the-complete-azure-proof) and the [step-by-step cloud runbook](./quickagenticmemory/docs/CLOUD_REPRODUCTION.md).

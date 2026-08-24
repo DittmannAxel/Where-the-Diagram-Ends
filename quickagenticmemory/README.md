@@ -62,6 +62,35 @@ npm run demo
 
 No cloud resources are required for this path and no tracked repository or tenant state is modified. The demo refreshes only its ignored `.artifacts/local-demo/` directory; sibling cloud receipts under `.artifacts/` are preserved.
 
+## Demo walkthrough: what you will see
+
+The repository provides three deliberately separate proof levels. Use the first for a fast mechanics check, the second to present the manufacturing retrieval difference, and the third to inspect the recorded Azure/Fabric/Foundry result.
+
+| Proof level | What to open or run | Visible result |
+| --- | --- | --- |
+| Local mechanics | Run `npm run demo` from `quickagenticmemory/`. | A small fixture becomes a 26-node/32-edge projection; MCP navigation finds a two-hop path, exposes seven read-only tools, and rereads the commit-pinned Markdown. This is not the industrial scenario or a cloud test. |
+| Manufacturing comparison | Open the self-contained [`report.html`](tests/industrial-component-obsolescence/screens/evidence/latest/report.html) from a local clone, or start with [`01-overview.png`](tests/industrial-component-obsolescence/screens/01-overview.png). | Eight accepted cases, a QAM-minus-BM25 required-concept recall difference of `+29` percentage points, a mean precision difference of `+53` points, excluded hits of `15 / 0`, and `100%` QAM link-path coverage. |
+| Cloud and agent proof | Open the self-contained [`cloud-proof.html`](tests/industrial-component-obsolescence/screens/evidence/latest/cloud-proof.html), or view [`04-cloud-chain-acceptance.jpg`](tests/industrial-component-obsolescence/screens/04-cloud-chain-acceptance.jpg) followed by [`05-foundry-agent-smoke.jpg`](tests/industrial-component-obsolescence/screens/05-foundry-agent-smoke.jpg). | The recorded public-commit run shows 28 Markdown documents becoming 107 nodes and 167 edges, live GQL and authorization-boundary checks, and four completed Foundry tool events. |
+
+### A ten-minute presentation
+
+1. **Frame the manufacturing question.** Ask: “Which delivered machine variants use `IOL-M8` directly, and which I/O mappings, PLC diagnostic blocks, parameter sets, and FAT/SAT cases must be reviewed for replacement? Exclude `IOL-M8S` and cite the relationship paths.” The challenge is completeness, correct identity, scope, and source revision—not merely finding text that sounds similar.
+2. **Show the overview.** Open the prepared report and point to the `8/8` machine-readable acceptance result and the aggregate differences. Explain that BM25 is the lexical retrieval arm over the same Markdown, while QAM resolves a concept and follows bounded explicit links. This evaluates retrieved evidence, not a generated LLM answer.
+3. **Select case `Q-005-pkg-chain`.** The BM25 arm retrieves two of six required PKG-200 concepts and also returns two out-of-scope concepts; QAM retrieves all six with no excluded hit. The strongest visual is also available as [`02-pkg-200-link-traversal.png`](tests/industrial-component-obsolescence/screens/02-pkg-200-link-traversal.png).
+4. **Follow the evidence paths.** The report shows `IOL-M8 → PKG-200/V500` and the linked `IO-MAP-17`, `FB_IO_DIAG`, `PARAM-SET-17`, `FAT-042`, and `SAT-021` records. Each selected source read carries its content hash and the report's Git commit, while the similarly named stainless branch remains outside the result.
+5. **Finish in the cloud proof.** Show the chain `Public GitHub → Fabric Graph → MCP + Entra → Foundry Agent`, then the ordered events `qam.resolve_concepts → qam.get_neighbors → qam.trace_provenance → qam.read_concepts`. The final read uses the same full Git commit carried by the graph projection. The `200` health check, anonymous MCP `401`, and managed-identity access counts make the security boundaries visible as part of the demonstration. This smoke proves the protected navigation and provenance chain for `IOL-M8`; it does not claim that the same run generated the complete manufacturing impact answer.
+
+The honest conclusion is intentionally narrow: on this synthetic corpus, bounded graph traversal preserves the required relationship chains, exclusions, and commit provenance that the lexical top-k arm can miss. It is evidence for complementing a RAG design where those controls matter, not a claim that QAM universally replaces RAG. The local report and the cloud acceptance were captured in separate public runs at the commits named inside each artifact.
+
+To regenerate the industrial report without replacing the checked-in presentation evidence, use an ignored output directory from a clean commit:
+
+```bash
+cd quickagenticmemory/tests/industrial-component-obsolescence/code
+./run.sh --output ../../../.artifacts/industrial-demo --require-clean-commit
+```
+
+Then open `quickagenticmemory/.artifacts/industrial-demo/report.html`. To reproduce the tenant-authorized cloud result instead of presenting the recorded evidence, continue with the deployment section below and the [complete cloud runbook](docs/CLOUD_REPRODUCTION.md).
+
 ## How to deploy and test the complete Azure proof
 
 The canonical cloud entry point is the fail-closed [`cloud-run.sh`](tests/industrial-component-obsolescence/code/cloud-run.sh) driver. It deploys the Azure foundation, Fabric and Foundry platform, graph data plane, ACR-built MCP image, Entra identities and access, Container App, Agent Application, and the final end-to-end smoke test. It then emits `cloud-acceptance.json` only if every stage passed.
