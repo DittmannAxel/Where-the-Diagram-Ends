@@ -61,7 +61,7 @@ az bicep build \
   --file "${QAM_INFRA_DIR}/admin.bicep" \
   --outfile "${validation_dir}/admin.json"
 
-qam_info "building the optional paid Fabric and Foundry platform deployment"
+qam_info "building the optional Fabric and Foundry platform deployment"
 az bicep build \
   --file "${QAM_INFRA_DIR}/platform.bicep" \
   --outfile "${validation_dir}/platform.json"
@@ -157,7 +157,7 @@ jq -se '
 ' "${validation_dir}/main.json" "${validation_dir}/admin.json" >/dev/null \
   || qam_fail "administrator template resource naming drifted from the routine foundation template"
 
-qam_info "validating the tenant-neutral paid platform template contract"
+qam_info "validating the tenant-neutral platform template contract"
 jq -e '
   (.parameters.fabricAdminMembers | has("defaultValue") | not) and
   .parameters.fabricAdminMembers.minLength == 1 and
@@ -232,7 +232,7 @@ expect_cli_failure() {
   fi
 }
 
-qam_info "validating paid platform CLI guards without Azure mutations"
+qam_info "validating platform CLI guards without Azure mutations"
 expect_cli_failure "missing Fabric administrator" \
   "${QAM_SCRIPTS_DIR}/platform-deploy.sh" \
   --resource-group qam-platform-contract \
@@ -310,12 +310,12 @@ platform_cli_mock_log="${validation_dir}/platform-cli.log"
   && [ "$(grep -c '^deployment group what-if ' "${platform_cli_mock_log}")" -eq 1 ] \
   || qam_fail "platform CLI contract expected exactly one mocked deploy and one mocked what-if"
 [ "$(grep -Fc -- "--template-file ${QAM_INFRA_DIR}/platform.bicep" "${platform_cli_mock_log}")" -eq 2 ] \
-  || qam_fail "paid platform scripts must select only platform.bicep"
+  || qam_fail "platform scripts must select only platform.bicep"
 [ "$(grep -c 'fabric-admin@example.invalid' "${platform_cli_mock_log}")" -eq 2 ] \
   && [ "$(grep -c 'operatorPrincipalId=11111111-1111-4111-8111-111111111111' "${platform_cli_mock_log}")" -eq 2 ] \
-  || qam_fail "paid platform scripts did not pass tenant identities only as runtime parameters"
+  || qam_fail "platform scripts did not pass tenant identities only as runtime parameters"
 [ "$(grep -c 'fabricSkuName=F64' "${platform_cli_mock_log}")" -eq 2 ] \
-  || qam_fail "paid platform scripts did not pass the full-showcase F64 SKU"
+  || qam_fail "platform scripts did not pass the full-showcase F64 SKU"
 [ "$(grep -c '^rest --method GET ' "${platform_cli_mock_log}")" -eq 1 ] \
   || qam_fail "Fabric capacity default lifecycle action must perform exactly one read"
 if grep -q '^rest --method POST ' "${platform_cli_mock_log}"; then

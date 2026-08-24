@@ -159,7 +159,7 @@
       "summary": "Forbids arbitrary GQL and exposes fixed read-only graph operations.",
       "commitSha": "1111111111111111111111111111111111111111",
       "status": "stable",
-      "contentHash": "13d2b447266366e3802dc139f54d360b6e868419ccfd262600e9ec5f4391fb10",
+      "contentHash": "5b33ebc882b59f57528286b562d219eddb2cba291886c7b9cd9811dc84a36ac9",
       "projectionId": "urn:qam:projection:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
       "repositoryPath": "quickagenticmemory/knowledge/decisions/no-raw-gql.md"
     },

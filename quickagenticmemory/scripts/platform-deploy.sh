@@ -19,7 +19,7 @@ usage() {
   printf '%s\n' \
     'Usage: platform-deploy.sh --resource-group NAME --fabric-admin-member UPN --operator-principal-id UUID [options]' \
     '' \
-    'Deploys the paid Fabric capacity and Microsoft Foundry project/model platform.' \
+    'Deploys the Fabric capacity and Microsoft Foundry project/model platform.' \
     'platform-what-if.sh is available as an optional preview with the same arguments.' \
     '' \
     'Options:' \
@@ -68,7 +68,7 @@ if [ -z "${location}" ]; then
 fi
 
 deployment_name="qam-platform-${environment_name}-$(date -u +%Y%m%d%H%M%S)"
-qam_info "deploying paid Fabric ${fabric_sku} and Foundry ${chat_model_name}@${chat_model_version} as ${deployment_name}"
+qam_info "deploying Fabric ${fabric_sku} and Foundry ${chat_model_name}@${chat_model_version} as ${deployment_name}"
 az deployment group create \
   --name "${deployment_name}" \
   --resource-group "${resource_group}" \

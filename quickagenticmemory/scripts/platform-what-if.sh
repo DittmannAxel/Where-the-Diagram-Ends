@@ -19,7 +19,7 @@ usage() {
   printf '%s\n' \
     'Usage: platform-what-if.sh --resource-group NAME --fabric-admin-member UPN --operator-principal-id UUID [options]' \
     '' \
-    'Previews the paid Fabric capacity and Microsoft Foundry project/model platform.' \
+    'Previews the Fabric capacity and Microsoft Foundry project/model platform.' \
     'Tenant identities are accepted only as runtime parameters and are never written to parameter files.' \
     '' \
     'Options:' \

@@ -1,8 +1,10 @@
 # Quick Agentic Memory on Azure
 
-This directory contains the reproducible Azure PoC deployment for the MCP gateway. It deploys an Azure Container Apps workload, Azure Container Registry, two user-assigned managed identities, Key Vault, Log Analytics, Application Insights, and optional Private Link networking. A separate opt-in template can provision the paid Fabric capacity and Microsoft Foundry account, project, and model deployment used by the complete test.
+This directory contains the reproducible Azure PoC deployment for the MCP gateway. It deploys an Azure Container Apps workload, Azure Container Registry, two user-assigned managed identities, Key Vault, Log Analytics, Application Insights, and optional Private Link networking. A separate opt-in template can provision the Fabric capacity and Microsoft Foundry account, project, and model deployment used by the complete test.
 
 No deployment is performed by committing or validating these files. Every mutating Azure or Fabric operation is an explicit script or manually dispatched workflow.
+
+For the canonical public-SHA deployment and complete acceptance chain, start with the [cloud reproduction runbook](../docs/CLOUD_REPRODUCTION.md). This file is the component reference and manual/GitHub Actions path. Unless a section says otherwise, run its commands from the repository root.
 
 ![Azure deployment architecture](../docs/diagrams/azure-deployment.png)
 
@@ -17,8 +19,8 @@ No deployment is performed by committing or validating these files. Every mutati
 | Key Vault | Holds a GitHub App PEM key or explicit token fallback | Azure RBAC, purge protection, 90-day soft delete, empty legacy access-policy list, and an RG-scoped Deny assignment that requires the RBAC permission model; secret values never enter Bicep |
 | Log Analytics | Stores Container Apps logs and metrics | Azure Monitor diagnostic settings; no workspace shared key is passed to Container Apps; local authentication disabled |
 | Application Insights | Application telemetry target | Workspace-based, local authentication disabled, managed-identity authentication variables injected |
-| Private networking | Removes public data-plane access to ACR, Key Vault, and Container Apps ingress | Dedicated VNet subnets, Private Endpoints, and Private DNS zones; opt-in because of cost and runner requirements |
-| Optional Fabric capacity | Supplies F SKU compute for the Graph proof | Separate paid `platform.bicep` deployment, constrained to F2/F4/F8/F16/F32/F64; an explicit lifecycle script can show, suspend, or resume it |
+| Private networking | Removes public data-plane access to ACR, Key Vault, and Container Apps ingress | Dedicated VNet subnets, Private Endpoints, and Private DNS zones; opt-in because it requires a connected runner and private DNS/routing |
+| Optional Fabric capacity | Supplies F SKU compute for the Graph proof | Separate `platform.bicep` deployment, constrained to F2/F4/F8/F16/F32/F64; an explicit lifecycle script can show, suspend, or resume it |
 | Optional Foundry platform | Supplies the AIServices account, project, and pinned chat-model deployment | System-assigned identities, local key authentication disabled, and Foundry Project Manager scoped to the Foundry account as required for publishing Agent Applications; public networking and Global Standard processing are explicit PoC tradeoffs |
 
 The deployed container uses the direct adapters:
@@ -32,16 +34,16 @@ The deployed container uses the direct adapters:
 
 - `main.bicep` composes the deployment modules.
 - `admin.bicep` references the deterministic existing foundation resources and creates only four narrow role assignments plus the resource-group-scoped Key Vault RBAC Deny policy. It contains no deployable service-resource definitions.
-- `platform.bicep` is the separate opt-in, paid Fabric-capacity and Foundry account/project/model deployment. It does not create Fabric workspace items. Tenant identities are runtime parameters rather than checked-in values.
+- `platform.bicep` is the separate opt-in Fabric-capacity and Foundry account/project/model deployment. It does not create Fabric workspace items. Tenant identities are runtime parameters rather than checked-in values.
 - `main.poc.bicepparam` is the public-network PoC baseline.
 - `main.private.bicepparam` enables Private Link and ACR Premium.
 - `modules/` contains small service-focused Bicep modules.
-- `../scripts/validate-infra.sh` builds the foundation, isolated-admin, and paid-platform Bicep templates plus every parameter set; validates their compiled security/cost contracts; checks Bash syntax; and runs ShellCheck, actionlint, a redacted secret scan, and negative CLI tests. CI fails if those tools are unavailable.
+- `../scripts/validate-infra.sh` builds the foundation, isolated-admin, and platform Bicep templates plus every parameter set; validates their compiled security and lifecycle contracts; checks Bash syntax; and runs ShellCheck, actionlint, a redacted secret scan, and negative CLI tests. CI fails if those tools are unavailable.
 - `../scripts/what-if.sh` previews Azure changes; its explicit `--include-role-assignments` mode selects only `admin.bicep` and is administrator-only.
 - `../scripts/deploy.sh` performs one ARM deployment phase and emits its outputs as JSON. The same administrator-only flag selects only `admin.bicep`, creates exactly four role assignments plus the Key Vault RBAC Deny policy, and requires `--skip-app`.
-- `../scripts/platform-what-if.sh` previews the paid Fabric/Foundry platform with runtime-supplied tenant identities.
+- `../scripts/platform-what-if.sh` previews the Fabric/Foundry platform with runtime-supplied tenant identities.
 - `../scripts/platform-deploy.sh` explicitly creates or reconciles that platform and emits non-secret ARM outputs.
-- `../scripts/deploy-industrial-platform.sh` is the explicit end-to-end administrator orchestrator: it deploys the paid platform, creates or reuses the isolated Fabric workspace and items, grants workspace roles, and performs a real bounded Foundry inference. A separate what-if is optional, not a hidden prerequisite.
+- `../scripts/deploy-industrial-platform.sh` is the explicit end-to-end administrator orchestrator: it deploys the platform, creates or reuses the isolated Fabric workspace and items, grants workspace roles, and performs a real bounded Foundry inference. A separate what-if is optional, not a hidden prerequisite.
 - `../scripts/bootstrap-fabric-items.sh` exact-name reconciles the Fabric workspace, Lakehouse, Preview Graph Model, and checked-in `fabricGitSource` Notebook; duplicates and reuse on another capacity fail closed.
 - `../scripts/generate-fabric-graph-definition.sh` deterministically generates the four public Graph Model definition parts for the canonical `QamNode` and `QamEdge` Delta tables without overwriting reviewed files.
 - `../scripts/publish-industrial-fabric.sh` orchestrates immutable OneLake publication, the checked-in Notebook, generated Graph definition update, the official on-demand `RefreshGraph` job, the commit-pinned live GQL gate, and—only when explicitly selected—the post-GQL definition-updater cleanup.
@@ -67,14 +69,14 @@ The parameter examples intentionally contain placeholders and default to `deploy
 Local tooling:
 
 - Azure CLI with Bicep CLI;
-- Docker;
+- Docker only for the optional local `build-push-image.sh` development path; the canonical ACR remote-build driver does not need it;
 - `jq`, `curl`, and a POSIX environment with Bash;
 - ShellCheck for local shell linting (CI also runs it).
 
 Azure and Entra prerequisites:
 
 1. An Azure subscription where an administrator can bootstrap an isolated resource group.
-2. An Entra application representing the MCP API plus at least one explicitly assigned caller. Built-in Container Apps authentication is mandatory. Easy Auth requires both the caller's application/client ID (`appid`/`azp`) and service-principal object ID (`oid`); a valid token from any other tenant identity is rejected.
+2. For the manual path, an Entra application representing the MCP API plus at least one explicitly assigned caller. The canonical cloud driver prepares and binds this application during its `mcp-api`, `identity`, and `access` stages. Built-in Container Apps authentication is mandatory. Easy Auth requires both the caller's application/client ID (`appid`/`azp`) and service-principal object ID (`oid`); a valid token from any other tenant identity is rejected.
 3. A protected GitHub Environment named `qam-dev`, `qam-test`, or `qam-prod`. Configure required reviewers and deployment branch restrictions before adding its federated credential.
 4. A DNS- and network-connected self-hosted runner with the label `qam-private` when Private Link is selected.
 
@@ -196,9 +198,9 @@ quickagenticmemory/scripts/what-if.sh \
 
 For a complete-app what-if, also pass the MCP API client ID, both caller allow-lists, Fabric IDs, GitHub repository/authentication configuration, and the resolved immutable image digest. Add `--private` only from a network context designed for the private deployment.
 
-## Optional paid Fabric and Foundry platform
+## Optional Fabric and Foundry platform
 
-`platform.bicep` is deliberately separate from the MCP foundation and its isolated authorization template. It creates these paid or usage-billed platform dependencies only when an operator explicitly runs `platform-deploy.sh`:
+`platform.bicep` is deliberately separate from the MCP foundation and its isolated authorization template. It creates these platform dependencies only when an operator explicitly runs `platform-deploy.sh`:
 
 - one Microsoft Fabric F SKU capacity, constrained to F2, F4, F8, F16, F32, or F64;
 - one Microsoft Foundry `AIServices` account with a system-assigned identity and local key authentication disabled;
@@ -240,7 +242,7 @@ foundry_project_id="$(jq -er '.foundryProjectId.value' <<< "${platform_outputs}"
 foundry_project_endpoint="$(jq -er '.foundryProjectEndpoint.value' <<< "${platform_outputs}")"
 ```
 
-For the complete industrial test, the administrator can instead run one explicit orchestrator. It intentionally does not call `platform-what-if.sh` and does not require a previous what-if. Running it is direct consent to create or reconcile paid resources and Fabric items, grant the supplied deployment identity workspace Contributor for definition publication, and incur one small Foundry inference charge. A separately reviewed what-if remains recommended when the tenant's change process requires it.
+For the complete industrial test, the administrator can instead run one explicit orchestrator. It intentionally does not call `platform-what-if.sh` and does not require a previous what-if. Running it is direct consent to create or reconcile the platform and Fabric items, grant the supplied deployment identity workspace Contributor for definition publication, and perform one bounded Foundry inference. A separately reviewed what-if remains recommended when the tenant's change process requires it.
 
 ```bash
 industrial_outputs="$(quickagenticmemory/scripts/deploy-industrial-platform.sh \
@@ -293,7 +295,7 @@ quickagenticmemory/scripts/finalize-fabric-definition-updater.sh \
 
 The script verifies that the supplied UUID is the Entra service-principal **object ID**, follows only same-workspace Fabric pagination, uses the documented role-assignment `PATCH`, reconciles throttled or eventually consistent reads, and emits a receipt only after both the collection and exact assignment read back as one `ServicePrincipal` Viewer. It never creates or deletes an assignment and never downgrades Member or Admin. The signed-in caller therefore needs delegated `Workspace.ReadWrite.All` and workspace Admin only for this explicit acceptance operation.
 
-F SKU compute billing starts when the capacity is active. `show` is the default and is read-only; suspend the capacity only after confirming that no Fabric workload is using it:
+`show` is the default and is read-only; suspend the capacity only after confirming that no Fabric workload is using it:
 
 ```bash
 quickagenticmemory/scripts/manage-fabric-capacity.sh \
@@ -305,20 +307,24 @@ quickagenticmemory/scripts/manage-fabric-capacity.sh \
   --capacity-name "${fabric_capacity_name}" \
   --action suspend
 
-# Explicitly resume before the next Fabric test; this also resumes compute billing.
+# Explicitly resume before the next Fabric test.
 quickagenticmemory/scripts/manage-fabric-capacity.sh \
   --resource-group '<qam-resource-group>' \
   --capacity-name "${fabric_capacity_name}" \
   --action resume
 ```
 
-Suspension makes assigned Fabric content unavailable, settles accumulated/smoothed usage, and stops the Fabric compute meter after the operation completes. It does not stop OneLake storage billing or Foundry model token charges. The lifecycle script intentionally has no delete action.
+Suspension makes assigned Fabric content unavailable. It does not delete OneLake data, the Foundry deployment, or any other resource. The lifecycle script intentionally has no delete action.
 
-This PoC platform enables the Foundry public endpoint and unrestricted outbound connectivity. `GlobalStandard` is pay-per-token and inference data can be processed across Azure regions. Select a regional or data-zone deployment design and add private networking/outbound controls before using regulated or residency-bound data.
+This PoC platform enables the Foundry public endpoint and unrestricted outbound connectivity. `GlobalStandard` inference data can be processed across Azure regions. Select a regional or data-zone deployment design and add private networking/outbound controls before using regulated or residency-bound data.
 
-## Foundation handoff and application deployment
+## Alternative manual/GitHub Actions foundation handoff
 
-The image registry and workload Key Vault must exist before an image or private-repository key can be added, and the new runtime UAMI cannot grant itself Fabric access. A fresh tenant is intentionally **not** a one-shot deployment.
+This section describes the deliberately phased manual/GitHub Actions route. The canonical
+interactive [`cloud-run.sh`](../tests/industrial-component-obsolescence/code/cloud-run.sh) path
+orchestrates the same reviewed boundaries through its resumable stages. In the manual route, the
+image registry and workload Key Vault must exist before an image or private-repository key can be
+added, and the new runtime UAMI cannot grant itself Fabric access.
 
 Run the workflow once with `foundation_only=true`. It stops after ARM foundation creation and writes the Key Vault name, runtime principal ID, deterministic future ACA ARM resource ID, FQDN, planned MCP URL, and exact administrator command to the job summary. `plannedAppResourceId` is derived with ARM `resourceId()` from the reserved app name; `plannedAppUrl` uses that name plus the live Container Apps environment `defaultDomain`. `appUrl` intentionally remains empty until the app resource exists. These planned values are identity/address contracts, not health or reachability claims. Then:
 
@@ -593,24 +599,8 @@ Azure Monitor ingestion/query endpoints remain public in this PoC, but local aut
 | --- | --- | --- |
 | Reliability | Startup/liveness/readiness probes, immutable deployments, single active revision, retry-aware Fabric update, atomic no-replace OneLake directory publication with read-back hashes, ARM idempotency | Single region, zone redundancy off, min replicas zero, no backup/restore or DR exercise |
 | Security | OIDC, separate runtime/pull identities, dual Entra caller allow-lists plus app-role assignment, admin-only four-role bootstrap, Key Vault RBAC Deny policy, Foundry local keys disabled, account-scoped operator role required by Agent Application publication, Key Vault-backed GitHub App, digest-pinned image deployment, ACR ABAC mode with admin/anonymous off, optional Private Link | The deployment principal still has transitive workload authority through Container Apps writes, and the Fabric runtime currently uses workspace Contributor as an observed Preview workaround despite documented Viewer query support; public baselines expose service endpoints, Foundry outbound is unrestricted, `/healthz` is anonymous, no WAF/rate limiting or egress firewall, and authenticated Foundry-to-MCP acceptance must be rerun per tenant |
-| Cost optimization | Consumption workload profile, scale-to-zero, 0.5 vCPU/1 GiB default, ACR Standard in public mode, 30-day logs and 1 GB/day cap, optional F2 starting point, explicit Fabric show/suspend/resume lifecycle | Active Fabric capacity and Foundry inference are separately billed; OneLake storage remains billable while Fabric compute is suspended; private mode requires ACR Premium, Private Link charges, and Container Apps dedicated private-endpoint management charges |
 | Operational excellence | Modular Bicep, separate foundation/admin/platform templates, explicit industrial-platform and commit-publication orchestrators, parameter examples, validate/what-if/deploy/smoke scripts, two-phase image flow, one narrowly scoped Key Vault policy assignment, Azure Monitor logs | No alerts, dashboards, SLOs, automated rollback, broader landing-zone policy set, Defender plan enablement, or scheduled capacity runbook automation |
 | Performance efficiency | HTTP concurrency scaling and direct Fabric GQL access | Fixed small replica sizing, cold starts at zero, no load test, no Fabric query-budget or pagination tuning |
-
-## Cost model
-
-This repository intentionally provides no currency estimate because prices, regions, usage, and enterprise agreements vary. Validate the following meters before deployment:
-
-- Container Apps consumption vCPU/seconds, GiB/seconds, and requests; scale-to-zero reduces idle application compute.
-- ACR storage and operations. Private mode switches from Standard to Premium.
-- Log Analytics ingestion and retention; the default daily cap is 1 GB and can stop ingestion after the cap is reached.
-- Application Insights data stored in the Log Analytics workspace.
-- Key Vault operations and retained soft-deleted objects.
-- Each Private Endpoint, Private DNS, and network egress.
-- Container Apps **Dedicated Plan Management** charge associated with private endpoint infrastructure, even for the Consumption workload profile.
-- Active Fabric F SKU capacity units for Graph operations. Pausing stops the compute meter only after the pause operation and accumulated usage settlement complete.
-- OneLake storage, which remains billable while Fabric compute is suspended.
-- Foundry `GlobalStandard` model input/output token usage. The configured KTPM value allocates quota; it is not a prepaid-token estimate.
 
 Application Insights is provisioned and Entra-ready, but the MCP package still needs an Application Insights/OpenTelemetry SDK for application traces. Container console, system, HTTP, and platform metrics are routed through Azure Monitor independently.
 
@@ -620,15 +610,15 @@ Application Insights is provisioned and Entra-ready, but the MCP package still n
 - The optional platform template creates Fabric capacity only. The explicit industrial orchestrator can create the workspace, Lakehouse, checked-in Notebook, and Preview Graph Model and can apply workspace roles, but tenant settings and the required user/admin permissions remain outside repository control.
 - The selected Foundry model/version and KTPM deployment can fail when the model is unavailable or subscription quota is insufficient in the requested region. Perform live catalog and quota discovery before every new environment.
 - The PoC Foundry account has local keys disabled but keeps public network access and unrestricted outbound connectivity. Its `GlobalStandard` inference can process data across Azure regions; it is not a regulated-data or strict-residency baseline.
-- Fabric capacity suspension makes assigned content unavailable and does not pause OneLake storage or Foundry inference billing. Resume is an explicit operation that restarts Fabric compute billing.
+- Fabric capacity suspension makes assigned content unavailable but leaves OneLake data, Foundry, and the other deployed resources in place. Resume is an explicit operation.
 - Fabric Graph does not currently support schema evolution. Structural changes require a new model and reingestion plan.
 - OneLake table creation remains outside ARM. `publish-industrial-fabric.sh` automates the governed checked-in Notebook, generated definition update, and commit-pinned GQL gate, but it still requires an approved projection and an authorized Fabric operator.
 - Interrupted OneLake publishers can leave uniquely named directories below `Files/qam-staging/_temporary`; they are never consumed by the Notebook and require age-/activity-aware operator cleanup.
 - The public-network baseline relies on identity controls; enable Private Link for regulated data and add a WAF/reverse proxy where Internet-facing ingress is required.
 - Private Endpoint support is inbound only. Outbound calls to Fabric and GitHub still need controlled Internet egress.
 - The environment and registry are not zone-redundant and there is no multi-region failover.
-- The daily telemetry cap is a cost guardrail, not a reliability feature; critical logs can be dropped after it is reached.
-- No Azure budgets, alerts, Defender for Cloud plans, broad landing-zone policy set, or resource locks are created. The one exception is an administrator-created RG-scoped Deny assignment for the built-in **Azure Key Vault should use RBAC permission model** policy.
+- The daily telemetry cap is an ingestion boundary, not a reliability feature; critical logs can be dropped after it is reached.
+- No alerts, Defender for Cloud plans, broad landing-zone policy set, or resource locks are created. The one exception is an administrator-created RG-scoped Deny assignment for the built-in **Azure Key Vault should use RBAC permission model** policy.
 - The deployment principal is only Contributor and cannot create role or policy assignments. The Deny policy prevents it from switching Key Vault back to legacy access policies; the template also keeps `accessPolicies=[]`. Because the principal can still update Container Apps, it can transitively deploy code under the runtime UAMI and reach that identity's permitted Key Vault/Fabric data. This is not hard workload isolation: protect the GitHub Environment with required reviewers and branch/tag rules, restrict workflow changes with CODEOWNERS, attest releases, and use a separately governed/PIM deployment path for production.
 - External GitHub Actions are pinned to commit SHAs verified from their upstream release tags. The PoC CI intentionally follows the current `ubuntu-latest`, Node.js 22 patch line, distribution ShellCheck, and current Azure CLI Bicep release so security fixes are picked up; it is therefore not a bit-for-bit-pinned toolchain. A production release pipeline should pin and attest the complete runner/toolchain, review upgrades, and refresh the Docker base image only from a verified digest.
 - Repository validation itself remains non-mutating. A separate explicitly authorized Azure/Fabric/Foundry cloud run has passed and is represented only by the [redacted public acceptance evidence](../tests/industrial-component-obsolescence/screens/); raw tenant receipts remain ignored below `.artifacts/`.
@@ -648,7 +638,6 @@ Architecture and security decisions use Microsoft documentation:
 - [Container Apps networking](https://learn.microsoft.com/en-us/azure/container-apps/networking)
 - [Container Apps private endpoints and DNS](https://learn.microsoft.com/en-us/azure/container-apps/private-endpoints-with-dns)
 - [Container Apps log storage and monitoring options](https://learn.microsoft.com/en-us/azure/container-apps/log-options)
-- [Container Apps compute and billing structure](https://learn.microsoft.com/en-us/azure/container-apps/structure)
 - [Azure Container Registry Private Link](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-private-link)
 - [Lock container images in ACR](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-image-lock)
 - [Azure Container Registry ABAC repository permissions](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-rbac-abac-repository-permissions)
@@ -658,7 +647,6 @@ Architecture and security decisions use Microsoft documentation:
 - [Azure Policy definitions for Key Vault](https://learn.microsoft.com/en-us/azure/key-vault/policy-reference)
 - [Azure Key Vault Private Link](https://learn.microsoft.com/en-us/azure/key-vault/general/private-link-service)
 - [Microsoft Entra authentication for Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication)
-- [Cost optimization in Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/best-practices-cost)
 - [Microsoft Fabric capacity ARM API](https://learn.microsoft.com/en-us/rest/api/microsoftfabric/fabric-capacities?view=rest-microsoftfabric-2023-11-01)
 - [Create or update a Fabric capacity](https://learn.microsoft.com/en-us/rest/api/microsoftfabric/fabric-capacities/create-or-update?view=rest-microsoftfabric-2023-11-01)
 - [Pause and resume a Fabric capacity](https://learn.microsoft.com/en-us/fabric/enterprise/pause-resume)

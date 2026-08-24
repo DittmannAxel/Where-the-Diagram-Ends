@@ -76,6 +76,7 @@ Every required path must start with the configured focus UID and contain no more
 From this directory:
 
 ```bash
+npm --prefix ../../.. ci
 ./run.sh
 ```
 
@@ -151,6 +152,7 @@ boundary in [`../../../docs/CLOUD_REPRODUCTION.md`](../../../docs/CLOUD_REPRODUC
 ## Tests
 
 ```bash
+npm --prefix ../../.. ci
 npm test
 ```
 

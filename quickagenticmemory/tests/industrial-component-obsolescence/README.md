@@ -37,60 +37,55 @@ IOL-M8
 
 ## Reproduce the local proof
 
-From this directory:
+From the repository root, install the shared workspace dependencies once and run the scenario:
 
 ```bash
-cd code
+npm --prefix quickagenticmemory ci
+cd quickagenticmemory/tests/industrial-component-obsolescence/code
 npm test
 ./run.sh --require-clean-commit
 ```
 
 The strict run refuses to present a clean evidence receipt unless `data/knowledge/` is tracked and unchanged at the selected Git commit. It writes the report, results, and projected graph artifacts below `screens/evidence/latest/`.
 
+That output directory contains the tracked publication evidence, so reproducing the local report
+intentionally changes the checkout. Use a separate fresh detached checkout for the cloud path; the
+cloud driver rejects tracked source changes.
+
 ## Deploy the cloud proof in another tenant
 
-The repository contains the complete tenant-neutral automation. Tenant identities, resource IDs, names, model quota, and the approved Git commit remain runtime inputs and are never checked into parameter files.
+The repository contains a complete tenant-neutral driver. Tenant identities, resource IDs, names,
+model quota, and the approved Git commit remain runtime inputs below the ignored `.artifacts/`
+boundary.
 
-After creating the foundation and the two distinct managed identities described in the [infrastructure guide](../../infra/README.md), an authorized operator can deploy or reconcile the paid platform, Fabric items, reviewed Preview workspace roles, and a real Foundry inference in one command:
-
-```bash
-quickagenticmemory/scripts/deploy-industrial-platform.sh \
-  --resource-group '<isolated-resource-group>' \
-  --location '<supported-azure-region>' \
-  --environment test \
-  --fabric-admin-member '<fabric-capacity-admin-upn>' \
-  --operator-principal-id '<foundry-operator-user-object-id>' \
-  --runtime-principal-id '<mcp-runtime-managed-identity-object-id>' \
-  --deployment-principal-id '<github-environment-oidc-object-id>' \
-  --fabric-sku F64
-```
-
-This command intentionally has no mandatory `what-if` step. It uses Bicep for the F capacity and Foundry account/project/model, then the public Fabric APIs for the isolated Workspace, Lakehouse, Graph Model, and checked-in Notebook. A repeated run must reuse the exact-name resources and roles. It explicitly enables the documented infrastructure guide's runtime Contributor compatibility workaround because this scenario's managed-identity Graph Preview acceptance failed under Viewer. The deployment principal is also Contributor during definition publication; an operator must downgrade that separate smoke identity to Viewer after the publication and final acceptance window.
-
-Once the synthetic knowledge is part of an approved clean commit, build and project it:
+From the repository root, copy and populate the cloud configuration, then run the canonical driver:
 
 ```bash
-npm --prefix quickagenticmemory run build --workspace @quick-agentic-memory/core
-
-node quickagenticmemory/packages/core/dist/cli.js project \
-  quickagenticmemory/tests/industrial-component-obsolescence/data/knowledge \
-  --output quickagenticmemory/.artifacts/industrial-projection
+mkdir -p quickagenticmemory/.artifacts
+cp \
+  quickagenticmemory/tests/industrial-component-obsolescence/code/cloud-config.example.json \
+  quickagenticmemory/.artifacts/cloud-config.json
 ```
 
-Then publish that immutable projection and require the Notebook, generated public Graph definition, official on-demand `RefreshGraph` job, and live bounded GQL query to agree on the manifest's repository, projection ID, commit, and node/edge counts:
+Edit the ignored copy, replace every placeholder, and keep the fixed acceptance contract described
+in the [cloud runbook](../../docs/CLOUD_REPRODUCTION.md#3-prepare-the-untracked-configuration).
 
 ```bash
-quickagenticmemory/scripts/publish-industrial-fabric.sh \
-  --workspace-id '<fabric-workspace-id>' \
-  --lakehouse-id '<fabric-lakehouse-id>' \
-  --notebook-id '<fabric-notebook-id>' \
-  --graph-model-id '<fabric-graph-model-id>' \
-  --projection-dir quickagenticmemory/.artifacts/industrial-projection \
-  --acceptance-cleanup \
-  --definition-updater-principal-id '<deployment-service-principal-object-id>'
+quickagenticmemory/tests/industrial-component-obsolescence/code/cloud-run.sh \
+  --config quickagenticmemory/.artifacts/cloud-config.json
 ```
 
-The optional cleanup is explicit and runs only after the manifest-bound live GQL succeeds. It requires a workspace Admin, fails instead of touching ambiguous or broader Member/Admin assignments, and adds the verified Viewer cleanup receipt to the publication receipt. It can also be rerun separately with `finalize-fabric-definition-updater.sh` if the publication succeeded but the Admin activation was unavailable. The cloud commands print receipts to the operator terminal. Do not commit tenant, subscription, principal, workspace, or item IDs into `screens/`; only a deliberately redacted result belongs in public evidence. GitHub source-read validation can run against `--auth-mode none` only after the approved scenario commit is actually public.
+The source must be a clean checkout of one public 40-character Git SHA whose **QAM validate /
+validate** check passed. The driver performs the foundation, platform, projection, Fabric,
+ACR-image, Entra, Container App, Foundry Agent Application, smoke, and acceptance stages. It emits
+`cloud-acceptance.json` only when the exact commit, graph, source reread, identities, and four MCP
+tool events agree.
+
+Follow the [complete public-SHA installation runbook](../../docs/CLOUD_REPRODUCTION.md) for tools,
+permissions, resource-provider registration, OIDC bootstrap, required config fields, staged resume,
+receipt verification, and the post-test Fabric-capacity lifecycle step. The lower-level component
+commands remain documented in the [infrastructure guide](../../infra/README.md) for operators who
+need a manual or GitHub Actions deployment path.
 
 ## Acceptance gates
 

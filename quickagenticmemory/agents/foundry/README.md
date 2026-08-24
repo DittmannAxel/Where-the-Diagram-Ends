@@ -312,12 +312,15 @@ marker or document body.
   uses the tenant-registered `2026-05-15-preview` management resources because they expose the
   distinct, auditable application identity required by this gate; reassess the documented
   migration path before treating the design as production.
-- Provisioning, RBAC/app-role changes, redeployment, and model calls mutate the tenant or incur
-  cost. Unit tests and CI perform no Azure mutation.
+- Provisioning, RBAC/app-role changes, redeployment, and model calls mutate the tenant. Unit tests
+  and CI perform no Azure mutation.
 
 ## Local verification
 
+Run from `quickagenticmemory/agents/foundry/`:
+
 ```bash
+uv sync --locked --all-groups
 uv run --frozen pytest
 uv run --frozen ruff check .
 uv run --frozen ruff format --check .

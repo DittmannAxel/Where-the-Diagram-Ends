@@ -115,24 +115,10 @@ Secrets must never be committed or passed as Bicep outputs. Key Vault references
 | --- | --- | --- |
 | Reliability | Git history is authoritative and every graph snapshot is reproducible from a commit. Health and readiness endpoints support deployment checks. | The PoC is single-region. Production needs availability targets, at least two ready replicas where required, zone/region analysis, recovery drills, and tested Fabric-capacity recovery. |
 | Security | Entra authentication, GitHub OIDC, managed identity, Key Vault references, fixed read-only MCP operations, SHA pinning, and no arbitrary graph query. | External Container Apps ingress is needed for Foundry connectivity. The runtime's Fabric Contributor Preview workaround gives a compromised runtime token workspace write authority; retest/downgrade to Viewer, and add private networking or an approved API perimeter, Defender, Policy, PIM, and SIEM controls. |
-| Cost Optimization | Consumption-oriented Container Apps, bounded scaling, a small registry SKU, and configurable log retention keep the PoC small. Existing Fabric capacity is reused. | Fabric capacity and always-on replicas are the main cost drivers. Establish budgets, alerts, retention limits, and right-size after measuring real traffic. |
 | Operational Excellence | Bicep, validation/deployment workflows, immutable image tags, structured health checks, and Azure Monitor/Log Analytics make changes repeatable and observable. | Wire the prepared Application Insights resource to an OpenTelemetry SDK, then add environment promotion, dashboards, SLOs, alert routing, runbooks, and rollback exercises before production. |
 | Performance Efficiency | Stateless MCP instances scale horizontally; tools use pagination and bounded results; graph traversal is separated from Markdown retrieval. | Load and path tests use a small fixture. Benchmark realistic graph sizes, tune Fabric queries, cache only commit-addressed data, and set explicit concurrency limits. |
 
-This assessment follows the five pillars in the [Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/).
-
-## Cost estimation
-
-Use the [Azure Pricing Calculator](https://azure.microsoft.com/pricing/calculator/) with these workload-specific inputs:
-
-- Azure Container Apps: requests, CPU/memory per replica, minimum/maximum replicas, and active/idle time.
-- Azure Container Registry: selected SKU, stored image size, builds, and egress.
-- Log Analytics and Application Insights: daily ingestion, retention, and alert volume.
-- Key Vault: secret operations and any premium/HSM requirement.
-- Microsoft Fabric: the existing or required capacity and expected Graph workload.
-- Network services introduced during production hardening, especially Private Link, NAT Gateway, Firewall, or API Management.
-
-The PoC intentionally does not publish a fixed monthly number: region, enterprise agreement, Fabric capacity, log volume, and uptime target dominate the result.
+This assessment applies the relevant [Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/) guidance to the PoC.
 
 ## Scope boundaries
 

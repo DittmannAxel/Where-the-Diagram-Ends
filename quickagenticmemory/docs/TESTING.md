@@ -67,7 +67,7 @@ shellcheck -x configure-access.sh configure-invoker.sh
 
 ## Cloud acceptance criteria
 
-A full tenant smoke is intentionally a separate gate because deployment, role assignment, secret configuration, Fabric publication, Foundry publication, and model calls can change tenant state or incur cost. After explicit authorization and the documented two-stage bootstrap, it must verify:
+A full tenant smoke is intentionally a separate gate because deployment, role assignment, secret configuration, Fabric publication, Foundry publication, and model calls change tenant state. After explicit authorization and the documented two-stage bootstrap, it must verify:
 
 1. GitHub Actions obtains Azure access through OIDC without a stored client secret;
 2. ACR builds from the exact public repository URL and tested full commit without local Docker, reaches `Succeeded`, exposes exactly the expected output tag/digest, locks write/delete, proves any self-created temporary writer assignment absent, and that immutable digest starts in Container Apps;

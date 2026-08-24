@@ -12,8 +12,8 @@ usage() {
   printf '%s\n' \
     'Usage: manage-fabric-capacity.sh --resource-group NAME --capacity-name NAME [--action show|suspend|resume]' \
     '' \
-    'Suspending stops the Fabric compute billing meter after in-flight usage is settled.' \
-    'OneLake storage remains billable while compute is suspended.'
+    'Suspending makes assigned Fabric content unavailable.' \
+    'OneLake data and the other deployed resources remain in place.'
 }
 
 while [ "$#" -gt 0 ]; do

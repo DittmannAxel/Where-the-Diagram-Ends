@@ -250,7 +250,7 @@ values, and bodies are never included.
 
 ## Local test run
 
-Install, type-check, build, and run all unit plus transport integration tests:
+From `quickagenticmemory/packages/mcp/`, install, type-check, build, and run all unit plus transport integration tests:
 
 ```bash
 npm ci

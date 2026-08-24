@@ -32,7 +32,7 @@ usage() {
     '  --runtime-principal-id UUID' \
     '  --deployment-principal-id UUID' \
     '' \
-    'Deploys the paid Fabric/Foundry platform, creates the isolated Fabric items,' \
+    'Deploys the Fabric/Foundry platform, creates the isolated Fabric items,' \
     'applies the reviewed Preview workspace roles, and runs a real Foundry inference.' \
     'It is intentionally tenant-neutral and performs no what-if prerequisite.' \
     '' \

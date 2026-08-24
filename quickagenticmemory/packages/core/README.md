@@ -6,7 +6,9 @@ The validator targets the official [Open Knowledge Format v0.2 specification](ht
 
 ## Install and verify
 
-Node.js 20 or newer is required.
+Node.js 22 or newer is required for the repository workspace install.
+
+Run these commands from `quickagenticmemory/packages/core/`:
 
 ```bash
 npm ci
