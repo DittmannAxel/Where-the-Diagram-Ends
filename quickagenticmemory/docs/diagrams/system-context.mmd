@@ -1,14 +1,13 @@
 architecture-beta
 
     group github(cloud)[GitHub Enterprise]
-    group azure(cloud)[Azure]
-    group fabric(cloud)[Microsoft Fabric] in azure
+    group azure(azure:subscriptions)[Microsoft Azure]
     group foundry(azure:ai-studio)[Microsoft Foundry] in azure
 
     service wiki(disk)[Versioned .md Files] in github
     service pipeline(server)[Projector] in github
-    service lake(database)[OneLake Delta] in fabric
-    service graph(database)[Graph Model] in fabric
+    service lake(database)[Fabric OneLake] in azure
+    service graph(database)[Fabric Graph] in azure
     service agent(azure:ai-studio)[Agent Application] in foundry
     service appid(azure:managed-identities)[Application Identity] in foundry
     service projectid(azure:managed-identities)[Project Identity] in foundry

@@ -2,6 +2,8 @@
 
 ![Quick Agentic Memory: one authoritative Markdown knowledge record, one rebuildable graph index, and governed agent access](docs/diagrams/system-context.png)
 
+Microsoft Fabric is shown inside the Microsoft Azure boundary throughout this proof.
+
 [Read the architecture](docs/ARCHITECTURE.md)
 
 > **Experimental proof of concept:** implemented with separate local and fully parameterized Azure/Fabric/Foundry acceptance paths. The synthetic industrial showcase has passed the complete cloud path; deployment in another tenant remains an explicit, authorized operator action.

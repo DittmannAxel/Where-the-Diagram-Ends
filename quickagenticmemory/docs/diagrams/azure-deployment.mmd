@@ -1,8 +1,7 @@
 architecture-beta
 
     group github(cloud)[GitHub]
-    group azure(cloud)[Azure]
-    group fabric(cloud)[Microsoft Fabric] in azure
+    group azure(azure:subscriptions)[Microsoft Azure]
     group foundry(azure:ai-studio)[Microsoft Foundry] in azure
     group observe(azure:monitor)[Observe] in azure
     group runtime(azure:container-apps-environments)[Runtime] in azure
@@ -16,7 +15,7 @@ architecture-beta
     service agent(azure:ai-studio)[Agent Application] in foundry
     service appid(azure:managed-identities)[Application Identity] in foundry
     service projectid(azure:managed-identities)[Project Identity] in foundry
-    service graph(database)[Graph Model] in fabric
+    service graph(database)[Fabric Graph] in azure
     service insights(azure:application-insights)[App Insights] in observe
     service logs(azure:log-analytics-workspaces)[Logs] in observe
 

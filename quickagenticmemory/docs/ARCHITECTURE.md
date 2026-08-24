@@ -37,6 +37,8 @@ Invalid or oversized values fail closed rather than being truncated into a diffe
 
 ![Quick Agentic Memory system context](diagrams/system-context.png)
 
+Microsoft Fabric services are shown directly inside the Microsoft Azure boundary; Fabric is part of Azure, not a separate external platform in this architecture.
+
 1. A GitHub workflow checks out an exact commit and validates the linked `.md` knowledge set.
 2. The projector creates a deterministic `qam-graph/1.0` snapshot, manifest, and flat `QamNode`/`QamEdge` NDJSON tables containing that source commit.
 3. Publication writes both NDJSON files below a unique OneLake temporary directory, reads them back, verifies exact byte counts and SHA-256 hashes, and atomically renames the complete directory without replacing an existing target. A pre-existing target is accepted only when both files are byte-identical.
@@ -61,6 +63,8 @@ The MCP surface contains exactly seven bounded read-only tools:
 ## Azure deployment
 
 ![Quick Agentic Memory Azure deployment](diagrams/azure-deployment.png)
+
+The deployment view uses the same boundary: Microsoft Fabric Graph is an Azure service inside the Microsoft Azure environment.
 
 The supplied Bicep and workflows provision or configure:
 

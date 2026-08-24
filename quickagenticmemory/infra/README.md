@@ -8,6 +8,8 @@ For the canonical public-SHA deployment and complete acceptance chain, start wit
 
 ![Azure deployment architecture](../docs/diagrams/azure-deployment.png)
 
+Microsoft Fabric Graph is shown inside the Microsoft Azure boundary, alongside the Azure runtime, identity, and observability services used by this proof.
+
 ## What is deployed
 
 | Component | Purpose | Security baseline |
