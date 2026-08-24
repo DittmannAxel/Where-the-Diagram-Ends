@@ -4,7 +4,7 @@ okf_version: "0.2"
 
 # Quick Agentic Memory knowledge bundle
 
-This deliberately small OKF bundle is the end-to-end test fixture for the proof of concept.
+This deliberately small linked `.md` knowledge set is the end-to-end test fixture for the proof of concept.
 
 ## Architecture
 

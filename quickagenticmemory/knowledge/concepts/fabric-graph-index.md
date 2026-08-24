@@ -16,7 +16,7 @@ sources:
 
 # Purpose
 
-The projector turns OKF concepts, links, tags, aliases, and provenance into a deterministic graph snapshot.[^fabric-graph-docs]
+The projector turns linked `.md` concepts, links, tags, aliases, and provenance into a deterministic graph snapshot.[^fabric-graph-docs]
 
 It reads the [GitHub enterprise memory](/concepts/github-enterprise-memory.md) and is queried only through the [Wiki MCP gateway](/concepts/wiki-mcp-gateway.md). Because it is derived, it can be deleted and rebuilt without losing knowledge.
 

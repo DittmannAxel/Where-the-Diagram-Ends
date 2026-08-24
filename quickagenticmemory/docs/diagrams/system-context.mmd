@@ -1,11 +1,11 @@
 architecture-beta
 
     group github(cloud)[GitHub Enterprise]
-    group fabric(cloud)[Microsoft Fabric]
     group azure(cloud)[Azure]
+    group fabric(cloud)[Microsoft Fabric] in azure
     group foundry(azure:ai-studio)[Microsoft Foundry] in azure
 
-    service wiki(disk)[OKF Wiki] in github
+    service wiki(disk)[Reviewed .md Files] in github
     service pipeline(server)[Projector] in github
     service lake(database)[OneLake Delta] in fabric
     service graph(database)[Graph Model] in fabric
@@ -14,11 +14,11 @@ architecture-beta
     service projectid(azure:managed-identities)[Project Identity] in foundry
     service mcp(azure:worker-container-app)[MCP Gateway] in azure
 
-    wiki:R --> L:pipeline
+    wiki:B --> T:pipeline
     pipeline:R --> L:lake
     lake:R --> L:graph
     agent:R --> L:appid
     agent:B --> T:projectid
     projectid:R --> L:mcp
     mcp:B --> T:graph
-    mcp:T --> B:wiki
+    mcp:L --> R:wiki

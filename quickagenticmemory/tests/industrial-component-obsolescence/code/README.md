@@ -3,7 +3,7 @@
 This directory contains a deterministic **retrieval evaluation**, not an LLM answer grader. It compares two arms over exactly the same Markdown snapshot:
 
 - **Arm A — local BM25 lexical retrieval:** Markdown is split into bounded sections, concept metadata is attached to every chunk, and BM25 ranks the chunks. The best chunk per concept is retained, the focus concept is removed, and only then is the concept budget applied. There are no embeddings, reranker, generation model, or fabricated semantic/hallucination scores.
-- **Arm B — Quick Agentic Memory:** the existing QAM Core projects the OKF bundle, and the existing MCP adapters perform alias resolution, backlinks, bounded neighbor traversal, path finding, provenance tracing, and content-hash-checked reads at one Git commit.
+- **Arm B — Quick Agentic Memory:** the existing QAM Core projects the linked `.md` knowledge set, and the existing MCP adapters perform alias resolution, backlinks, bounded neighbor traversal, path finding, provenance tracing, and content-hash-checked reads at one Git commit.
 
 Both arms use the question's `top_k` as a concept output budget after resolving/removing the focus concept. Both receive the same visible query-derived terms, lifecycle filter, and result-type scope. Arm A still reports its supporting best chunk for auditability.
 
@@ -13,7 +13,7 @@ Both arms use the question's `top_k` as a concept output budget after resolving/
 ../data/
 ├── knowledge/
 │   ├── index.md
-│   └── ... valid OKF 0.2 Markdown concepts
+│   └── ... valid linked .md concepts with lightweight metadata
 ├── gold/
 │   └── gold.json
 └── questions/
@@ -156,7 +156,7 @@ npm --prefix ../../.. ci
 npm test
 ```
 
-The tests use a temporary synthetic OKF bundle and cover deterministic BM25 ranking, exact alias resolution versus the `IOL-M8S` distractor, gold-list metrics, deprecated-status filtering, required paths, schema versions, content-hash-checked reads, and commit consistency.
+The tests use a temporary synthetic linked `.md` knowledge set and cover deterministic BM25 ranking, exact alias resolution versus the `IOL-M8S` distractor, gold-list metrics, deprecated-status filtering, required paths, schema versions, content-hash-checked reads, and commit consistency.
 
 ## Interpretation limits
 

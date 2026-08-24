@@ -5,7 +5,7 @@ The proof is split into layers so a passing local demo has a precise meaning and
 | Layer | What it proves | Default command |
 | --- | --- | --- |
 | Graph contract tests | The canonical `qam-graph/1.0` source and both generated package copies are byte-identical; field limits, provenance agreement, uniqueness, and edge references fail closed. | `node scripts/sync-graph-contract.mjs --check` and package tests |
-| Core unit tests | OKF parsing, permissive conformance, link resolution, stable IDs, deterministic projection, contract validation, and flat Fabric exports. | `npm run test --workspace @quick-agentic-memory/core` |
+| Core unit tests | Markdown and frontmatter parsing, reference-profile conformance, link resolution, stable IDs, deterministic projection, contract validation, and flat Fabric exports. | `npm run test --workspace @quick-agentic-memory/core` |
 | MCP unit tests | Canonical schemas, pagination, traversal, provenance, path confinement, bounded Fabric decoding, GitHub authentication, adapter errors, and disabled writes. | `npm run test --workspace @where-the-diagram-ends/quick-agentic-memory-mcp` |
 | MCP integration tests | Real stdio and Streamable HTTP handshakes, the exact seven-tool surface, authentication, host/origin checks, Core-to-MCP contract compatibility, and health behavior. | Included in `npm run verify` |
 | Local end to end | The sample wiki is validated, projected, served, traversed, and read back at the projected Git commit. | `npm run demo` |
@@ -43,7 +43,7 @@ The automated suite must cover these boundaries, not only happy-path retrieval:
 
 `npm run verify && npm run demo` is the local runtime gate. It must finish without modifying GitHub, Azure, Fabric, or Foundry and must demonstrate:
 
-1. zero OKF validation errors and warnings for the fixture;
+1. zero Markdown knowledge-set validation errors and warnings for the fixture;
 2. byte-stable graph, manifest, node-table, and edge-table output for identical inputs and metadata;
 3. an MCP client can discover the read tools;
 4. the client can resolve a concept, traverse at least one multi-hop path, inspect backlinks/provenance, and read the corresponding Markdown;

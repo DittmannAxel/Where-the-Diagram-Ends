@@ -4,7 +4,7 @@ This directory contains the complete synthetic dataset for the industrial compon
 
 | Path | Contents |
 | --- | --- |
-| [`knowledge/`](knowledge/) | OKF Markdown source of truth: components, machine families and variants, I/O mappings, PLC blocks, parameter sets, change/service records, and FAT/SAT specifications. |
+| [`knowledge/`](knowledge/) | Linked `.md` knowledge record: components, machine families and variants, I/O mappings, PLC blocks, parameter sets, change/service records, and FAT/SAT specifications. |
 | [`questions/questions.json`](questions/questions.json) | Eight versioned retrieval questions with query-derived terms, status filters, concept-level top-k budgets, and maximum hop counts. |
 | [`gold/gold.json`](gold/gold.json) | Human-authored required concepts, exclusions, states, and bounded `LINKS_TO` paths used only for scoring after retrieval. |
 

@@ -1,16 +1,44 @@
 # Quick Agentic Memory
 
+![Quick Agentic Memory: one authoritative Markdown knowledge record, one rebuildable graph index, and governed agent access](docs/diagrams/system-context.png)
+
+[Read the architecture](docs/ARCHITECTURE.md)
+
 > **Experimental proof of concept:** implemented with separate local and fully parameterized Azure/Fabric/Foundry acceptance paths. The synthetic industrial showcase has passed the complete cloud path; deployment in another tenant remains an explicit, authorized operator action.
 
 This is my small workbench for turning architectural ideas into executable proofs—where the diagram ends and the test begins. The idea is simple: seeing is believing, but a result is only useful when it can be traced back to the exact knowledge that produced it.
 
 ## Why this proof exists
 
-In manufacturing, a seemingly simple question such as “What changes when this field component reaches end of life?” is usually a relationship problem. The answer can span delivered machine variants, electrical mappings, PLC diagnostic blocks, parameter sets, service/change records, and controlled FAT/SAT specifications. Missing one link can make an otherwise fluent answer incomplete.
+### Enterprise knowledge should compound
 
-A conventional RAG pipeline is strong at finding semantically similar text, but its chunk-retrieval stage does not automatically guarantee stable component identity, complete multi-hop impact coverage, lifecycle filtering, exclusion of near-name distractors, or source consistency across a changing repository. Quick Agentic Memory adds those controls as a graph-and-provenance layer; it does not claim that graphs universally replace RAG.
+As AI agents begin to support real engineering decisions, enterprises need to rethink how they organize knowledge—not only how they search it. The important question is: **what durable, reviewable knowledge asset becomes better after every source, correction, and question?** A useful answer should strengthen institutional memory instead of disappearing into another chat history.
 
-The synthetic public scenario makes the difference visible with `IOL-M8`: two delivered variants have distinct controlled impact chains, while `IOL-M8S` and superseded guidance are deliberate distractors. The experiment compares the lexical BM25 retrieval stage with bounded link traversal over the same Markdown and records what each method retrieved. It evaluates retrieval evidence, not LLM answer style.
+[Andrej Karpathy's sketch of a persistent, compounding wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) points in that direction: an agent-maintained, interlinked body of ordinary `.md` files can accumulate synthesis and cross-references instead of reconstructing them from raw documents for every question. Quick Agentic Memory adapts the durable, interlinked knowledge pattern for a governed manufacturing read proof. Its current agent interface is strictly read-only; agent-assisted curation remains future work. It is an independent implementation, not a copy of the gist's code or exact architecture.
+
+This does not mean moving PLC projects, drawings, PLM records, MES transactions, or every other operational record into Markdown. Those systems remain authoritative in their domains. The `.md` files become a durable knowledge layer for the identities, decisions, explanations, relationships, and source references that connect them.
+
+### Why manufacturing exposes the gap
+
+In manufacturing, a seemingly simple question such as “What changes when this field component reaches end of life?” is usually a relationship problem. The answer can span delivered machine variants, electrical mappings, PLC diagnostic blocks, parameter sets, service and change records, and controlled FAT/SAT specifications. Missing one link can make an otherwise fluent answer incomplete.
+
+Search and RAG remain valuable for finding related text. Their retrieval stage alone does not guarantee stable component identity, complete multi-hop impact coverage, lifecycle filtering, exclusion of near-name distractors, or one consistent source revision. Quick Agentic Memory tests those additional controls as a graph-and-provenance layer; it does not claim that graphs universally replace RAG.
+
+The synthetic public scenario makes the difference visible with `IOL-M8`: two delivered variants have distinct controlled impact chains, while `IOL-M8S` and superseded guidance are deliberate distractors. The experiment compares the lexical BM25 retrieval stage with bounded link traversal over the same `.md` files and records what each method retrieved. It evaluates retrieval evidence, not LLM answer style.
+
+### One knowledge record, not competing stores
+
+Quick Agentic Memory does not ask anyone to maintain the same knowledge in GitHub and Fabric. There is one authored knowledge record and one generated navigation index:
+
+| Layer | Purpose | Authority |
+| --- | --- | --- |
+| Reviewed `.md` files in GitHub | Human-readable meaning, context, relationships, review, and version history | Authoritative knowledge record |
+| Microsoft Fabric Graph | Fast identity resolution and bounded relationship traversal generated from one Git commit | Derived, rebuildable index |
+| MCP gateway and Foundry Agent Application | Governed navigation followed by an exact-commit source read | Read-only consumers; they do not own the knowledge |
+
+Fabric stores projected identifiers, relationships, hashes, and commit provenance—not a second editable copy of the Markdown document bodies. The agent uses the graph to find a route, then returns to GitHub and hash-checks the original `.md` file at the same commit. **Markdown holds the knowledge; the graph only holds the routes through it.**
+
+At small scale, Git and linked `.md` files may be enough. Add a graph only when stable identity, bounded multi-hop navigation, governed agent access, or scale justifies a generated index. The architectural pattern is deliberately general: human-readable `.md` files use lightweight metadata and explicit links, while the projector is an adapter that can evolve independently of the knowledge record.
 
 ## Public evidence
 
@@ -18,23 +46,21 @@ The synthetic public scenario makes the difference visible with `IOL-M8`: two de
 
 The redacted cloud proof shows the tested chain from one public Git commit through Fabric Graph, the Entra-protected MCP gateway, and the Foundry Agent Application. It records 28 source documents, 107 graph nodes, 167 edges, live boundary checks, and the four ordered agent tool events. The [evidence gallery](tests/industrial-component-obsolescence/screens/) also contains the local retrieval comparison, public GitHub source view, Foundry smoke trace, checksums, and a machine-readable redacted cloud receipt.
 
-One design influence is [Andrej Karpathy's sketch of a persistent, compounding wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). This repository independently tests that general idea with Git-reviewed Markdown, deterministic projections, and bounded agent retrieval; it does not copy implementation code from the gist.
+Quick Agentic Memory makes linked `.md` files in GitHub navigable and exposes them to agents through a constrained MCP interface:
 
-Quick Agentic Memory turns OKF v0.2 Markdown in GitHub into a navigable graph and exposes it to agents through a constrained MCP interface:
-
-- GitHub is the reviewed, versioned source of truth.
-- The OKF Validator checks the portable Markdown bundle.
+- GitHub contains the reviewed, versioned knowledge record.
+- A validator checks the lightweight metadata, structure, and explicit links required for projection.
 - The Fabric Graph Projector creates a deterministic, commit-pinned snapshot that must satisfy the canonical `qam-graph/1.0` executable contract.
-- Microsoft Fabric Graph is a rebuildable navigation index.
-- The Wiki MCP Gateway gives a published Microsoft Foundry Agent Application exactly seven bounded read-only tools for graph navigation and selected source retrieval.
+- Microsoft Fabric Graph stores the rebuildable navigation index, not the Markdown document bodies.
+- The Wiki MCP Gateway gives a published Microsoft Foundry Agent Application exactly seven bounded read-only tools for graph navigation and exact-commit source retrieval.
 
-The implementation deliberately calls the projection component **Fabric Graph Projector**, not “OKF Graph Compiler”: OKF remains ordinary Markdown and the graph is only one disposable representation of it.
+The projection component is deliberately called **Fabric Graph Projector**: it creates a disposable read model and never turns the graph into a second source of truth.
 
 ## Repository map
 
 | Path | Purpose |
 | --- | --- |
-| [`knowledge/`](knowledge/) | Small OKF v0.2 bundle used by the complete local test. |
+| [`knowledge/`](knowledge/) | Small linked `.md` knowledge set used by the complete local test. |
 | [`contracts/`](contracts/) | Canonical executable `qam-graph/1.0` contract shared by projection, Fabric decoding, and MCP retrieval. |
 | [`packages/core/`](packages/core/) | Validator, deterministic projector, manifest, and CLI. |
 | [`packages/mcp/`](packages/mcp/) | Read-only MCP gateway with local and cloud adapter boundaries. |
@@ -188,7 +214,7 @@ For the complete permission checklist, resource-provider registration, resumable
 
 ## How the cloud proof works
 
-The live path is intentionally staged: deploy the foundation and isolated identities first; explicitly deploy the Fabric/Foundry platform; publish one approved commit to Fabric; configure GitHub source access and the Foundry project's system-assigned managed identity; then deploy the allowlisted Container App and attach the MCP-enabled Agent Application version. The application image is built inside ACR from that exact public Git URL and full commit SHA, so the reproducible cloud path needs no local Docker daemon; its checked-in helper waits for a terminal run, locks the output digest, and emits a source-bound JSON receipt. The Agent Application keeps a distinct identity for publication and invocation, while the secretless `ProjectManagedIdentity` RemoteTool connection uses the project identity for outbound MCP calls. OneLake publication uses a unique temporary directory, read-back byte and SHA-256 verification, and an atomic no-replace rename. The repository also creates the Fabric Workspace, Lakehouse, Graph Model, and Notebook through public APIs, generates the canonical Graph definition from the checked-in contract, and completes the official on-demand `RefreshGraph` job before accepting GQL evidence.
+The live path is intentionally staged: deploy the foundation and isolated identities first; explicitly deploy the Fabric/Foundry platform; publish the graph projection generated from one approved commit to Fabric; configure GitHub source access and the Foundry project's system-assigned managed identity; then deploy the allowlisted Container App and attach the MCP-enabled Agent Application version. The application image is built inside ACR from that exact public Git URL and full commit SHA, so the reproducible cloud path needs no local Docker daemon; its checked-in helper waits for a terminal run, locks the output digest, and emits a source-bound JSON receipt. The Agent Application keeps a distinct identity for publication and invocation, while the secretless `ProjectManagedIdentity` RemoteTool connection uses the project identity for outbound MCP calls. OneLake publication uses a unique temporary directory, read-back byte and SHA-256 verification, and an atomic no-replace rename. The repository also creates the Fabric Workspace, Lakehouse, Graph Model, and Notebook through public APIs, generates the canonical Graph definition from the checked-in contract, and completes the official on-demand `RefreshGraph` job before accepting GQL evidence.
 
 Nothing in `npm run verify` or `npm run demo` creates cloud resources. Azure deployment, role assignment, secret configuration, Fabric publication, and live smoke tests are separate operator actions and require explicit authorization. `scripts/deploy-industrial-platform.sh` provides an idempotent tenant-neutral deployment-and-smoke path without making what-if mandatory; `scripts/publish-industrial-fabric.sh` applies the clean commit-pinned data plane. The public [cloud evidence](tests/industrial-component-obsolescence/screens/) records the successful redacted acceptance outcome. See also the [industrial scenario](tests/industrial-component-obsolescence/README.md), [infrastructure guide](infra/README.md), and [Foundry guide](agents/foundry/README.md).
 

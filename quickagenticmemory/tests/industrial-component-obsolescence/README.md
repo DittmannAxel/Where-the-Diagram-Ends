@@ -16,7 +16,7 @@ The point is not that graphs universally beat RAG. The test isolates a situation
 | Path | Purpose |
 | --- | --- |
 | [`code/`](code/) | Deterministic BM25/QAM runner, contracts, tests, and the offline evidence report generator. |
-| [`data/`](data/) | Synthetic OKF knowledge, evaluation questions, and human-authored gold truth. |
+| [`data/`](data/) | Synthetic linked `.md` knowledge, evaluation questions, and human-authored gold truth. |
 | [`screens/`](screens/) | Presentation screenshots plus machine-readable, non-secret evidence from clean local and authorized cloud runs. |
 
 ## Industrial question

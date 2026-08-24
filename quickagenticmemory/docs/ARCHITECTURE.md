@@ -7,8 +7,8 @@ This proof of concept uses these names deliberately:
 | Component | Responsibility |
 | --- | --- |
 | Wiki Curator | Future proposal workflow inspired by persistent, compounding wikis. It must open a reviewable change; it never writes to the protected branch directly. |
-| OKF Validator | Parses and validates the human-readable OKF v0.2 Markdown bundle. |
-| Fabric Graph Projector | Deterministically maps concepts, links, tags, aliases, and sources into nodes and edges. This is not called an “OKF Graph Compiler” because OKF remains portable Markdown and the graph is only one projection. |
+| Markdown Validator | Parses and validates the human-readable `.md` files, lightweight metadata, and explicit links used by the reference implementation. |
+| Fabric Graph Projector | Deterministically maps concepts, links, tags, aliases, and sources into nodes and edges. The graph is a generated projection, not a second knowledge record. |
 | Wiki MCP Gateway | Gives agents bounded graph-navigation and commit-pinned content tools. |
 
 ## Inspiration and independent scope
@@ -25,7 +25,7 @@ Invalid or oversized values fail closed rather than being truncated into a diffe
 
 ![Quick Agentic Memory system context](diagrams/system-context.png)
 
-1. A GitHub workflow checks out an exact commit and validates the OKF bundle.
+1. A GitHub workflow checks out an exact commit and validates the linked `.md` knowledge set.
 2. The projector creates a deterministic `qam-graph/1.0` snapshot, manifest, and flat `QamNode`/`QamEdge` NDJSON tables containing that source commit.
 3. Publication writes both NDJSON files below a unique OneLake temporary directory, reads them back, verifies exact byte counts and SHA-256 hashes, and atomically renames the complete directory without replacing an existing target. A pre-existing target is accepted only when both files are byte-identical.
 4. A Fabric notebook validates the immutable pair and writes the `QamNode` and `QamEdge` Delta tables. The publisher applies the canonical GraphModel definition, starts the official on-demand `RefreshGraph` job only after both writes succeed, and polls its exact Core job instance to a successful terminal state before GQL acceptance.
@@ -64,7 +64,7 @@ Microsoft Foundry's MCP integration, MCP authentication guidance, and Container 
 The editable diagram sources are [system-context.mmd](diagrams/system-context.mmd) and [azure-deployment.mmd](diagrams/azure-deployment.mmd). Re-render either one with:
 
 ```bash
-npx --yes @mermaid-js/mermaid-cli@11.10.1 \
+npx --yes @mermaid-js/mermaid-cli@11.16.0 \
   -i diagram.mmd \
   -o diagram.png \
   --iconPacksNamesAndUrls "azure#https://raw.githubusercontent.com/NakayamaKento/AzureIcons/refs/heads/main/icons.json" \
